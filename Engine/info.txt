@@ -1,0 +1,2 @@
+Intel(R) HD Graphics 4600
+112
