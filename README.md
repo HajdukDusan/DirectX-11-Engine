@@ -12,13 +12,17 @@ Functionality:
 - Normal Map Shaders
 - Specular Map Shaders
 - Color Shaders
+- Object transformations (translation, rotation, scale)
+- Global light
 - Importing simple predefined shapes
 
-<ul>
-  Models are converted from .obj files to .txt files that the program can read
-</ul>
+
 ![Engine](https://user-images.githubusercontent.com/62693918/124922016-56bcda00-dff9-11eb-8f3e-678ab115d331.png)
 
 
+Notes:
+- The scene is rendered on a Texture Resource that is displayed in the ImGUI Scene window.
+- Models are converted from .obj files to special .txt files that the program can read. Multiple models are included in the project itself.
+
 Credits:
-- Setup is done with the help of [RasterTek](https://www.rastertek.com/tutdx11.html) tutorials
+- Project setup is done with the help of [RasterTek](https://www.rastertek.com/tutdx11.html) tutorials
