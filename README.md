@@ -1,5 +1,6 @@
 # DirectX 11 c++ Engine
 <p>
+Visualization of 3D scenes through the DirectX graphics pipeline. <br>
 The purpose of this project was for me to learn more about DirectX and computer graphics in general.
 </p>
 
