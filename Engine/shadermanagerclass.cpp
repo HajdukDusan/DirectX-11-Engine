@@ -180,10 +180,18 @@ bool ShaderManagerClass::RenderTextureShader(ID3D11DeviceContext* deviceContext,
 	return m_TextureShader->Render(deviceContext, indexCount, instanceCount, worldMatrix, viewMatrix, projectionMatrix, texture);
 }
 
-bool ShaderManagerClass::RenderPBRShader(ID3D11DeviceContext* deviceContext, int indexCount, int instanceCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView** textureArray, float normalStrength, XMFLOAT3 lightDirection,
-	XMFLOAT4 diffuseColor, XMMATRIX translate, XMMATRIX rotate, XMMATRIX scale, XMFLOAT3 camPos, float specularColor, float specularPower)
+bool ShaderManagerClass::RenderShaderBasedOnMaterial(
+	ID3D11DeviceContext* deviceContext,
+	XMMATRIX worldMatrix,
+	XMMATRIX viewMatrix,
+	XMMATRIX projectionMatrix,
+	CameraClass* camera,
+	ModelClass* model,
+	Material* material,
+	LightClass* lightr)
 {
-	return m_PBRShader->Render(deviceContext, indexCount, instanceCount, worldMatrix, viewMatrix, projectionMatrix, textureArray, normalStrength, lightDirection, diffuseColor,
-		translate, rotate, scale, camPos, XMFLOAT4(specularColor, specularColor, specularColor, 1) , specularPower);
+	if (m_PBRShader->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix, camera, model, material, lightr))
+		return true;
+
+	return false;
 }

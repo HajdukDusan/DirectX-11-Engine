@@ -13,9 +13,7 @@ using namespace DirectX;
 
 #include "textureclass.h"
 #include "texturearrayclass.h"
-
-#include "ColorShaderMaterial.h"
-#include "PBRShaderMaterial.h"
+#include "Transform.h"
 
 
 class ModelClass
@@ -85,32 +83,15 @@ private:
 	} FaceType;
 
 public:
-	struct Transform
-	{
-		Transform(XMFLOAT3 _translation, XMFLOAT3 _rotation, XMFLOAT3 _scale) {
-			translation = _translation;
-			rotation = _rotation;
-			scale = _scale;
-		};
-		Transform() { 
-			translation = XMFLOAT3(0, 0, 0);
-			rotation = XMFLOAT3(0, 0, 0);
-			scale = XMFLOAT3(1, 1, 1);
-		};
-
-		XMFLOAT3 translation;
-		XMFLOAT3 rotation;
-		XMFLOAT3 scale;
-	};
-
-public:
 	ModelClass();
 	ModelClass(const ModelClass&);
 	~ModelClass();
 
-	bool Initialize(const char*, ID3D11Device*, ID3D11DeviceContext*, bool, const char*, Transform*);
+	bool Initialize(ID3D11Device*, ID3D11DeviceContext*, bool, const char*);
 	void Shutdown();
-	void Render(ID3D11DeviceContext*);
+
+	bool UpdateTransform(ID3D11DeviceContext*, Transform*);
+	void PrepareForRendering(ID3D11DeviceContext*);
 
 	int GetVertexCount();
 	int GetInstanceCount();
@@ -124,27 +105,11 @@ public:
 	ID3D11ShaderResourceView** GetTextureArray();
 
 
-	void SetPbrShader(PBRShaderMaterial*);
-
-	void SetColorShader(ColorShaderMaterial*);
-
-
-
-
 	XMMATRIX m_translation;
 	XMMATRIX m_rotation;
 	XMMATRIX m_scale;
 
-
-	
-	PBRShaderMaterial* m_pbrShader;
-	ColorShaderMaterial* m_colorShader;
-	Transform* m_transform;
-
 	bool Static;
-
-
-	const char* Name;
 
 private:
 	bool InitializeBuffers(ID3D11Device*);
@@ -157,8 +122,6 @@ private:
 	bool LoadModel(const char*);
 	bool LoadData(const char*, int&, int&, int&, int&);
 	void ReleaseModel();
-
-	bool UpdateTransform(ID3D11DeviceContext*);
 
 	//func for tangent and binormal vectors
 	void CalculateModelVectors();

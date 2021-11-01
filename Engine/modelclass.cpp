@@ -5,17 +5,7 @@ ModelClass::ModelClass()
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
-	//m_Texture = 0;
-
 	m_model = 0;
-
-	//m_colorShader = new ColorShaderMaterial("colorX");
-
-
-	//m_pbrShader = new PBRShaderMaterial;
-
-
-	m_transform = new Transform();
 }
 
 ModelClass::ModelClass(const ModelClass& other)
@@ -24,30 +14,19 @@ ModelClass::ModelClass(const ModelClass& other)
 
 ModelClass::~ModelClass()
 {
-	delete[] Name;
-	delete m_pbrShader;
-	delete m_colorShader;
-	delete m_transform;
+	// Release the model textures.
+	ReleaseTextures();
+
+	// Shutdown the vertex and index buffers.
+	ShutdownBuffers();
+
+	// Release the model data.
+	ReleaseModel();
 }
 
-void ModelClass::SetPbrShader(PBRShaderMaterial* pbr)
-{
-	m_colorShader = nullptr;
-	m_pbrShader = pbr;
-}
-
-void ModelClass::SetColorShader(ColorShaderMaterial* col)
-{
-	m_pbrShader = nullptr;
-	m_colorShader = col;
-}
-
-
-bool ModelClass::Initialize(const char* name, ID3D11Device* device, ID3D11DeviceContext* deviceContext, bool stat, const char* modelFilename, Transform* transform)
+bool ModelClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, bool stat, const char* modelFilename)
 {
 	Static = stat;
-
-	Name = name;
 
 	bool result;
 
@@ -60,9 +39,6 @@ bool ModelClass::Initialize(const char* name, ID3D11Device* device, ID3D11Device
 
 	// Calculate the tangent and binormal vectors for the model.
 	CalculateModelVectors();
-
-	m_transform = transform;
-
 
 	// Initialize the vertex and index buffers.
 	result = InitializeBuffers(device);
@@ -91,17 +67,12 @@ void ModelClass::Shutdown()
 
 ID3D11ShaderResourceView** ModelClass::GetTextureArray()
 {
-	return m_pbrShader->m_textureArray->GetTextureArray();
+	//return m_pbrShader->m_textureArray->GetTextureArray();
+	return nullptr;
 }
 
-
-void ModelClass::Render(ID3D11DeviceContext* deviceContext)
+void ModelClass::PrepareForRendering(ID3D11DeviceContext* deviceContext)
 {
-	if (!Static) {
-		// Update the instances transform
-		UpdateTransform(deviceContext);
-	}
-
 	// Put the vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	RenderBuffers(deviceContext);
 
@@ -281,7 +252,7 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	return true;
 }
 
-bool ModelClass::UpdateTransform(ID3D11DeviceContext* context)
+bool ModelClass::UpdateTransform(ID3D11DeviceContext* context, Transform* transform)
 {
 	int numLetters;
 	InstanceType* instances;
@@ -296,22 +267,22 @@ bool ModelClass::UpdateTransform(ID3D11DeviceContext* context)
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		m_transform->translation.x, m_transform->translation.y, m_transform->translation.z, 1.0f
+		transform->translation.x, transform->translation.y, transform->translation.z, 1.0f
 	);
 
 	// load rotation matrix
 	m_rotation = XMMATRIX(
-		cos(m_transform->rotation.y) * cos(m_transform->rotation.z), cos(m_transform->rotation.y) * sin(m_transform->rotation.z), -sin(m_transform->rotation.y), 0.0f,
-		sin(m_transform->rotation.x) * sin(m_transform->rotation.y) * cos(m_transform->rotation.z) - cos(m_transform->rotation.x) * sin(m_transform->rotation.z), sin(m_transform->rotation.x) * sin(m_transform->rotation.y) * sin(m_transform->rotation.z) + cos(m_transform->rotation.x) * cos(m_transform->rotation.z), sin(m_transform->rotation.x) * cos(m_transform->rotation.y), 0.0f,
-		cos(m_transform->rotation.x) * sin(m_transform->rotation.y) * cos(m_transform->rotation.z) + sin(m_transform->rotation.x) * sin(m_transform->rotation.z), cos(m_transform->rotation.x) * sin(m_transform->rotation.y) * sin(m_transform->rotation.z) - sin(m_transform->rotation.x) * cos(m_transform->rotation.z), cos(m_transform->rotation.x) * cos(m_transform->rotation.y), 0.0f,
+		cos(transform->rotation.y) * cos(transform->rotation.z), cos(transform->rotation.y) * sin(transform->rotation.z), -sin(transform->rotation.y), 0.0f,
+		sin(transform->rotation.x) * sin(transform->rotation.y) * cos(transform->rotation.z) - cos(transform->rotation.x) * sin(transform->rotation.z), sin(transform->rotation.x) * sin(transform->rotation.y) * sin(transform->rotation.z) + cos(transform->rotation.x) * cos(transform->rotation.z), sin(transform->rotation.x) * cos(transform->rotation.y), 0.0f,
+		cos(transform->rotation.x) * sin(transform->rotation.y) * cos(transform->rotation.z) + sin(transform->rotation.x) * sin(transform->rotation.z), cos(transform->rotation.x) * sin(transform->rotation.y) * sin(transform->rotation.z) - sin(transform->rotation.x) * cos(transform->rotation.z), cos(transform->rotation.x) * cos(transform->rotation.y), 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	);
 
 	// load scale matrix
 	m_scale = XMMATRIX(
-		m_transform->scale.x, 0.0f, 0.0f, 0.0f,
-		0.0f, m_transform->scale.y, 0.0f, 0.0f,
-		0.0f, 0.0f, m_transform->scale.z, 0.0f,
+		transform->scale.x, 0.0f, 0.0f, 0.0f,
+		0.0f, transform->scale.y, 0.0f, 0.0f,
+		0.0f, 0.0f, transform->scale.z, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	);
 

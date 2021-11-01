@@ -2,45 +2,35 @@
 #include "d3dclass.h"
 #include "scenerenderclass.h"
 
-
 #include "guiclass.h"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
+#include "Engine.h"
 
-D3DClass*			DX;
-GuiClass*			GUI;
-SceneRenderClass*	Scene;
 
-static int* mouseInput = new int[5];
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
-LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+Engine* engine = new Engine;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
+	// Setup Window
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"Engine", NULL };
 	::RegisterClassEx(&wc);
-	HWND hwnd = ::CreateWindow(wc.lpszClassName, L"DirectX11 Engine", WS_OVERLAPPEDWINDOW, 0, 0, 1920, 1080, NULL, NULL, wc.hInstance, NULL);
+	HWND hwnd = ::CreateWindow(wc.lpszClassName, L"DirectX11 Engine", WS_OVERLAPPEDWINDOW, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL, wc.hInstance, NULL);
 
-	// Initialize Direct3D
-	DX = new D3DClass;
-	if (!DX->Initialize(1920, 1080, VSYNC_ENABLED, hwnd, FULL_SCREEN, SCREEN_DEPTH, SCREEN_NEAR)) {
-		DX->Shutdown();
-		::UnregisterClass(wc.lpszClassName, wc.hInstance);
-		return 1;
-		// error
-	}
-
-	// Setup Scene
-	Scene = new SceneRenderClass(DX, hwnd);
-
-
-	// Setup GUI
-	GUI = new GuiClass(hwnd, DX);
-
-	// Show the window
+	// First Show the window because of the InputHandler in the engine
 	::ShowWindow(hwnd, SW_MAXIMIZE); // maximize window
 	::UpdateWindow(hwnd);
+
+	// Initialize The Engine
+	if (!engine->Initialize(hInstance, wc, hwnd, SCREEN_WIDTH, SCREEN_HEIGHT))
+	{
+		delete engine;
+		exit(-1);
+	}
 
 	// Main loop
 	MSG msg;
@@ -54,35 +44,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 			continue;
 		}
 
-
-		// Update mouse input
-		GUI->GetMouseInput(mouseInput);
-
-		// render to texture
-		if (!Scene->RenderScene(DX, mouseInput)) {
-			GUI->PrintConsole("[error] Unexpected error while rendering scene to texture.");
-			exit(-1);
+		// Call Engine Each Frame To Render Everything
+		if (!engine->Render())
+		{
+			break;
 		}
-
-		// Begin rendering for gui
-		DX->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
-
-		// Render the gui
-		GUI->Render(Scene);
-
-
-		// Present everything
-		DX->PresentScene();
-
 	}
 
-	// Cleanup everything
-	delete GUI;
-	delete mouseInput;
-	DX->Shutdown();
+	// Cleanup
+	delete engine;
+
 	::DestroyWindow(hwnd);
 	::UnregisterClass(wc.lpszClassName, wc.hInstance);
-
 
 	return 0;
 }
@@ -105,11 +78,11 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg)
 	{
 	case WM_SIZE:
-		if (DX->GetDevice() != NULL && wParam != SIZE_MINIMIZED)
+		if (engine->getDirectXManager() != NULL && wParam != SIZE_MINIMIZED)
 		{
-			DX->CleanupRenderTarget();
-			DX->GetSwapChain()->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-			DX->CreateRenderTarget();
+			engine->getDirectXManager()->CleanupRenderTarget();
+			engine->getDirectXManager()->GetSwapChain()->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+			engine->getDirectXManager()->CreateRenderTarget();
 		}
 		return 0;
 	case WM_SYSCOMMAND:

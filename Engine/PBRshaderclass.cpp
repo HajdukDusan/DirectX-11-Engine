@@ -43,27 +43,64 @@ void PBRShaderClass::Shutdown()
 	return;
 }
 
-bool PBRShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, int instanceCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
-	XMMATRIX projectionMatrix, ID3D11ShaderResourceView** textureArray, float normalStrength, XMFLOAT3 lightDirection,
-	XMFLOAT4 diffuseColor, XMMATRIX translation, XMMATRIX rotation, XMMATRIX scale, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor,
-	float specularPower)
+bool PBRShaderClass::Render(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix,
+	CameraClass* camera, ModelClass* model, Material* material, LightClass* light)
 {
 	bool result;
 
+	// Try To downcast the material, if it fails, go back
+	PBRShaderMaterial* PBRmaterial = static_cast<PBRShaderMaterial*>(material);
+	if (!PBRmaterial)
+		return false;
 
 	// Set the shader parameters that it will use for rendering.
-	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, textureArray, normalStrength, lightDirection,
-		diffuseColor, translation, rotation, scale, cameraPosition, specularColor, specularPower);
+	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix,
+		PBRmaterial->m_textureArray->GetTextureArray(),
+		PBRmaterial->normalStrength,
+		light->GetDirection(),
+		light->GetDiffuseColor(),
+		model->m_translation,
+		model->m_rotation,
+		model->m_scale,
+		camera->GetPosition(),
+		XMFLOAT4(
+			PBRmaterial->specularStrenght,
+			PBRmaterial->specularStrenght,
+			PBRmaterial->specularStrenght,
+			1),
+		PBRmaterial->specularFocus);
 	if (!result)
 	{
 		return false;
 	}
 
 	// Now render the prepared buffers with the shader.
-	RenderShader(deviceContext, indexCount, instanceCount);
+	RenderShader(deviceContext, model->GetIndexCount(), model->GetInstanceCount());
 
 	return true;
 }
+
+//bool PBRShaderClass::Render(ID3D11DeviceContext* deviceContext, int indexCount, int instanceCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix,
+//	XMMATRIX projectionMatrix, ID3D11ShaderResourceView** textureArray, float normalStrength, XMFLOAT3 lightDirection,
+//	XMFLOAT4 diffuseColor, XMMATRIX translation, XMMATRIX rotation, XMMATRIX scale, XMFLOAT3 cameraPosition, XMFLOAT4 specularColor,
+//	float specularPower)
+//{
+//	bool result;
+//
+//
+//	// Set the shader parameters that it will use for rendering.
+//	result = SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, textureArray, normalStrength, lightDirection,
+//		diffuseColor, translation, rotation, scale, cameraPosition, specularColor, specularPower);
+//	if (!result)
+//	{
+//		return false;
+//	}
+//
+//	// Now render the prepared buffers with the shader.
+//	RenderShader(deviceContext, indexCount, instanceCount);
+//
+//	return true;
+//}
 
 bool PBRShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, const WCHAR* vsFilename, const WCHAR* psFilename)
 {

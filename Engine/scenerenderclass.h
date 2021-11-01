@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <string>
+#include "GameManager.h"
 
 // mouse inputs
 #define MOUSE_LEFT_CLICK    0
@@ -36,8 +37,7 @@ public:
 	~SceneRenderClass();
 
 
-	bool RenderScene(D3DClass*, int*);
-	const char* MessageForConsole;
+	bool RenderScene(GameManager* GameManager);
 
 
 	ID3D11ShaderResourceView* GetTexture();
@@ -58,18 +58,11 @@ private:
 	int					m_pastMouseX;
 	int					m_pastMouseY;
 
-	D3DClass* m_DirectX;
-	SceneLoader* m_SceneLoader;
+	D3DClass* m_DirectXManager;
 
 public:
-	CameraClass*		m_Camera;
 
-	LightClass*			m_Light;
-	
-
-	vector<ModelClass*> m_Models;
-
-	vector<PBRShaderMaterial*> m_PbrMaterials;
+	//vector<PBRShaderMaterial*> m_PbrMaterials;
 
 	vector<ColorShaderMaterial*> m_ColorMaterials;
 

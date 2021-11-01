@@ -157,13 +157,7 @@ void ApplicationClass::Shutdown()
 		m_Direct3D = 0;
 	}
 
-	// Release the input object.
-	if (m_Input)
-	{
-		m_Input->Shutdown();
-		delete m_Input;
-		m_Input = 0;
-	}
+	delete m_Input;
 
 	return;
 }

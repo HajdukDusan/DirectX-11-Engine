@@ -590,12 +590,6 @@ void D3DClass::BeginScene(float red, float green, float blue, float alpha)
 	color[2] = blue;
 	color[3] = alpha;
 
-	////ID3D11RenderTargetView* const targets[1] = { m_renderTargetView };
-	
-
-	//// Clear the back buffer.
-	
-
 	//// Clear the depth buffer.
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, NULL);
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);

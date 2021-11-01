@@ -35,10 +35,10 @@ public:
 		fin >> array_size;
 		for (int i = 0; i < array_size; i++)
 		{
-			PBRShaderMaterial* tmp = new PBRShaderMaterial(Direct3D->GetDevice(), Direct3D->GetDeviceContext());
+			//PBRShaderMaterial* tmp = new PBRShaderMaterial(Direct3D->GetDevice(), Direct3D->GetDeviceContext());
 			// overriding the operator
-			fin >> tmp;
-			pbr_materials.push_back(tmp);
+			//fin >> tmp;
+			//pbr_materials.push_back(tmp);
 		}
 
 		// Load color materials

@@ -561,14 +561,14 @@ bool GraphicsClass::Render(int fps, int cpu, float frameTime, int mouseX,int mou
 
 
 	// RENDER MODEL
-	m_Model->Render(m_Direct3D->GetDeviceContext());
-	result = m_LightShader->Render(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), m_Model->GetInstanceCount(),
-		worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_Light->GetDirection(), m_Light->GetDiffuseColor(), m_Light->GetAmbientColor(),
-		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
-	if (!result)
-	{
-		return false;
-	}
+	//m_Model->Render(m_Direct3D->GetDeviceContext());
+	//result = m_LightShader->Render(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), m_Model->GetInstanceCount(),
+	//	worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_Light->GetDirection(), m_Light->GetDiffuseColor(), m_Light->GetAmbientColor(),
+	//	m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
+	//if (!result)
+	//{
+	//	return false;
+	//}
 
 
 

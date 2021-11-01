@@ -10,9 +10,30 @@ InputClass::InputClass(const InputClass& other)
 
 InputClass::~InputClass()
 {
-	m_directInput = 0;
-	m_keyboard = 0;
-	m_mouse = 0;
+	// Release the mouse.
+	if (m_mouse)
+	{
+		m_mouse->Unacquire();
+		m_mouse->Release();
+		m_mouse = 0;
+	}
+
+	// Release the keyboard.
+	if (m_keyboard)
+	{
+		m_keyboard->Unacquire();
+		m_keyboard->Release();
+		m_keyboard = 0;
+	}
+
+	// Release the main interface to direct input.
+	if (m_directInput)
+	{
+		m_directInput->Release();
+		m_directInput = 0;
+	}
+
+	return;
 }
 
 bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
@@ -104,38 +125,9 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int
 	return true;
 }
 
-void InputClass::Shutdown()
-{
-	// Release the mouse.
-	if (m_mouse)
-	{
-		m_mouse->Unacquire();
-		m_mouse->Release();
-		m_mouse = 0;
-	}
-
-	// Release the keyboard.
-	if (m_keyboard)
-	{
-		m_keyboard->Unacquire();
-		m_keyboard->Release();
-		m_keyboard = 0;
-	}
-
-	// Release the main interface to direct input.
-	if (m_directInput)
-	{
-		m_directInput->Release();
-		m_directInput = 0;
-	}
-
-	return;
-}
-
 bool InputClass::Frame()
 {
 	bool result;
-
 
 	// Read the current state of the keyboard.
 	result = ReadKeyboard();

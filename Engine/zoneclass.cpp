@@ -34,7 +34,7 @@ bool ZoneClass::Initialize(D3DClass* Direct3D, HWND hwnd, int screenWidth, int s
 	bool result;
 
 
-	m_GUI = new GuiClass(hwnd, Direct3D);
+	m_GUI = new GuiClass(hwnd, Direct3D, nullptr);
 
 	// Create the user interface object.
 	m_UserInterface = new UserInterfaceClass;
@@ -146,7 +146,7 @@ bool ZoneClass::Initialize(D3DClass* Direct3D, HWND hwnd, int screenWidth, int s
 	//instancePos.push_back(XMFLOAT3(0.f, 0.f, 0.f));
 	//instancePos.push_back(XMFLOAT3(0.f, 2.f, 4.f));
 
-	ModelClass::Transform *tmp = new ModelClass::Transform();
+	//ModelClass::Transform *tmp = new ModelClass::Transform();
 
 	//result = m_Model->Initialize("Barrel", Direct3D->GetDevice(), Direct3D->GetDeviceContext(), false, "../Engine/data/drum1_base_color.tga",
 	//							"../Engine/data/drum1_normal.tga", "../Engine/data/drum1_specular.tga", "../Engine/data/barrel.txt", tmp);

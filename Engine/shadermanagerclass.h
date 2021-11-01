@@ -20,6 +20,16 @@ public:
 	bool Initialize(ID3D11Device*, HWND);
 	void Shutdown();
 
+	bool RenderShaderBasedOnMaterial(
+		ID3D11DeviceContext* deviceContext,
+		XMMATRIX worldMatrix,
+		XMMATRIX viewMatrix,
+		XMMATRIX projectionMatrix,
+		CameraClass* camera,
+		ModelClass* model,
+		Material* material,
+		LightClass* lightr);
+
 	bool RenderColorShader(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX,
 		XMMATRIX, float, XMFLOAT3,
 		XMFLOAT4, XMMATRIX, XMMATRIX, XMMATRIX, XMFLOAT3, float, float, XMFLOAT4);
@@ -29,15 +39,15 @@ public:
 	bool RenderLightShader(ID3D11Device*, ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView*, XMFLOAT3, XMFLOAT4, XMFLOAT4, XMFLOAT3, XMFLOAT4, float);
 	bool RenderTextureShader(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView*);
 
-	bool RenderPBRShader(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView**, float, XMFLOAT3, XMFLOAT4,
-		XMMATRIX, XMMATRIX, XMMATRIX, XMFLOAT3, float, float);
-
 private:
 	ColorShaderClass* m_ColorShader;
 	FontShaderClass* m_FontShader;
 	LightShaderClass* m_LightShader;
 	TextureShaderClass* m_TextureShader;
 	PBRShaderClass* m_PBRShader;
+
+
+	vector<Shader*> m_Shaders;
 };
 
 #endif

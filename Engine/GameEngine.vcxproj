@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="applicationclass.cpp" />
     <ClCompile Include="arrowsclass.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
@@ -27,10 +26,13 @@
     <ClCompile Include="colorshaderclass.cpp" />
     <ClCompile Include="cpuclass.cpp" />
     <ClCompile Include="d3dclass.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="fontclass.cpp" />
     <ClCompile Include="fontshaderclass.cpp" />
     <ClCompile Include="fpsclass.cpp" />
     <ClCompile Include="frustumclass.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="graphicsclass.cpp" />
     <ClCompile Include="guiclass.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -52,7 +54,6 @@
     <ClCompile Include="scenerenderclass.cpp" />
     <ClCompile Include="shadermanagerclass.cpp" />
     <ClCompile Include="spriteclass.cpp" />
-    <ClCompile Include="systemclass.cpp" />
     <ClCompile Include="Terrainclass.cpp" />
     <ClCompile Include="textclass.cpp" />
     <ClCompile Include="texturearrayclass.cpp" />
@@ -64,7 +65,6 @@
     <ClCompile Include="zoneclass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="applicationclass.h" />
     <ClInclude Include="arrowsclass.h" />
     <ClInclude Include="bitmapclass.h" />
     <ClInclude Include="cameraclass.h" />
@@ -73,10 +73,13 @@
     <ClInclude Include="ColorShaderMaterial.h" />
     <ClInclude Include="cpuclass.h" />
     <ClInclude Include="d3dclass.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="fontclass.h" />
     <ClInclude Include="fontshaderclass.h" />
     <ClInclude Include="fpsclass.h" />
     <ClInclude Include="frustumclass.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="graphicsclass.h" />
     <ClInclude Include="guiclass.h" />
     <ClInclude Include="ImGui\imconfig.h" />
@@ -89,6 +92,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="inputclass.h" />
     <ClInclude Include="lightclass.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="modelclass.h" />
     <ClInclude Include="modellistclass.h" />
     <ClInclude Include="PBRshaderclass.h" />
@@ -99,9 +103,9 @@
     <ClInclude Include="rendertextureclass.h" />
     <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="scenerenderclass.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="shadermanagerclass.h" />
     <ClInclude Include="spriteclass.h" />
-    <ClInclude Include="systemclass.h" />
     <ClInclude Include="Terrainclass.h" />
     <ClInclude Include="textclass.h" />
     <ClInclude Include="texturearrayclass.h" />
@@ -109,6 +113,7 @@
     <ClInclude Include="lightshaderclass.h" />
     <ClInclude Include="textureshaderclass.h" />
     <ClInclude Include="timerclass.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="userinterfaceclass.h" />
     <ClInclude Include="zoneclass.h" />
   </ItemGroup>

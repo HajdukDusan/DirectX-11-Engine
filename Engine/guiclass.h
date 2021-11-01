@@ -11,6 +11,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
+#include "GameManager.h"
 
 
 
@@ -496,10 +497,10 @@ public:
     };
 
 public:
-	GuiClass(HWND, D3DClass*);
+	GuiClass(HWND, D3DClass*, GameManager*);
 	~GuiClass();
 
-	void Render(SceneRenderClass*);
+	void Render(ID3D11ShaderResourceView* gameSceneTexture);
 
     ImGuiIO& getIO();
 
@@ -510,17 +511,17 @@ public:
 
 private:
 
-    SceneRenderClass* m_scene;
+    GameManager* m_GameManager;
 
-	void ShowModelWindow(ModelClass*);
-    void ShowCameraWindow();
+	void ShowGameObjectWindow(GameObject*);
+    void ShowCameraWindow(CameraClass* camera);
 	void ShowStatOverlay(bool*);
     void ShowLightWindow(LightClass*);
     void ShowSceneWindow(ID3D11ShaderResourceView*);
 	void ShowLog(bool*);
     void ShowMenuBar();
-    void ShowSceneObjects();
-    void ShowAssetsWindow();
+    void ShowSceneObjects(vector<GameObject*>& gameObjects);
+    void ShowAssetsWindow(vector<GameObject*>& gameObjects);
 
 
     void ShowConsole(bool*);

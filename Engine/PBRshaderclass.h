@@ -6,11 +6,16 @@
 #include <DirectXMath.h>
 #include <d3dcompiler.h> //<d3dx11async.h>
 #include <fstream>
+#include "Shader.h"
+#include "modelclass.h"
+#include "lightclass.h"
+#include "cameraclass.h"
+#include "PBRShaderMaterial.h"
 
 using namespace std;
 using namespace DirectX;
 
-class PBRShaderClass
+class PBRShaderClass : public Shader
 {
 private:
 	struct MatrixBufferType
@@ -45,12 +50,22 @@ private:
 public:
 	PBRShaderClass();
 	PBRShaderClass(const PBRShaderClass&);
-	~PBRShaderClass();
+	~PBRShaderClass() override;
 
 	bool Initialize(ID3D11Device*, HWND);
 	void Shutdown();
-	bool Render(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView**, float, XMFLOAT3,
-		XMFLOAT4, XMMATRIX, XMMATRIX, XMMATRIX, XMFLOAT3, XMFLOAT4, float);
+	//bool Render(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView**, float, XMFLOAT3,
+	//	XMFLOAT4, XMMATRIX, XMMATRIX, XMMATRIX, XMFLOAT3, XMFLOAT4, float);
+
+	bool Render(ID3D11DeviceContext* deviceContext,
+		XMMATRIX worldMatrix,
+		XMMATRIX viewMatrix,
+		XMMATRIX projectionMatrix,
+		CameraClass* camera,
+		ModelClass* model,
+		Material* material,
+		LightClass* light)
+		override;
 
 private:
 	bool InitializeShader(ID3D11Device*, HWND, const WCHAR*, const WCHAR*);
