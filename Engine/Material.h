@@ -51,7 +51,7 @@ public:
 
 	virtual ~Material()
 	{
-		delete[] m_Name;
+		//delete[] m_Name;
 	};
 };
 #endif

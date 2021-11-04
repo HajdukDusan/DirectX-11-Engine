@@ -40,9 +40,9 @@ public:
 			delete m_textureArray;
 		}
 
-		delete[] color_map_path;
-		delete[] normal_map_path;
-		delete[] specular_map_path;
+		//delete[] color_map_path;
+		//delete[] normal_map_path;
+		//delete[] specular_map_path;
 	}
 
 	friend ifstream& operator>> (ifstream& fin, PBRShaderMaterial* m)

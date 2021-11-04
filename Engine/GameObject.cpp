@@ -30,5 +30,5 @@ bool GameObject::Render(ID3D11DeviceContext* deviceContext,
 
 GameObject::~GameObject()
 {
-	delete[] m_Name;
+	//delete[] m_Name;
 }

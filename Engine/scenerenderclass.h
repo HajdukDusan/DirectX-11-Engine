@@ -47,9 +47,6 @@ private:
 	ArrowsClass*		m_Arrows;
 	RenderTextureClass* m_RenderTexture;
 
-	int					m_pastMouseX;
-	int					m_pastMouseY;
-
 	D3DClass* m_DirectXManager;
 
 };

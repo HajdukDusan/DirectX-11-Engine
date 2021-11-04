@@ -109,24 +109,6 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 
 	m_RenderTexture->SetRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView);
 	m_RenderTexture->ClearRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView, 0.0f, 0.0f, 0.0f, 1.0f);
-	
-
-	// Horizontal Camera Rotation Around World Origin
-	//if (mouseInput[MOUSE_SCROLL_CLICK]) {
-	//	if (mouseInput[MOUSE_POS_X] != m_pastMouseX)
-	//	{
-	//		float angle = -(mouseInput[MOUSE_POS_X] - m_pastMouseX) * 0.01f;
-	//		float x = m_Camera->m_positionX;
-	//		float z = m_Camera->m_positionZ;
-
-	//		//move cam
-	//		m_Camera->m_positionX = x * cos(angle) - z * sin(angle);
-	//		m_Camera->m_positionZ = z * cos(angle) + x * sin(angle);
-
-	//		//rotate cam
-	//		m_Camera->m_rotationY -= angle * 180 / XM_PI;
-	//	}
-	//}
 
 
 	m_DirectXManager->TurnZBufferOn();
@@ -191,11 +173,6 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	//}
 
 	m_DirectXManager->SetBackBufferRenderTarget();
-
-
-
-	//m_pastMouseX = mouseInput[MOUSE_POS_X];
-	//m_pastMouseY = mouseInput[MOUSE_POS_Y];
 
 	return true;
 }
