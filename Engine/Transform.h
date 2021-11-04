@@ -23,6 +23,8 @@ public:
 		rotation = XMFLOAT3(0, 0, 0);
 		scale = XMFLOAT3(1, 1, 1);
 	};
+
+	virtual ~Transform() {};
 };
 
 #endif

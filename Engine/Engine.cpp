@@ -43,7 +43,6 @@ bool Engine::Render()
 
 	// Render Game Scene To GUI Texture
 	if (!m_GameScene->RenderScene(m_GameManager)) {
-		//MessageBox(hwnd, L"Unexpected error while rendering scene to texture.", L"Error", MB_OK);
 		return false;
 	}
 

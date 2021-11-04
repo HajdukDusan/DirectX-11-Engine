@@ -30,9 +30,13 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		MessageForConsole = "[error] Could not initialize the shader manager.";
 	}
 
+
+	// PUSH CAMERA TO BE THE FIRST GAMEOBJECT
+	m_GameObjects.push_back(m_Camera);
+
 	//BARREL
 	ModelClass* barrelModel = new ModelClass();
-	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/barrel.txt"))
+	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/barrel.obj"))
 	{
 		MessageForConsole = "[error] Could not initialize the model object.";
 	};
@@ -47,7 +51,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		"../Engine/data/drum1_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
-		"MyBarrelADSDSADASDASD",
+		"MyBarrel",
 		barrelModel,
 		barrelMaterial
 	));
@@ -57,7 +61,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 
 	//GASS TANK
 	ModelClass* gassTankModel = new ModelClass();
-	if (!gassTankModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/Gass Tank/gass_tank.txt"))
+	if (!gassTankModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/Gass Tank/gass_tank.obj"))
 	{
 		MessageForConsole = "[error] Could not initialize the model object.";
 	};
@@ -72,7 +76,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		"../Engine/data/Gass Tank/gasTank_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
-		"MyBigGassTank",
+		"MyGassTank",
 		gassTankModel,
 		gassTankMaterial
 	));
@@ -80,7 +84,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	m_Materals.push_back(gassTankMaterial);
 }
 
-vector<GameObject*>& GameManager::GetGameObjects() {
+vector<Transform*>& GameManager::GetGameObjects() {
 	return m_GameObjects;
 }
 vector<ModelClass*>& GameManager::GetModels() {
@@ -94,25 +98,28 @@ GameManager::~GameManager()
 {
 	delete[] MessageForConsole;
 
-	delete m_Camera;
+	//delete m_Camera;
 	delete m_Light;
 
 	// delete the game objects
-	for (GameObject* object : m_GameObjects) {
-		delete object;
+	for (Transform* object : m_GameObjects) {
+		if (object)
+			delete object;
 	}
 	m_GameObjects.clear();
 
 
 	// delete the models
 	for (ModelClass* object : m_Models) {
-		delete object;
+		if (object)
+			delete object;
 	}
 	m_Models.clear();
 
 	// delete the materials
 	for (Material* object : m_Materals) {
-		delete object;
+		if (object)
+			delete object;
 	}
 	m_Materals.clear();
 

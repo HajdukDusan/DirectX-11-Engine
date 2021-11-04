@@ -11,7 +11,7 @@ class CameraClass : public Transform
 public:
 	CameraClass();
 	CameraClass(const CameraClass&);
-	~CameraClass();
+	virtual ~CameraClass();
 
 	void RotateY(float);
 

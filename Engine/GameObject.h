@@ -24,7 +24,7 @@ public:
 		CameraClass* camera,
 		LightClass* light);
 
-	~GameObject();
+	virtual ~GameObject();
 };
 
 #endif

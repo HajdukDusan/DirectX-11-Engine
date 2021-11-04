@@ -152,7 +152,7 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
     bool t = true;
 
-    vector<GameObject*>& gameObjects = m_GameManager->GetGameObjects();
+    vector<Transform*>& gameObjects = m_GameManager->GetGameObjects();
     vector<ModelClass*>& models = m_GameManager->GetModels();
     vector<Material*> & materials = m_GameManager->GetMaterials();
 
@@ -175,8 +175,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
     ImGui::ShowDemoWindow(&t);
 
 
-
-    ShowAssetsWindow(gameObjects, models, materials);
+    //vector<GameObject*>& tmp = dynamic_cast<>
+    //ShowAssetsWindow(gameObjects, models, materials);
 
     //ShowLog(&t);
 
@@ -365,7 +365,7 @@ void GuiClass::ShowSceneWindow(ID3D11ShaderResourceView* sceneView)
     ImGui::End();
 }
 
-void GuiClass::ShowSceneObjects(vector<GameObject*>& gameObjects)
+void GuiClass::ShowSceneObjects(vector<Transform*>& gameObjects)
 {
     if (ImGui::Begin("Scene Objects"))
     {
@@ -377,9 +377,20 @@ void GuiClass::ShowSceneObjects(vector<GameObject*>& gameObjects)
             for (int i = 0; i < gameObjects.size(); i++)
             {
                 ImGui::PushID("SceneGameObjectId-" + i);
-                if (ImGui::Selectable(gameObjects[i]->m_Name, selected == i)) {
-                    selected = i;
+                if (GameObject* go_ptr = dynamic_cast<GameObject*>(gameObjects[i]); go_ptr)
+                {
+                    if (ImGui::Selectable(go_ptr->m_Name, selected == i)) {
+                        selected = i;
+                    }
                 }
+                else if (CameraClass* cam_ptr = dynamic_cast<CameraClass*>(gameObjects[i]); cam_ptr)
+                {
+                    if (ImGui::Selectable("Camera", selected == i)) {
+                        selected = i;
+                    }
+                }
+                
+
 
                 //if (selected == i && ImGui::BeginPopupContextItem())
                 //{
@@ -402,10 +413,10 @@ void GuiClass::ShowSceneObjects(vector<GameObject*>& gameObjects)
             }
             
             if (selected != -1 && gameObjects[selected] != nullptr) {
-                ShowGameObjectWindow(gameObjects[selected]);
+                ShowInspectorWindow(gameObjects[selected]);
             }
             else
-                ShowGameObjectWindow(nullptr);
+                ShowInspectorWindow(nullptr);
                
 
 
@@ -469,110 +480,128 @@ void GuiClass::ShowLightWindow(LightClass* Light)
 
 float oneThirdWidth = 100.0f;
 
-void GuiClass::ShowGameObjectWindow(GameObject* gameObject) {
+static void ShowTransformInspectorSlot(Transform* transform)
+{
+    if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        //ImGui::Checkbox("Is Static", &gameObject->m_Model->Static);
+        //ImGui::Separator();
 
-    ImGui::Begin("Model Window");
+        ImGui::Text("Position");
+        ImGui::PushID("px");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("X"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->translation.x, 0.01f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("py");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Y"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->translation.y, 0.01f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("pz");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Z"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->translation.z, 0.01f);
+        ImGui::PopID();
 
-    if (gameObject != nullptr) {
-        if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+        ImGui::Separator();
+
+        ImGui::Text("Rotation");
+        ImGui::PushID("rx");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("X"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->rotation.x, 0.01f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("ry");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Y"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->rotation.y, 0.01f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("rz");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Z"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->rotation.z, 0.01f);
+        ImGui::PopID();
+
+        ImGui::Separator();
+
+        ImGui::Text("Scale");
+        ImGui::PushID("sx");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("X"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.x, 0.01f, 0.0f, 100000.0f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("sy");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Y"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.y, 0.01f, 0.0f, 100000.0f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("sz");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Z"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.z, 0.01f, 0.0f, 100000.0f);
+        ImGui::PopID();
+    }
+}
+
+static void ShowMaterialInspectorSlot(Material* material)
+{
+    if (PBRShaderMaterial* pbr = dynamic_cast<PBRShaderMaterial*>(material); pbr) {
+        if (ImGui::CollapsingHeader("PBR Material", ImGuiTreeNodeFlags_DefaultOpen))
         {
-            ImGui::Checkbox("Is Static", &gameObject->m_Model->Static);
+            ImGui::Text("Normal Map:");
+            ImGui::PushID("normal_map_strength");
+            //ImGui::Text("Strength"); ImGui::SameLine();
+            ImGui::LabelText("", "Strength"); ImGui::SameLine();
+            ImGui::SliderFloat("", &pbr->normalStrength, 0.0f, 3.0f);
+            ImGui::PopID();
             ImGui::Separator();
 
-            ImGui::Text("Position");
-            ImGui::PushID("px");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("X"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->translation.x, 0.01f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("py");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Y"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->translation.y, 0.01f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("pz");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Z"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->translation.z, 0.01f);
-            ImGui::PopID();
 
-            ImGui::Separator();
-
-            ImGui::Text("Rotation");
-            ImGui::PushID("rx");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("X"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->rotation.x, 0.01f);
+            ImGui::Text("Specular Map:");
+            ImGui::PushID("specular_map_focus");
+            //ImGui::Text("Focus"); ImGui::SameLine();
+            ImGui::LabelText("", "Focus"); ImGui::SameLine();
+            ImGui::SliderFloat("", &pbr->specularFocus, 0.0f, 10.0f);
             ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("ry");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Y"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->rotation.y, 0.01f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("rz");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Z"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->rotation.z, 0.01f);
-            ImGui::PopID();
-
-            ImGui::Separator();
-
-            ImGui::Text("Scale");
-            ImGui::PushID("sx");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("X"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->scale.x, 0.01f, 0.0f, 100000.0f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("sy");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Y"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->scale.y, 0.01f, 0.0f, 100000.0f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("sz");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Z"); ImGui::SameLine();
-            ImGui::DragFloat("", &gameObject->scale.z, 0.01f, 0.0f, 100000.0f);
+            ImGui::PushID("specular_map_strength");
+            //ImGui::Text("Strength"); ImGui::SameLine();
+            ImGui::LabelText("", "Strength"); ImGui::SameLine();
+            ImGui::SliderFloat("", &pbr->specularStrenght, 0.0f, 2.0f);
             ImGui::PopID();
         }
+    }
+    else {
 
+    }
+}
 
-        if (gameObject->m_Material) {
-            
-            PBRShaderMaterial* pbr = dynamic_cast<PBRShaderMaterial*>(gameObject->m_Material);
-            if (pbr)
-            {
-                if (ImGui::CollapsingHeader("PBR Shader", ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    ImGui::Text("Normal Map:");
-                    ImGui::PushID("normal_map_strength");
-                    //ImGui::Text("Strength"); ImGui::SameLine();
-                    ImGui::LabelText("", "Strength"); ImGui::SameLine();
-                    ImGui::SliderFloat("", &pbr->normalStrength, 0.0f, 3.0f);
-                    ImGui::PopID();
-                    ImGui::Separator();
+static void ShowModelInspectorSlot(ModelClass* model)
+{
+    if (ImGui::CollapsingHeader("Model", ImGuiTreeNodeFlags_DefaultOpen))
+    {
 
+    }
+}
 
-                    ImGui::Text("Specular Map:");
-                    ImGui::PushID("specular_map_focus");
-                    //ImGui::Text("Focus"); ImGui::SameLine();
-                    ImGui::LabelText("", "Focus"); ImGui::SameLine();
-                    ImGui::SliderFloat("", &pbr->specularFocus, 0.0f, 10.0f);
-                    ImGui::PopID();
-                    ImGui::PushID("specular_map_strength");
-                    //ImGui::Text("Strength"); ImGui::SameLine();
-                    ImGui::LabelText("", "Strength"); ImGui::SameLine();
-                    ImGui::SliderFloat("", &pbr->specularStrenght, 0.0f, 2.0f);
-                    ImGui::PopID();
+void GuiClass::ShowInspectorWindow(Transform* transform) {
 
+    ImGui::Begin("Inspector");
 
-                }
-            }
+    if (transform != nullptr) {
+
+        ShowTransformInspectorSlot(transform);
+
+        if (GameObject* gameObject = dynamic_cast<GameObject*>(transform); gameObject)
+        {
+            ShowMaterialInspectorSlot(gameObject->m_Material);
+            ShowModelInspectorSlot(gameObject->m_Model);
         }
 
 

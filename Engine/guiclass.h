@@ -513,14 +513,14 @@ private:
 
     GameManager* m_GameManager;
 
-    static void ShowGameObjectWindow(GameObject*);
+    static void ShowInspectorWindow(Transform*);
     static void ShowCameraWindow(CameraClass* camera);
     static void ShowStatOverlay(bool*);
     static void ShowLightWindow(LightClass*);
     static void ShowSceneWindow(ID3D11ShaderResourceView*);
 	static void ShowLog(bool*);
     static void ShowMenuBar();
-    static void ShowSceneObjects(vector<GameObject*>& gameObjects);
+    static void ShowSceneObjects(vector<Transform*>& gameObjects);
     static void ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials);
     static void ShowConsole(bool*);
     static void DockingAndMenuBar(bool*);

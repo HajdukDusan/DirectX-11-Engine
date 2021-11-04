@@ -1,6 +1,5 @@
 #include "modelclass.h"
 
-
 ModelClass::ModelClass()
 {
 	m_vertexBuffer = 0;
@@ -30,7 +29,7 @@ bool ModelClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCon
 
 	bool result;
 
-	// Load in the model data,
+	// Load in the model data
 	result = LoadModel(modelFilename);
 	if (!result)
 	{
@@ -63,12 +62,6 @@ void ModelClass::Shutdown()
 	ReleaseModel();
 
 	return;
-}
-
-ID3D11ShaderResourceView** ModelClass::GetTextureArray()
-{
-	//return m_pbrShader->m_textureArray->GetTextureArray();
-	return nullptr;
 }
 
 void ModelClass::PrepareForRendering(ID3D11DeviceContext* deviceContext)
@@ -574,64 +567,23 @@ void ModelClass::CalculateTangentBinormal(TempVertexType vertex1, TempVertexType
 	return;
 }
 
-
+#include "FileLoader.h"
 bool ModelClass::LoadModel(const char* filename)
 {
-	ifstream fin;
-	char input;
-	int i;
+	m_model = FileLoader::LoadObjFile(
+		filename,
+		m_vertexCount,
+		m_OriginalVertexCount,
+		m_UVCount,
+		m_NormalCount,
+		m_FaceCount);
 
-
-	// Open the model file.
-	fin.open(filename);
-
-	// If it could not open the file then exit.
-	if (fin.fail())
-	{
-		return false;
-	}
-
-	// Read up to the value of vertex count.
-	fin.get(input);
-	while (input != ':')
-	{
-		fin.get(input);
-	}
-
-	// Read in the vertex count.
-	fin >> m_vertexCount;
-
-	// Set the number of indices to be the same as the vertex count.
 	m_indexCount = m_vertexCount;
 
-	// Create the model using the vertex count that was read in.
-	m_model = new ModelType[m_vertexCount];
-	if (!m_model)
-	{
-		return false;
-	}
+	if (m_model)
+		return true;
 
-	// Read up to the beginning of the data.
-	fin.get(input);
-	while (input != ':')
-	{
-		fin.get(input);
-	}
-	fin.get(input);
-	fin.get(input);
-
-	// Read in the vertex data.
-	for (i = 0; i < m_vertexCount; i++)
-	{
-		fin >> m_model[i].x >> m_model[i].y >> m_model[i].z;
-		fin >> m_model[i].tu >> m_model[i].tv;
-		fin >> m_model[i].nx >> m_model[i].ny >> m_model[i].nz;
-	}
-
-	// Close the model file.
-	fin.close();
-
-	return true;
+	return false;
 }
 
 void ModelClass::ReleaseModel()

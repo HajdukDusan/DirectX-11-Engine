@@ -21,7 +21,7 @@ public:
 	GameManager(D3DClass* DirectXManager, HWND hwnd);
 	~GameManager();
 
-	vector<GameObject*>& GetGameObjects();
+	vector<Transform*>& GetGameObjects();
 	vector<ModelClass*>& GetModels();
 	vector<Material*>& GetMaterials();
 
@@ -29,7 +29,7 @@ public:
 	const char* MessageForConsole;
 
 private:
-	vector<GameObject*>	m_GameObjects;
+	vector<Transform*>	m_GameObjects;
 	vector<ModelClass*> m_Models;
 	vector<Material*> m_Materals;
 public:

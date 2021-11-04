@@ -104,8 +104,8 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	bool result;
 	
 	// delete the previous message
-	if (GameManager->MessageForConsole)
-		delete[] GameManager->MessageForConsole;
+	//if (GameManager->MessageForConsole)
+	//	delete[] GameManager->MessageForConsole;
 
 	m_RenderTexture->SetRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView);
 	m_RenderTexture->ClearRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -127,36 +127,24 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	staticWorldMatrix = worldMatrix;
 
 
-	vector<GameObject*>& gameObjects = GameManager->GetGameObjects();
+	vector<Transform*>& gameObjects = GameManager->GetGameObjects();
 
 	// RENDER MODELS
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		if (!gameObjects[i]->Render(
-			m_DirectXManager->GetDeviceContext(),
-			worldMatrix,
-			viewMatrix,
-			projectionMatrix,
-			GameManager->m_Camera,
-			GameManager->m_Light)) 
+		if (GameObject* gameObj = dynamic_cast<GameObject*>(gameObjects[i]); gameObj)
 		{
-			GameManager->MessageForConsole = "[error] Error loading PBR model shader - " + *gameObjects[i]->m_Name;
+			if (!gameObj->Render(
+				m_DirectXManager->GetDeviceContext(),
+				worldMatrix,
+				viewMatrix,
+				projectionMatrix,
+				GameManager->m_Camera,
+				GameManager->m_Light))
+			{
+				GameManager->MessageForConsole = "[error] Error while rendering " + *gameObj->m_Name;
+			}
 		}
-		//else if (m_Models[i]->m_colorShader) {
-		//	result = m_ShaderManager->RenderColorShader(Direct3D->GetDeviceContext(), m_Models[i]->GetIndexCount(), m_Models[i]->GetInstanceCount(),
-		//		worldMatrix, viewMatrix, projectionMatrix, 1, m_Light->GetDirection(), m_Light->GetDiffuseColor(),
-		//		m_Models[i]->m_translation, m_Models[i]->m_rotation, m_Models[i]->m_scale, m_Camera->GetPosition(), 10,
-		//		1, m_Models[i]->m_colorShader->color);
-		//	if (!result)
-		//	{
-		//		MessageForConsole = "[error] Error loading color model shader - " + *m_Models[i]->Name;
-		//		return false;
-		//	}
-		//}
-		//else {
-		//	GameManager->MessageForConsole = "[error] Error object has no shader - " + *gameObjects[i]->Name;
-		//	return false;
-		//}
 	}
 	
 

@@ -18,6 +18,16 @@ using namespace DirectX;
 
 class ModelClass
 {
+public:
+	struct ModelType
+	{
+		float x, y, z;
+		float tu, tv;
+		float nx, ny, nz;
+		float tx, ty, tz;
+		float bx, by, bz;
+	};
+
 private:
 	struct VertexType
 	{
@@ -26,15 +36,6 @@ private:
 		XMFLOAT3 normal;
 		XMFLOAT3 tangent;
 		XMFLOAT3 binormal;
-	};
-
-	struct ModelType
-	{
-		float x, y, z;
-		float tu, tv;
-		float nx, ny, nz;
-		float tx, ty, tz;
-		float bx, by, bz;
 	};
 
 	// the following two structures are used to calculate the tangent and binormal
@@ -102,8 +103,6 @@ public:
 	XMFLOAT3 GetInstanceTransform(int);
 	void SetInstanceTransform(int, XMFLOAT3);
 
-	ID3D11ShaderResourceView** GetTextureArray();
-
 
 	XMMATRIX m_translation;
 	XMMATRIX m_rotation;
@@ -133,6 +132,11 @@ private:
 		//to do
 	}
 
+public:
+	int m_OriginalVertexCount;
+	int m_UVCount;
+	int m_NormalCount;
+	int m_FaceCount;
 
 private:
 
@@ -141,7 +145,9 @@ private:
 	int m_instanceCount;
 	//vector<XMFLOAT3> m_instancesPositions;
 
-	int m_vertexCount, m_indexCount;
+	int m_vertexCount;
+	int m_indexCount;
+
 	TextureClass* m_Texture;
 
 	ModelType* m_model;
