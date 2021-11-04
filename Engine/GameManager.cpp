@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 
-GameManager::GameManager(D3DClass* DirectXManager)
+GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 {
 	//CAMERA
 	m_Camera = new CameraClass;
@@ -21,6 +21,15 @@ GameManager::GameManager(D3DClass* DirectXManager)
 	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetSpecularPower(32.0f);
 
+
+	// INIT SHADERS
+	m_ShaderManager = new ShaderManagerClass;
+	// Initialize the shader manager object.
+	if (!m_ShaderManager->Initialize(DirectXManager->GetDevice(), hwnd))
+	{
+		MessageForConsole = "[error] Could not initialize the shader manager.";
+	}
+
 	//BARREL
 	ModelClass* barrelModel = new ModelClass();
 	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/barrel.txt"))
@@ -29,19 +38,21 @@ GameManager::GameManager(D3DClass* DirectXManager)
 	};
 
 	Material* barrelMaterial = (Material*) new PBRShaderMaterial(
+		m_ShaderManager->getPBRShader(),
 		DirectXManager->GetDevice(),
 		DirectXManager->GetDeviceContext(),
 		"BarrelMaterial",
 		"../Engine/data/drum1_base_color.tga",
 		"../Engine/data/drum1_normal.tga",
-		"../Engine/data/drum1_specular.tga",
-		2, 10, 2);
+		"../Engine/data/drum1_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
-		"My Barrel",
+		"MyBarrelADSDSADASDASD",
 		barrelModel,
 		barrelMaterial
 	));
+	m_Models.push_back(barrelModel);
+	m_Materals.push_back(barrelMaterial);
 
 
 	//GASS TANK
@@ -52,6 +63,7 @@ GameManager::GameManager(D3DClass* DirectXManager)
 	};
 
 	Material* gassTankMaterial = (Material*) new PBRShaderMaterial(
+		m_ShaderManager->getPBRShader(),
 		DirectXManager->GetDevice(),
 		DirectXManager->GetDeviceContext(),
 		"GassTankMaterial",
@@ -60,14 +72,19 @@ GameManager::GameManager(D3DClass* DirectXManager)
 		"../Engine/data/Gass Tank/gasTank_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
-		"My Gass Tank",
+		"MyBigGassTank",
 		gassTankModel,
 		gassTankMaterial
 	));
+	m_Models.push_back(gassTankModel);
+	m_Materals.push_back(gassTankMaterial);
 }
 
 vector<GameObject*>& GameManager::GetGameObjects() {
 	return m_GameObjects;
+}
+vector<ModelClass*>& GameManager::GetModels() {
+	return m_Models;
 }
 vector<Material*>& GameManager::GetMaterials() {
 	return m_Materals;
@@ -80,14 +97,25 @@ GameManager::~GameManager()
 	delete m_Camera;
 	delete m_Light;
 
-	// delete the materials
-	for (Material *object : m_Materals) {
-		delete object;
-	}
-	m_Materals.clear();
 	// delete the game objects
 	for (GameObject* object : m_GameObjects) {
 		delete object;
 	}
 	m_GameObjects.clear();
+
+
+	// delete the models
+	for (ModelClass* object : m_Models) {
+		delete object;
+	}
+	m_Models.clear();
+
+	// delete the materials
+	for (Material* object : m_Materals) {
+		delete object;
+	}
+	m_Materals.clear();
+
+	// delete all the shaders
+	m_ShaderManager->Shutdown();
 }

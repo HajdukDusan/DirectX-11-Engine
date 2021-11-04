@@ -26,7 +26,7 @@ bool Engine::Initialize(HINSTANCE hInstance, WNDCLASSEX wc, HWND hwnd, int Scree
 	//}
 
 	// Setup The Game Manager
-	m_GameManager = new GameManager(m_DirectXManager);
+	m_GameManager = new GameManager(m_DirectXManager, hwnd);
 
 	// Setup Engine GUI
 	m_GUI = new GuiClass(hwnd, m_DirectXManager, m_GameManager);
@@ -39,8 +39,7 @@ bool Engine::Render()
 
 
 	// Scripts That Affect Game Objects Go Here
-	
-
+	MoveCamera((Transform*)m_GameManager->m_Camera, m_GUI->GetInputHandler());
 
 	// Render Game Scene To GUI Texture
 	if (!m_GameScene->RenderScene(m_GameManager)) {
@@ -68,7 +67,7 @@ Engine::~Engine()
 {
 	//delete m_GameInputHandler;
 	delete m_GameScene;
-	delete m_GUI;
 	delete m_GameManager;
+	delete m_GUI;
 	m_DirectXManager->Shutdown();
 }

@@ -1,10 +1,12 @@
 #ifndef _CAMERACLASS_H_
 #define _CAMERACLASS_H_
 
+#pragma once
 #include <directxmath.h>
+#include "Transform.h"
 using namespace DirectX;
 
-class CameraClass
+class CameraClass : public Transform
 {
 public:
 	CameraClass();
@@ -26,8 +28,8 @@ public:
 	void GetBaseViewMatrix(XMMATRIX&);
 
 public:
-	float m_positionX, m_positionY, m_positionZ;
-	float m_rotationX, m_rotationY, m_rotationZ;
+	//float m_positionX, m_positionY, m_positionZ;
+	//float m_rotationX, m_rotationY, m_rotationZ;
 private:
 	
 	

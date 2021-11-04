@@ -10,7 +10,6 @@
 #include "modelclass.h"
 #include "lightclass.h"
 #include "cameraclass.h"
-#include "PBRShaderMaterial.h"
 
 using namespace std;
 using namespace DirectX;
@@ -54,8 +53,6 @@ public:
 
 	bool Initialize(ID3D11Device*, HWND);
 	void Shutdown();
-	//bool Render(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView**, float, XMFLOAT3,
-	//	XMFLOAT4, XMMATRIX, XMMATRIX, XMMATRIX, XMFLOAT3, XMFLOAT4, float);
 
 	bool Render(ID3D11DeviceContext* deviceContext,
 		XMMATRIX worldMatrix,

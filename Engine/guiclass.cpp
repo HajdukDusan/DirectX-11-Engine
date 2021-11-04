@@ -153,6 +153,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
     bool t = true;
 
     vector<GameObject*>& gameObjects = m_GameManager->GetGameObjects();
+    vector<ModelClass*>& models = m_GameManager->GetModels();
+    vector<Material*> & materials = m_GameManager->GetMaterials();
 
     // Start the Dear ImGui frame
     ImGui_ImplDX11_NewFrame();
@@ -174,7 +176,7 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
 
 
-    ShowAssetsWindow(gameObjects);
+    ShowAssetsWindow(gameObjects, models, materials);
 
     //ShowLog(&t);
 
@@ -194,17 +196,17 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
     }
 }
 
-void GuiClass::GetMouseInput(int* mouse)
+ImGuiIO* GuiClass::GetInputHandler()
 {
-    ImGuiIO& io = ImGui::GetIO();
-    mouse[0] = io.MouseDown[0];
-    mouse[1] = io.MouseDown[1];
-    mouse[2] = io.MouseDown[2];
-    mouse[3] = io.MousePos.x;
-    mouse[4] = io.MousePos.y;
+    return &ImGui::GetIO();
+    //mouse[0] = io.MouseDown[0];
+    //mouse[1] = io.MouseDown[1];
+    //mouse[2] = io.MouseDown[2];
+    //mouse[3] = io.MousePos.x;
+    //mouse[4] = io.MousePos.y;
 }
 
-void GuiClass::ShowAssetsWindow(vector<GameObject*>& gameObjects)
+void GuiClass::ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials)
 {
     if (ImGui::Begin("Assets"))
     {
@@ -213,18 +215,96 @@ void GuiClass::ShowAssetsWindow(vector<GameObject*>& gameObjects)
         static int selected = 0;
         ImGui::BeginChild("AssetsField");
 
+        //for (int i = 0; i < gameObjects.size(); i++)
+        //{
+        //    char label[128];
+        //    snprintf(label, sizeof(label), gameObjects[i]->m_Name);
+        //    ImGui::PushID("GameObject-" + i);
+        //    if (ImGui::Selectable(label, selected == i)) {
+        //        selected = i;
+        //    }
+
+        //    ImGui::PopID();
+        //}
+
+        ImVec2 AssetImageSize(80, 80);
+
+        ImGuiStyle& style = ImGui::GetStyle();
+
+        float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+
+        ImDrawList* draw_list = ImGui::GetWindowDrawList();
+
         for (int i = 0; i < gameObjects.size(); i++)
         {
-            char label[128];
-            snprintf(label, sizeof(label), gameObjects[i]->m_Name);
-            ImGui::PushID("modelNo." + i);
-            if (ImGui::Selectable(label, selected == i)) {
-                selected = i;
+
+            ImGui::PushID("GameObjectId-" + i);
+
+            ImGui::BeginGroup();
+            ImGui::Button("GAMEOBJ", AssetImageSize);
+
+            const char* nameToShow = gameObjects[i]->m_Name;
+
+            float textWidth = ImGui::CalcTextSize(gameObjects[i]->m_Name).x;
+
+            ImGui::SetNextItemWidth(textWidth);
+
+            if (textWidth > AssetImageSize.x)
+            {
+                ImGui::SetNextItemWidth(AssetImageSize.x);
+                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
+                const char* tmp = "...";
+                ImGui::LabelText(tmp, gameObjects[i]->m_Name);
+            }
+            else
+            {
+                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
+                ImGui::Text(gameObjects[i]->m_Name);
             }
 
+            ImGui::EndGroup();
 
+            float last_button_x2 = ImGui::GetItemRectMax().x;
+            float next_button_x2 = last_button_x2 + style.ItemSpacing.x + AssetImageSize.x; // Expected position if next button was on same line
+            if (i + 1 < gameObjects.size() + models.size() + materials.size() && next_button_x2 < window_visible_x2)
+                ImGui::SameLine();
             ImGui::PopID();
+        }
 
+        for (int i = 0; i < materials.size(); i++)
+        {
+
+            ImGui::PushID("MaterialId-" + i);
+
+            ImGui::BeginGroup();
+            ImGui::Button("MATERIAL", AssetImageSize);
+
+            const char* nameToShow = materials[i]->m_Name;
+
+            float textWidth = ImGui::CalcTextSize(materials[i]->m_Name).x;
+
+            ImGui::SetNextItemWidth(textWidth);
+
+            if (textWidth > AssetImageSize.x)
+            {
+                ImGui::SetNextItemWidth(AssetImageSize.x);
+                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
+                const char* tmp = "...";
+                ImGui::LabelText(tmp, materials[i]->m_Name);
+            }
+            else
+            {
+                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
+                ImGui::Text(materials[i]->m_Name);
+            }
+
+            ImGui::EndGroup();
+
+            float last_button_x2 = ImGui::GetItemRectMax().x;
+            float next_button_x2 = last_button_x2 + style.ItemSpacing.x + AssetImageSize.x; // Expected position if next button was on same line
+            if (gameObjects.size() + i + 1 < gameObjects.size() + materials.size() && next_button_x2 < window_visible_x2)
+                ImGui::SameLine();
+            ImGui::PopID();
         }
 
         ImGui::EndChild();
@@ -235,6 +315,7 @@ void GuiClass::ShowAssetsWindow(vector<GameObject*>& gameObjects)
 
 void GuiClass::ShowConsole(bool* p_open)
 {
+    static GuiClass::Console console;
     console.Draw("Console", p_open);
 }
 
@@ -252,11 +333,11 @@ void GuiClass::ShowSceneWindow(ID3D11ShaderResourceView* sceneView)
         if (wireframe != past_state) {
             if (wireframe) {
                 PrintConsole("[info] Wireframe enabled.");
-                m_DirectX->EnableWireframe();
+                //m_DirectX->EnableWireframe();
             }
             else {
                 PrintConsole("[info] Wireframe disabled.");
-                m_DirectX->DisableWireframe();
+                //m_DirectX->DisableWireframe();
             }
             past_state = wireframe;
         }
@@ -286,11 +367,8 @@ void GuiClass::ShowSceneWindow(ID3D11ShaderResourceView* sceneView)
 
 void GuiClass::ShowSceneObjects(vector<GameObject*>& gameObjects)
 {
-    bool t = true;
-    //ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
     if (ImGui::Begin("Scene Objects"))
     {
-
         // Left
         static int selected = -1;
         {
@@ -298,14 +376,27 @@ void GuiClass::ShowSceneObjects(vector<GameObject*>& gameObjects)
 
             for (int i = 0; i < gameObjects.size(); i++)
             {
-                //PrintConsole(to_string(m_scene->m_Models.size()).c_str());
-                char label[128];
-                snprintf(label, sizeof(label), gameObjects[i]->m_Name);
-                ImGui::PushID("modelNo." + i);
-                if (ImGui::Selectable(label, selected == i)) {
+                ImGui::PushID("SceneGameObjectId-" + i);
+                if (ImGui::Selectable(gameObjects[i]->m_Name, selected == i)) {
                     selected = i;
-
                 }
+
+                //if (selected == i && ImGui::BeginPopupContextItem())
+                //{
+                //    static char name[200];
+                //    strcpy_s(name, sizeof(name), gameObjects[i]->m_Name);
+
+                //    ImGui::Text("Edit name:");
+                //    ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
+                //    if (ImGui::Button("Save"))
+                //    {
+                //        ImGui::CloseCurrentPopup();
+                //        //delete[] gameObjects[i]->m_Name;
+                //        gameObjects[i]->m_Name = name;
+                //    }
+                //    ImGui::EndPopup();
+                //}
+
                 ImGui::PopID();
 
             }
@@ -451,33 +542,38 @@ void GuiClass::ShowGameObjectWindow(GameObject* gameObject) {
         }
 
 
-        //if (Model->m_pbrShader) {
-        //    if (ImGui::CollapsingHeader("PBR Shader", ImGuiTreeNodeFlags_DefaultOpen))
-        //    {
-        //        ImGui::Text("Normal Map:");
-        //        ImGui::PushID("normal_map_strength");
-        //        //ImGui::Text("Strength"); ImGui::SameLine();
-        //        ImGui::LabelText("", "Strength"); ImGui::SameLine();
-        //        ImGui::SliderFloat("", &Model->m_pbrShader->normalStrength, 0.0f, 3.0f);
-        //        ImGui::PopID();
-        //        ImGui::Separator();
+        if (gameObject->m_Material) {
+            
+            PBRShaderMaterial* pbr = dynamic_cast<PBRShaderMaterial*>(gameObject->m_Material);
+            if (pbr)
+            {
+                if (ImGui::CollapsingHeader("PBR Shader", ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    ImGui::Text("Normal Map:");
+                    ImGui::PushID("normal_map_strength");
+                    //ImGui::Text("Strength"); ImGui::SameLine();
+                    ImGui::LabelText("", "Strength"); ImGui::SameLine();
+                    ImGui::SliderFloat("", &pbr->normalStrength, 0.0f, 3.0f);
+                    ImGui::PopID();
+                    ImGui::Separator();
 
 
-        //        ImGui::Text("Specular Map:");
-        //        ImGui::PushID("specular_map_focus");
-        //        //ImGui::Text("Focus"); ImGui::SameLine();
-        //        ImGui::LabelText("", "Focus"); ImGui::SameLine();
-        //        ImGui::SliderFloat("", &Model->m_pbrShader->specularFocus, 0.0f, 10.0f);
-        //        ImGui::PopID();
-        //        ImGui::PushID("specular_map_strength");
-        //        //ImGui::Text("Strength"); ImGui::SameLine();
-        //        ImGui::LabelText("", "Strength"); ImGui::SameLine();
-        //        ImGui::SliderFloat("", &Model->m_pbrShader->specularStrenght, 0.0f, 2.0f);
-        //        ImGui::PopID();
+                    ImGui::Text("Specular Map:");
+                    ImGui::PushID("specular_map_focus");
+                    //ImGui::Text("Focus"); ImGui::SameLine();
+                    ImGui::LabelText("", "Focus"); ImGui::SameLine();
+                    ImGui::SliderFloat("", &pbr->specularFocus, 0.0f, 10.0f);
+                    ImGui::PopID();
+                    ImGui::PushID("specular_map_strength");
+                    //ImGui::Text("Strength"); ImGui::SameLine();
+                    ImGui::LabelText("", "Strength"); ImGui::SameLine();
+                    ImGui::SliderFloat("", &pbr->specularStrenght, 0.0f, 2.0f);
+                    ImGui::PopID();
 
 
-        //    }
-        //}
+                }
+            }
+        }
 
 
 
@@ -500,45 +596,45 @@ void GuiClass::ShowCameraWindow(CameraClass* camera) {
     
     if (ImGui::Begin("Camera Window"))
     {
-        ImGui::Text("Translation");
-        ImGui::PushID("cam pos x");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("X"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_positionX, 0.01f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("cam pos y");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Y"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_positionY, 0.01f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("cam pos z");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Z"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_positionZ, 0.01f);
-        ImGui::PopID();
+        //ImGui::Text("Translation");
+        //ImGui::PushID("cam pos x");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("X"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_positionX, 0.01f);
+        //ImGui::PopID();
+        //ImGui::SameLine();
+        //ImGui::PushID("cam pos y");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("Y"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_positionY, 0.01f);
+        //ImGui::PopID();
+        //ImGui::SameLine();
+        //ImGui::PushID("cam pos z");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("Z"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_positionZ, 0.01f);
+        //ImGui::PopID();
 
-        ImGui::Separator();
+        //ImGui::Separator();
 
-        ImGui::Text("Rotation");
-        ImGui::PushID("cam rot x");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("X"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_rotationX, 1.f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("cam rot y");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Y"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_rotationY, 1.f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("cam rot z");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Z"); ImGui::SameLine();
-        ImGui::DragFloat("", &camera->m_rotationZ, 1.f);
-        ImGui::PopID();
+        //ImGui::Text("Rotation");
+        //ImGui::PushID("cam rot x");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("X"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_rotationX, 1.f);
+        //ImGui::PopID();
+        //ImGui::SameLine();
+        //ImGui::PushID("cam rot y");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("Y"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_rotationY, 1.f);
+        //ImGui::PopID();
+        //ImGui::SameLine();
+        //ImGui::PushID("cam rot z");
+        //ImGui::PushItemWidth(oneThirdWidth);
+        //ImGui::Text("Z"); ImGui::SameLine();
+        //ImGui::DragFloat("", &camera->m_rotationZ, 1.f);
+        //ImGui::PopID();
     }
     ImGui::End();
 }
@@ -592,11 +688,12 @@ void GuiClass::ShowStatOverlay(bool* p_open)
 
 void GuiClass::PrintConsole(const char* msg)
 {
-    console.AddLog(msg);
+    //console.AddLog(msg);
 }
 
 void GuiClass::ShowLog(bool* p_open)
 {
+    static GuiClass::Log log;
     // For the demo: add a debug button _BEFORE_ the normal log window contents
     // We take advantage of a rarely used feature: multiple calls to Begin()/End() are appending to the _same_ window.
     // Most of the contents of the window will be added by the log.Draw() call.

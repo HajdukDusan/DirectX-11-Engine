@@ -3,6 +3,7 @@
 #include "guiclass.h"
 #include "inputclass.h"
 #include "GameManager.h"
+#include "CameraSceneNavigation.h"
 
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = false;
@@ -25,6 +26,5 @@ private:
 	GuiClass*			m_GUI;
 	InputClass*			m_GameInputHandler;
 	GameManager*		m_GameManager;
-
 };
 

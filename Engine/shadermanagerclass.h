@@ -39,7 +39,10 @@ public:
 	bool RenderLightShader(ID3D11Device*, ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView*, XMFLOAT3, XMFLOAT4, XMFLOAT4, XMFLOAT3, XMFLOAT4, float);
 	bool RenderTextureShader(ID3D11DeviceContext*, int, int, XMMATRIX, XMMATRIX, XMMATRIX, ID3D11ShaderResourceView*);
 
+	PBRShaderClass* getPBRShader();
+
 private:
+	// Shaders
 	ColorShaderClass* m_ColorShader;
 	FontShaderClass* m_FontShader;
 	LightShaderClass* m_LightShader;

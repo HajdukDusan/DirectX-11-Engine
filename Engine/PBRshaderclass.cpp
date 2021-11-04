@@ -1,4 +1,5 @@
 #include "PBRshaderclass.h"
+#include "PBRShaderMaterial.h"
 
 PBRShaderClass::PBRShaderClass()
 {

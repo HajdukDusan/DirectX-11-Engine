@@ -22,13 +22,6 @@
 #include <string>
 #include "GameManager.h"
 
-// mouse inputs
-#define MOUSE_LEFT_CLICK    0
-#define MOUSE_RIGHT_CLICK   1
-#define MOUSE_SCROLL_CLICK  2
-#define MOUSE_POS_X         3
-#define MOUSE_POS_Y         4
-
 
 class SceneRenderClass
 {
@@ -50,7 +43,6 @@ public:
 
 private:
 	PositionClass*		m_Position;
-	ShaderManagerClass* m_ShaderManager;
 	TerrainClass*		m_Terrain;
 	ArrowsClass*		m_Arrows;
 	RenderTextureClass* m_RenderTexture;
@@ -59,12 +51,6 @@ private:
 	int					m_pastMouseY;
 
 	D3DClass* m_DirectXManager;
-
-public:
-
-	//vector<PBRShaderMaterial*> m_PbrMaterials;
-
-	vector<ColorShaderMaterial*> m_ColorMaterials;
 
 };
 

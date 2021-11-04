@@ -34,15 +34,6 @@ SceneRenderClass::SceneRenderClass(D3DClass* Direct3D, HWND hwnd) {
 
 
 
-	// CREATE THE SHADER MANAGER OBJECT
-	m_ShaderManager = new ShaderManagerClass;
-	// Initialize the shader manager object.
-	if(!m_ShaderManager->Initialize(Direct3D->GetDevice(), hwnd))
-	{
-		MessageBox(hwnd, L"Could not initialize the shader manager object.", L"Error", MB_OK);
-		exit(-1);
-	}
-
 	// RENDER TO TEXTURE
 	m_RenderTexture = new RenderTextureClass;
 
@@ -104,18 +95,6 @@ SceneRenderClass::~SceneRenderClass() {
 		delete m_Terrain;
 		m_Terrain = 0;
 	}
-
-	if (m_ShaderManager)
-	{
-		m_ShaderManager->Shutdown();
-		delete m_ShaderManager;
-		m_ShaderManager = 0;
-	}
-
-	for (ColorShaderMaterial* m : m_ColorMaterials) {
-		delete m;
-	}
-	m_ColorMaterials.clear();
 }
 
 
@@ -125,7 +104,8 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	bool result;
 	
 	// delete the previous message
-	delete[] GameManager->MessageForConsole;
+	if (GameManager->MessageForConsole)
+		delete[] GameManager->MessageForConsole;
 
 	m_RenderTexture->SetRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView);
 	m_RenderTexture->ClearRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView, 0.0f, 0.0f, 0.0f, 1.0f);

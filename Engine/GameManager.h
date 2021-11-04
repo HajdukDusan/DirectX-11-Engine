@@ -10,6 +10,7 @@
 #include "lightclass.h"
 #include "cameraclass.h"
 
+#include "shadermanagerclass.h"
 #include "PBRShaderMaterial.h"
 
 using namespace std;
@@ -17,10 +18,11 @@ using namespace std;
 class GameManager
 {
 public:
-	GameManager(D3DClass* DirectXManager);
+	GameManager(D3DClass* DirectXManager, HWND hwnd);
 	~GameManager();
 
 	vector<GameObject*>& GetGameObjects();
+	vector<ModelClass*>& GetModels();
 	vector<Material*>& GetMaterials();
 
 
@@ -28,11 +30,14 @@ public:
 
 private:
 	vector<GameObject*>	m_GameObjects;
+	vector<ModelClass*> m_Models;
 	vector<Material*> m_Materals;
-
 public:
+	ShaderManagerClass* m_ShaderManager;
+
 	CameraClass* m_Camera;
 	LightClass* m_Light;
+
 };
 
 #endif

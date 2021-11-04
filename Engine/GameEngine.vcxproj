@@ -22,6 +22,7 @@
     <ClCompile Include="arrowsclass.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
+    <ClCompile Include="CameraSceneNavigation.cpp" />
     <ClCompile Include="clipplaneshaderclass.cpp" />
     <ClCompile Include="colorshaderclass.cpp" />
     <ClCompile Include="cpuclass.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="arrowsclass.h" />
     <ClInclude Include="bitmapclass.h" />
     <ClInclude Include="cameraclass.h" />
+    <ClInclude Include="CameraSceneNavigation.h" />
     <ClInclude Include="clipplaneshaderclass.h" />
     <ClInclude Include="colorshaderclass.h" />
     <ClInclude Include="ColorShaderMaterial.h" />

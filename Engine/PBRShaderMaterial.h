@@ -1,11 +1,12 @@
 #ifndef _PBRSHADERMATERIAL_H_
 #define _PBRSHADERMATERIAL_H_
 
-#pragma once
 #include "texturearrayclass.h"
-#include "modelclass.h"
-#include "lightclass.h"
 #include "Material.h"
+#include "PBRshaderclass.h"
+
+class ModelClass;
+class LightClass;
 
 class PBRShaderMaterial : public Material
 {
@@ -20,20 +21,12 @@ public:
 	float specularFocus = 10;
 	float specularStrenght = 1;
 
-	PBRShaderMaterial(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* _name, const char* colorTextureName, const char* normalTextureName, const char* specularTextureName) 
+	PBRShaderMaterial(PBRShaderClass* PBRShader, ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* _name, const char* colorTextureName, const char* normalTextureName, const char* specularTextureName)
 	{
-		m_Name = _name;
+		// setup the PBR shader
+		m_Shader = PBRShader;
 
-		color_map_path = colorTextureName;
-		normal_map_path = normalTextureName;
-		specular_map_path = specularTextureName;
-		m_textureArray = new TextureArrayClass;
-		m_textureArray->Initialize(device, deviceContext, colorTextureName, normalTextureName, specularTextureName);
-	}
-	PBRShaderMaterial(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* _name, const char* colorTextureName, const char* normalTextureName, const char* specularTextureName,
-		float _normalStrength, float _specularFocus, float _specularStrenght) {
 		m_Name = _name;
-
 		color_map_path = colorTextureName;
 		normal_map_path = normalTextureName;
 		specular_map_path = specularTextureName;

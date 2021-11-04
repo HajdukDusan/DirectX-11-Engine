@@ -195,3 +195,8 @@ bool ShaderManagerClass::RenderShaderBasedOnMaterial(
 
 	return false;
 }
+
+PBRShaderClass* ShaderManagerClass::getPBRShader()
+{
+	return m_PBRShader;
+}

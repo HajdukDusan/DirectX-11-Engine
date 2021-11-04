@@ -505,36 +505,28 @@ public:
     ImGuiIO& getIO();
 
     // console messages
-    void PrintConsole(const char*);
+    static void PrintConsole(const char*);
 
-    void GetMouseInput(int*);
+    static ImGuiIO* GetInputHandler();
 
 private:
 
     GameManager* m_GameManager;
 
-	void ShowGameObjectWindow(GameObject*);
-    void ShowCameraWindow(CameraClass* camera);
-	void ShowStatOverlay(bool*);
-    void ShowLightWindow(LightClass*);
-    void ShowSceneWindow(ID3D11ShaderResourceView*);
-	void ShowLog(bool*);
-    void ShowMenuBar();
-    void ShowSceneObjects(vector<GameObject*>& gameObjects);
-    void ShowAssetsWindow(vector<GameObject*>& gameObjects);
-
-
-    void ShowConsole(bool*);
-
-
-    void DockingAndMenuBar(bool*);
+    static void ShowGameObjectWindow(GameObject*);
+    static void ShowCameraWindow(CameraClass* camera);
+    static void ShowStatOverlay(bool*);
+    static void ShowLightWindow(LightClass*);
+    static void ShowSceneWindow(ID3D11ShaderResourceView*);
+	static void ShowLog(bool*);
+    static void ShowMenuBar();
+    static void ShowSceneObjects(vector<GameObject*>& gameObjects);
+    static void ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials);
+    static void ShowConsole(bool*);
+    static void DockingAndMenuBar(bool*);
 
     void SetStyle();
 
-
-    GuiClass::Log log;
-
-    GuiClass::Console console;
 
     D3DClass* m_DirectX;
 
