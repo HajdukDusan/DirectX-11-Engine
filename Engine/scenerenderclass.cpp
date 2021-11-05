@@ -103,6 +103,9 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, baseViewMatrix, orthoMatrix, staticWorldMatrix;
 	bool result;
 	
+	// start the timer for calculating the prepare scene time
+	GameManager->m_Timer->Start();
+
 	// delete the previous message
 	//if (GameManager->MessageForConsole)
 	//	delete[] GameManager->MessageForConsole;
@@ -161,6 +164,15 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	//}
 
 	m_DirectXManager->SetBackBufferRenderTarget();
+
+
+	// stop the timer
+	GameManager->m_PrepareSceneTime = GameManager->m_Timer->End();
+
+	// present the rendered scene, and record the time it took
+	GameManager->m_Timer->Start();
+	m_DirectXManager->PresentScene();
+	GameManager->m_PresentSceneTime = GameManager->m_Timer->End();
 
 	return true;
 }

@@ -51,6 +51,21 @@ void TimerClass::Frame()
 	return;
 }
 
+void TimerClass::Start()
+{
+	QueryPerformanceCounter((LARGE_INTEGER*)&m_timerStart);
+}
+
+float TimerClass::End()
+{
+	INT64 currentTime;
+
+	// get current time
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+
+	// get the elapsed time and divide by ticks
+	return ((float)(currentTime - m_timerStart)) / m_ticksPerMs;
+}
 
 // most recent frame time calculated
 float TimerClass::GetTime()

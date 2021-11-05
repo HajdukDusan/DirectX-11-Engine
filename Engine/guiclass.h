@@ -511,7 +511,7 @@ public:
 
 private:
 
-    GameManager* m_GameManager;
+    inline static GameManager* m_GameManager;
 
     static void ShowInspectorWindow(Transform*);
     static void ShowCameraWindow(CameraClass* camera);
@@ -528,7 +528,7 @@ private:
     void SetStyle();
 
 
-    D3DClass* m_DirectX;
+    inline static D3DClass* m_DirectX;
 
 };
 #endif // !_GUICLASS_H_

@@ -82,6 +82,14 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	));
 	m_Models.push_back(gassTankModel);
 	m_Materals.push_back(gassTankMaterial);
+
+
+	// Setup The Timer Class
+	m_Timer = new TimerClass();
+	if (!m_Timer->Initialize())
+	{
+		MessageForConsole = "[error] Could not initialize the timer.";
+	}
 }
 
 vector<Transform*>& GameManager::GetGameObjects() {
@@ -97,6 +105,8 @@ vector<Material*>& GameManager::GetMaterials() {
 GameManager::~GameManager()
 {
 	delete[] MessageForConsole;
+
+	delete m_Timer;
 
 	//delete m_Camera;
 	delete m_Light;

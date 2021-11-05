@@ -1,4 +1,5 @@
 #include "guiclass.h"
+#include "ImGui/imgui_internal.h"
 
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
 
@@ -177,8 +178,6 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
     //vector<GameObject*>& tmp = dynamic_cast<>
     //ShowAssetsWindow(gameObjects, models, materials);
-
-    //ShowLog(&t);
 
     // console
     ShowConsole(&t);
@@ -529,24 +528,29 @@ static void ShowTransformInspectorSlot(Transform* transform)
 
         ImGui::Separator();
 
-        ImGui::Text("Scale");
-        ImGui::PushID("sx");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("X"); ImGui::SameLine();
-        ImGui::DragFloat("", &transform->scale.x, 0.01f, 0.0f, 100000.0f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("sy");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Y"); ImGui::SameLine();
-        ImGui::DragFloat("", &transform->scale.y, 0.01f, 0.0f, 100000.0f);
-        ImGui::PopID();
-        ImGui::SameLine();
-        ImGui::PushID("sz");
-        ImGui::PushItemWidth(oneThirdWidth);
-        ImGui::Text("Z"); ImGui::SameLine();
-        ImGui::DragFloat("", &transform->scale.z, 0.01f, 0.0f, 100000.0f);
-        ImGui::PopID();
+        // Dont show size if it upcasts to camera
+        if (CameraClass* cam_ptr = dynamic_cast<CameraClass*>(transform); !cam_ptr)
+        {
+            ImGui::Text("Scale");
+            ImGui::PushID("sx");
+            ImGui::PushItemWidth(oneThirdWidth);
+            ImGui::Text("X"); ImGui::SameLine();
+            ImGui::DragFloat("", &transform->scale.x, 0.01f, 0.0f, 100000.0f);
+
+            ImGui::PopID();
+            ImGui::SameLine();
+            ImGui::PushID("sy");
+            ImGui::PushItemWidth(oneThirdWidth);
+            ImGui::Text("Y"); ImGui::SameLine();
+            ImGui::DragFloat("", &transform->scale.y, 0.01f, 0.0f, 100000.0f);
+            ImGui::PopID();
+            ImGui::SameLine();
+            ImGui::PushID("sz");
+            ImGui::PushItemWidth(oneThirdWidth);
+            ImGui::Text("Z"); ImGui::SameLine();
+            ImGui::DragFloat("", &transform->scale.z, 0.01f, 0.0f, 100000.0f);
+            ImGui::PopID();
+        }
     }
 }
 
@@ -586,7 +590,10 @@ static void ShowModelInspectorSlot(ModelClass* model)
 {
     if (ImGui::CollapsingHeader("Model", ImGuiTreeNodeFlags_DefaultOpen))
     {
-
+        ImGui::Text("Vertices: %d", model->m_OriginalVertexCount);
+        ImGui::Text("Normals:  %d", model->m_NormalCount);
+        ImGui::Text("Faces:  %d", model->m_FaceCount);
+        ImGui::Text("Texture Cords:  %d", model->m_UVCount);
     }
 }
 
@@ -625,45 +632,7 @@ void GuiClass::ShowCameraWindow(CameraClass* camera) {
     
     if (ImGui::Begin("Camera Window"))
     {
-        //ImGui::Text("Translation");
-        //ImGui::PushID("cam pos x");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("X"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_positionX, 0.01f);
-        //ImGui::PopID();
-        //ImGui::SameLine();
-        //ImGui::PushID("cam pos y");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("Y"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_positionY, 0.01f);
-        //ImGui::PopID();
-        //ImGui::SameLine();
-        //ImGui::PushID("cam pos z");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("Z"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_positionZ, 0.01f);
-        //ImGui::PopID();
 
-        //ImGui::Separator();
-
-        //ImGui::Text("Rotation");
-        //ImGui::PushID("cam rot x");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("X"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_rotationX, 1.f);
-        //ImGui::PopID();
-        //ImGui::SameLine();
-        //ImGui::PushID("cam rot y");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("Y"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_rotationY, 1.f);
-        //ImGui::PopID();
-        //ImGui::SameLine();
-        //ImGui::PushID("cam rot z");
-        //ImGui::PushItemWidth(oneThirdWidth);
-        //ImGui::Text("Z"); ImGui::SameLine();
-        //ImGui::DragFloat("", &camera->m_rotationZ, 1.f);
-        //ImGui::PopID();
     }
     ImGui::End();
 }
@@ -694,13 +663,25 @@ void GuiClass::ShowStatOverlay(bool* p_open)
     ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
     if (ImGui::Begin("stat overlay", p_open, window_flags))
     {
-        if (ImGui::IsMousePosValid())
-            ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
-        else
-            ImGui::Text("Mouse Position: <invalid>");
-        ImGui::Separator();
-        ImGui::Text("Frame time: %.3f ms", 1000.0f / ImGui::GetIO().Framerate);
-        ImGui::Text("Frame rate: %.0f FPS", ImGui::GetIO().Framerate);
+        //if (ImGui::IsMousePosValid())
+        //    ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
+        //else
+        //    ImGui::Text("Mouse Position: <invalid>");
+        //ImGui::Separator();
+
+        // GPU STATS
+        ImGui::Text("GPU: %s", m_DirectX->m_videoCardDescription);
+        ImGui::Text("Dedicated Memory: %d Mb", m_DirectX->m_videoCardMemory);
+
+        ImGui::Text("");
+
+        // FRAME TIMES
+        ImGui::Text("Frame Rate: %.0f FPS", ImGui::GetIO().Framerate);
+        ImGui::Text("Frame Time: %.3f ms", 1000.0f / ImGui::GetIO().Framerate);
+        ImGui::Text("Material Update: %.3f ms", 0);
+        ImGui::Text("Prepare Time: %.3f ms", m_GameManager->m_PrepareSceneTime);
+        ImGui::Text("Present Time: %.3f ms", m_GameManager->m_PresentSceneTime);
+
         if (ImGui::BeginPopupContextWindow())
         {
             if (ImGui::MenuItem("Custom", NULL, corner == -1)) corner = -1;

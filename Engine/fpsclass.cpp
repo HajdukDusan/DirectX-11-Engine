@@ -27,6 +27,7 @@ void FpsClass::Frame()
 {
 	m_count++;
 
+	// each second
 	if (timeGetTime() >= (m_startTime + 1000))
 	{
 		m_fps = m_count;

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arrowsclass.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
     <ClCompile Include="CameraSceneNavigation.cpp" />
@@ -68,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="arrowsclass.h" />
+    <ClInclude Include="Asset.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="bitmapclass.h" />
     <ClInclude Include="cameraclass.h" />
     <ClInclude Include="CameraSceneNavigation.h" />

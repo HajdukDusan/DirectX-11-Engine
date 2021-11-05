@@ -12,6 +12,7 @@
 
 #include "shadermanagerclass.h"
 #include "PBRShaderMaterial.h"
+#include "timerclass.h"
 
 using namespace std;
 
@@ -37,6 +38,10 @@ public:
 
 	CameraClass* m_Camera;
 	LightClass* m_Light;
+
+	TimerClass* m_Timer;
+	float m_PrepareSceneTime;
+	float m_PresentSceneTime;
 
 };
 
