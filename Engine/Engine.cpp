@@ -37,7 +37,7 @@ bool Engine::Render()
 	// Update Input States
 	//m_GameInputHandler->Frame();
 
-
+	
 
 	// Scripts That Affect Game Objects Go Here
 	MoveCamera((Transform*)m_GameManager->m_Camera, m_GUI->GetInputHandler());

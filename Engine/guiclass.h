@@ -136,7 +136,7 @@ public:
                         //else {
                         //    ImGui::TextUnformatted(line_start, line_end);
                         //}
-                        
+
                         ImGui::TextUnformatted(line_start, line_end);
                     }
                 }
@@ -497,38 +497,39 @@ public:
     };
 
 public:
-	GuiClass(HWND, D3DClass*, GameManager*);
-	~GuiClass();
+    GuiClass(HWND, D3DClass*, GameManager*);
+    ~GuiClass();
 
-	void Render(ID3D11ShaderResourceView* gameSceneTexture);
+    void Render(ID3D11ShaderResourceView* gameSceneTexture);
 
     ImGuiIO& getIO();
 
     // console messages
-    static void PrintConsole(const char*);
+    void PrintConsole(const char*);
 
-    static ImGuiIO* GetInputHandler();
+    ImGuiIO* GetInputHandler();
 
 private:
 
-    inline static GameManager* m_GameManager;
+    GameManager* m_GameManager;
 
-    static void ShowInspectorWindow(Transform*);
-    static void ShowCameraWindow(CameraClass* camera);
-    static void ShowStatOverlay(bool*);
-    static void ShowLightWindow(LightClass*);
-    static void ShowSceneWindow(ID3D11ShaderResourceView*);
-	static void ShowLog(bool*);
-    static void ShowMenuBar();
-    static void ShowSceneObjects(vector<Transform*>& gameObjects);
-    static void ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials);
-    static void ShowConsole(bool*);
-    static void DockingAndMenuBar(bool*);
+    void ShowInspectorWindow(Transform*);
+    void ShowCameraWindow(CameraClass* camera);
+    void ShowStatOverlay(bool*);
+    void ShowLightWindow(LightClass*);
+    void ShowSceneWindow(ID3D11ShaderResourceView*);
+    void ShowLog(bool*);
+    void ShowMenuBar();
+    void ShowSceneObjects(vector<Transform*>& gameObjects);
+    void ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials);
+    void ShowConsole(bool*);
+    void DockingAndMenuBar(bool*);
 
     void SetStyle();
 
+    Console console;
 
-    inline static D3DClass* m_DirectX;
+    D3DClass* m_DirectX;
 
 };
 #endif // !_GUICLASS_H_
