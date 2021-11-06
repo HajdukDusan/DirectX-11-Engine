@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arrowsclass.cpp" />
-    <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AssetPanel.cpp" />
     <ClCompile Include="bitmapclass.cpp" />
     <ClCompile Include="cameraclass.cpp" />
     <ClCompile Include="CameraSceneNavigation.cpp" />
@@ -70,7 +70,7 @@
   <ItemGroup>
     <ClInclude Include="arrowsclass.h" />
     <ClInclude Include="Asset.h" />
-    <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AssetPanel.h" />
     <ClInclude Include="bitmapclass.h" />
     <ClInclude Include="cameraclass.h" />
     <ClInclude Include="CameraSceneNavigation.h" />
@@ -113,11 +113,13 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="shadermanagerclass.h" />
     <ClInclude Include="spriteclass.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Terrainclass.h" />
     <ClInclude Include="textclass.h" />
     <ClInclude Include="texturearrayclass.h" />
     <ClInclude Include="textureclass.h" />
     <ClInclude Include="lightshaderclass.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="textureshaderclass.h" />
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="Transform.h" />

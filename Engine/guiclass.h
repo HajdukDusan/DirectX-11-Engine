@@ -12,6 +12,7 @@
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
 #include "GameManager.h"
+#include "AssetPanel.h"
 
 
 
@@ -521,7 +522,7 @@ private:
     void ShowLog(bool*);
     void ShowMenuBar();
     void ShowSceneObjects(vector<Transform*>& gameObjects);
-    void ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials);
+    void ShowAssetsWindow();
     void ShowConsole(bool*);
     void DockingAndMenuBar(bool*);
 
@@ -530,6 +531,9 @@ private:
     Console console;
 
     D3DClass* m_DirectX;
+
+    // GUI COMPONENTS
+    AssetPanel* m_AssetPanel;
 
 };
 #endif // !_GUICLASS_H_

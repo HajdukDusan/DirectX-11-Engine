@@ -725,3 +725,16 @@ void D3DClass::DisableWireframe()
 	// Set the solid fill rasterizer state.
 	m_deviceContext->RSSetState(m_rasterState);
 }
+
+
+#include "TextureLoader.h"
+void D3DClass::LoadTexture(const char* filename, ID3D11ShaderResourceView** out_srv, int* out_width, int* out_height)
+{
+	*out_width = 0;
+	*out_height = 0;
+	*out_srv = NULL;
+	if (!LoadTextureFromFile(m_device, filename, out_srv, out_width, out_height))
+	{
+		// could not load the texture
+	}
+}

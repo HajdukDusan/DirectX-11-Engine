@@ -7,6 +7,9 @@ GuiClass::GuiClass(HWND hwnd, D3DClass* Direct3D, GameManager* gameManager) {
     // Setup the gameObject manager
     m_GameManager = gameManager;
 
+    // Initialize the components
+    m_AssetPanel = new AssetPanel(Direct3D);
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -44,6 +47,10 @@ GuiClass::GuiClass(HWND hwnd, D3DClass* Direct3D, GameManager* gameManager) {
 }
 
 GuiClass::~GuiClass() {
+
+    // Delete compononets
+    delete m_AssetPanel;
+
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -175,9 +182,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
     ImGui::ShowDemoWindow(&t);
 
-
-    //vector<GameObject*>& tmp = dynamic_cast<>
-    //ShowAssetsWindow(gameObjects, models, materials);
+    // RENDER COMPONENTS
+    m_AssetPanel->Render();
 
     // console
     if (m_GameManager->MessageForConsole)
@@ -198,117 +204,11 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 ImGuiIO* GuiClass::GetInputHandler()
 {
     return &ImGui::GetIO();
-    //mouse[0] = io.MouseDown[0];
-    //mouse[1] = io.MouseDown[1];
-    //mouse[2] = io.MouseDown[2];
-    //mouse[3] = io.MousePos.x;
-    //mouse[4] = io.MousePos.y;
 }
 
-void GuiClass::ShowAssetsWindow(vector<GameObject*>& gameObjects, vector<ModelClass*> models, vector<Material*> materials)
+void GuiClass::ShowAssetsWindow()
 {
-    if (ImGui::Begin("Assets"))
-    {
-
-        // Left
-        static int selected = 0;
-        ImGui::BeginChild("AssetsField");
-
-        //for (int i = 0; i < gameObjects.size(); i++)
-        //{
-        //    char label[128];
-        //    snprintf(label, sizeof(label), gameObjects[i]->m_Name);
-        //    ImGui::PushID("GameObject-" + i);
-        //    if (ImGui::Selectable(label, selected == i)) {
-        //        selected = i;
-        //    }
-
-        //    ImGui::PopID();
-        //}
-
-        ImVec2 AssetImageSize(80, 80);
-
-        ImGuiStyle& style = ImGui::GetStyle();
-
-        float window_visible_x2 = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
-
-        ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-        for (int i = 0; i < gameObjects.size(); i++)
-        {
-
-            ImGui::PushID("GameObjectId-" + i);
-
-            ImGui::BeginGroup();
-            ImGui::Button("GAMEOBJ", AssetImageSize);
-
-            const char* nameToShow = gameObjects[i]->m_Name;
-
-            float textWidth = ImGui::CalcTextSize(gameObjects[i]->m_Name).x;
-
-            ImGui::SetNextItemWidth(textWidth);
-
-            if (textWidth > AssetImageSize.x)
-            {
-                ImGui::SetNextItemWidth(AssetImageSize.x);
-                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
-                const char* tmp = "...";
-                ImGui::LabelText(tmp, gameObjects[i]->m_Name);
-            }
-            else
-            {
-                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
-                ImGui::Text(gameObjects[i]->m_Name);
-            }
-
-            ImGui::EndGroup();
-
-            float last_button_x2 = ImGui::GetItemRectMax().x;
-            float next_button_x2 = last_button_x2 + style.ItemSpacing.x + AssetImageSize.x; // Expected position if next button was on same line
-            if (i + 1 < gameObjects.size() + models.size() + materials.size() && next_button_x2 < window_visible_x2)
-                ImGui::SameLine();
-            ImGui::PopID();
-        }
-
-        for (int i = 0; i < materials.size(); i++)
-        {
-
-            ImGui::PushID("MaterialId-" + i);
-
-            ImGui::BeginGroup();
-            ImGui::Button("MATERIAL", AssetImageSize);
-
-            const char* nameToShow = materials[i]->m_Name;
-
-            float textWidth = ImGui::CalcTextSize(materials[i]->m_Name).x;
-
-            ImGui::SetNextItemWidth(textWidth);
-
-            if (textWidth > AssetImageSize.x)
-            {
-                ImGui::SetNextItemWidth(AssetImageSize.x);
-                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
-                const char* tmp = "...";
-                ImGui::LabelText(tmp, materials[i]->m_Name);
-            }
-            else
-            {
-                //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (button_sz.x - textWidth) / 2);
-                ImGui::Text(materials[i]->m_Name);
-            }
-
-            ImGui::EndGroup();
-
-            float last_button_x2 = ImGui::GetItemRectMax().x;
-            float next_button_x2 = last_button_x2 + style.ItemSpacing.x + AssetImageSize.x; // Expected position if next button was on same line
-            if (gameObjects.size() + i + 1 < gameObjects.size() + materials.size() && next_button_x2 < window_visible_x2)
-                ImGui::SameLine();
-            ImGui::PopID();
-        }
-
-        ImGui::EndChild();
-    }
-    ImGui::End();
+    
 }
 
 

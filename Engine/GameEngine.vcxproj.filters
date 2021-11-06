@@ -19,6 +19,9 @@
     <Filter Include="Header Files\ImGuiLib">
       <UniqueIdentifier>{b4490f1c-60e5-49c5-9ce5-b240712b7f4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ImageImportLibrary">
+      <UniqueIdentifier>{254d084e-16d6-4c43-9419-5cf7d0704ee9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -159,7 +162,7 @@
     <ClCompile Include="FileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
+    <ClCompile Include="AssetPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -323,11 +326,17 @@
     <ClInclude Include="FileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Asset.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\ImageImportLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\ImageImportLibrary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

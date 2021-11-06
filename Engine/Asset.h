@@ -5,6 +5,7 @@
 class Asset
 {
 public:
+	const char* m_Name;
 	Asset() {};
 	virtual ~Asset() 
 	{
