@@ -19,145 +19,134 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="arrowsclass.cpp" />
-    <ClCompile Include="AssetPanel.cpp" />
-    <ClCompile Include="bitmapclass.cpp" />
-    <ClCompile Include="cameraclass.cpp" />
-    <ClCompile Include="CameraSceneNavigation.cpp" />
-    <ClCompile Include="clipplaneshaderclass.cpp" />
-    <ClCompile Include="colorshaderclass.cpp" />
-    <ClCompile Include="cpuclass.cpp" />
-    <ClCompile Include="d3dclass.cpp" />
+    <ClCompile Include="Core\Utils\Gizmos\arrowsclass.cpp" />
+    <ClCompile Include="GUI\Components\AssetPanel.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Camera\cameraclass.cpp" />
+    <ClCompile Include="Core\Utils\CameraSceneNavigation.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\Color\colorshaderclass.cpp" />
+    <ClCompile Include="Core\Utils\system\cpuclass.cpp" />
+    <ClCompile Include="Core\Renderer\DirectX\d3dclass.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="FileLoader.cpp" />
-    <ClCompile Include="fontclass.cpp" />
-    <ClCompile Include="fontshaderclass.cpp" />
-    <ClCompile Include="fpsclass.cpp" />
-    <ClCompile Include="frustumclass.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="graphicsclass.cpp" />
-    <ClCompile Include="guiclass.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
-    <ClCompile Include="ImGui\demo.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="ImGui\imgui_tables.cpp" />
-    <ClCompile Include="ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="inputclass.cpp" />
-    <ClCompile Include="lightclass.cpp" />
+    <ClCompile Include="Core\Utils\FileLoader.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\fontclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\Font\fontshaderclass.cpp" />
+    <ClCompile Include="Core\Utils\system\fpsclass.cpp" />
+    <ClCompile Include="Core\Renderer\Optimization\frustumclass.cpp" />
+    <ClCompile Include="Core\Scene\Controllers\GameManager.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Model\GameObject.cpp" />
+    <ClCompile Include="GUI\guiclass.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui.cpp" />
+    <ClCompile Include="GUI\ImGui\demo.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="GUI\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Core\Utils\system\inputclass.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Light\lightclass.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="modelclass.cpp" />
-    <ClCompile Include="modellistclass.cpp" />
-    <ClCompile Include="PBRshaderclass.cpp" />
-    <ClCompile Include="objectclass.cpp" />
-    <ClCompile Include="positionclass.cpp" />
-    <ClCompile Include="rendertextureclass.cpp" />
-    <ClCompile Include="scenerenderclass.cpp" />
-    <ClCompile Include="shadermanagerclass.cpp" />
-    <ClCompile Include="spriteclass.cpp" />
-    <ClCompile Include="Terrainclass.cpp" />
-    <ClCompile Include="textclass.cpp" />
-    <ClCompile Include="texturearrayclass.cpp" />
-    <ClCompile Include="textureclass.cpp" />
-    <ClCompile Include="lightshaderclass.cpp" />
-    <ClCompile Include="textureshaderclass.cpp" />
-    <ClCompile Include="timerclass.cpp" />
-    <ClCompile Include="userinterfaceclass.cpp" />
-    <ClCompile Include="zoneclass.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modelclass.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modellistclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\PBR\PBRshaderclass.cpp" />
+    <ClCompile Include="Core\Utils\positionclass.cpp" />
+    <ClCompile Include="Core\Renderer\Utils\rendertextureclass.cpp" />
+    <ClCompile Include="Core\Renderer\Controllers\scenerenderclass.cpp" />
+    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.cpp" />
+    <ClCompile Include="Core\Utils\Gizmos\Terrainclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\Font\textclass.cpp" />
+    <ClCompile Include="Core\Renderer\Utils\texturearrayclass.cpp" />
+    <ClCompile Include="Core\Renderer\Utils\textureclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\Light\lightshaderclass.cpp" />
+    <ClCompile Include="Core\Renderer\Shaders\Texture\textureshaderclass.cpp" />
+    <ClCompile Include="Core\Utils\system\timerclass.cpp" />
+    <ClCompile Include="Core\Scene\Controllers\userinterfaceclass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arrowsclass.h" />
-    <ClInclude Include="Asset.h" />
-    <ClInclude Include="AssetPanel.h" />
-    <ClInclude Include="bitmapclass.h" />
-    <ClInclude Include="cameraclass.h" />
-    <ClInclude Include="CameraSceneNavigation.h" />
-    <ClInclude Include="clipplaneshaderclass.h" />
-    <ClInclude Include="colorshaderclass.h" />
-    <ClInclude Include="ColorShaderMaterial.h" />
-    <ClInclude Include="cpuclass.h" />
-    <ClInclude Include="d3dclass.h" />
+    <ClInclude Include="Core\Utils\Gizmos\arrowsclass.h" />
+    <ClInclude Include="GUI\Components\AssetPanel.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Camera\cameraclass.h" />
+    <ClInclude Include="Core\Utils\CameraSceneNavigation.h" />
+    <ClInclude Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Color\colorshaderclass.h" />
+    <ClInclude Include="Core\Scene\Materials\ColorShaderMaterial.h" />
+    <ClInclude Include="Core\Utils\system\cpuclass.h" />
+    <ClInclude Include="Core\Renderer\DirectX\d3dclass.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="FileLoader.h" />
-    <ClInclude Include="fontclass.h" />
-    <ClInclude Include="fontshaderclass.h" />
-    <ClInclude Include="fpsclass.h" />
-    <ClInclude Include="frustumclass.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="graphicsclass.h" />
-    <ClInclude Include="guiclass.h" />
-    <ClInclude Include="ImGui\imconfig.h" />
-    <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_impl_dx11.h" />
-    <ClInclude Include="ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="ImGui\imgui_internal.h" />
-    <ClInclude Include="ImGui\imstb_rectpack.h" />
-    <ClInclude Include="ImGui\imstb_textedit.h" />
-    <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="inputclass.h" />
-    <ClInclude Include="lightclass.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="modelclass.h" />
-    <ClInclude Include="modellistclass.h" />
-    <ClInclude Include="PBRshaderclass.h" />
-    <ClInclude Include="objectclass.h" />
-    <ClInclude Include="objectLoader.h" />
-    <ClInclude Include="PBRShaderMaterial.h" />
-    <ClInclude Include="positionclass.h" />
-    <ClInclude Include="rendertextureclass.h" />
-    <ClInclude Include="SceneLoader.h" />
-    <ClInclude Include="scenerenderclass.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="shadermanagerclass.h" />
-    <ClInclude Include="spriteclass.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Terrainclass.h" />
-    <ClInclude Include="textclass.h" />
-    <ClInclude Include="texturearrayclass.h" />
-    <ClInclude Include="textureclass.h" />
-    <ClInclude Include="lightshaderclass.h" />
-    <ClInclude Include="TextureLoader.h" />
-    <ClInclude Include="textureshaderclass.h" />
-    <ClInclude Include="timerclass.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="userinterfaceclass.h" />
-    <ClInclude Include="zoneclass.h" />
+    <ClInclude Include="Core\Utils\FileLoader.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\fontclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Font\fontshaderclass.h" />
+    <ClInclude Include="Core\Utils\system\fpsclass.h" />
+    <ClInclude Include="Core\Renderer\Optimization\frustumclass.h" />
+    <ClInclude Include="Core\Scene\Controllers\GameManager.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Model\GameObject.h" />
+    <ClInclude Include="GUI\guiclass.h" />
+    <ClInclude Include="GUI\ImGui\imconfig.h" />
+    <ClInclude Include="GUI\ImGui\imgui.h" />
+    <ClInclude Include="GUI\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="GUI\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="GUI\ImGui\imgui_internal.h" />
+    <ClInclude Include="GUI\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="GUI\ImGui\imstb_textedit.h" />
+    <ClInclude Include="GUI\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Core\Utils\system\inputclass.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Light\lightclass.h" />
+    <ClInclude Include="Core\Scene\Materials\Material.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modelclass.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modellistclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\PBR\PBRshaderclass.h" />
+    <ClInclude Include="Core\Scene\Materials\PBRShaderMaterial.h" />
+    <ClInclude Include="Core\Utils\positionclass.h" />
+    <ClInclude Include="Core\Renderer\Utils\rendertextureclass.h" />
+    <ClInclude Include="Core\Renderer\Controllers\scenerenderclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Shader.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.h" />
+    <ClInclude Include="Core\Renderer\DirectX\stb_image.h" />
+    <ClInclude Include="Core\Utils\Gizmos\Terrainclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Font\textclass.h" />
+    <ClInclude Include="Core\Renderer\Utils\texturearrayclass.h" />
+    <ClInclude Include="Core\Renderer\Utils\textureclass.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Light\lightshaderclass.h" />
+    <ClInclude Include="Core\Renderer\DirectX\TextureLoader.h" />
+    <ClInclude Include="Core\Renderer\Shaders\Texture\textureshaderclass.h" />
+    <ClInclude Include="Core\Utils\system\timerclass.h" />
+    <ClInclude Include="Core\Scene\GameObjects\Transform.h" />
+    <ClInclude Include="Core\Scene\Controllers\userinterfaceclass.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="clipplane.ps" />
-    <None Include="clipplane.vs" />
-    <None Include="color.ps" />
-    <None Include="color.vs" />
-    <None Include="font.ps" />
-    <None Include="font.vs" />
-    <None Include="light.ps" />
-    <None Include="light.vs" />
-    <None Include="texture.ps" />
-    <None Include="texture.vs" />
+    <None Include="Core\Renderer\Shaders\ClipPlane\clipplane.ps" />
+    <None Include="Core\Renderer\Shaders\ClipPlane\clipplane.vs" />
+    <None Include="Core\Renderer\Shaders\Color\color.ps" />
+    <None Include="Core\Renderer\Shaders\Color\color.vs" />
+    <None Include="Core\Renderer\Shaders\Font\font.ps" />
+    <None Include="Core\Renderer\Shaders\Font\font.vs" />
+    <None Include="Core\Renderer\Shaders\Light\light.ps" />
+    <None Include="Core\Renderer\Shaders\Light\light.vs" />
+    <None Include="Core\Renderer\Shaders\Texture\texture.ps" />
+    <None Include="Core\Renderer\Shaders\Texture\texture.vs" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="COLOR_PS.hlsl">
+    <FxCompile Include="Core\Renderer\Shaders\Color\COLOR_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="COLOR_VS.hlsl">
+    <FxCompile Include="Core\Renderer\Shaders\Color\COLOR_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="PBR_VS.hlsl">
+    <FxCompile Include="Core\Renderer\Shaders\PBR\PBR_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="PBR_PS.hlsl">
+    <FxCompile Include="Core\Renderer\Shaders\PBR\PBR_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -165,7 +154,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="ImGui\imgui.natvis" />
+    <Natvis Include="GUI\ImGui\imgui.natvis" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

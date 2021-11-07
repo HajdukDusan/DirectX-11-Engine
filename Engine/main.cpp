@@ -2,10 +2,10 @@
 #include "d3dclass.h"
 #include "scenerenderclass.h"
 
-#include "guiclass.h"
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_win32.h"
-#include "ImGui/imgui_impl_dx11.h"
+#include "GUI/guiclass.h"
+#include "GUI/ImGui/imgui.h"
+#include "GUI/ImGui/imgui_impl_win32.h"
+#include "GUI/ImGui/imgui_impl_dx11.h"
 #include "Engine.h"
 
 

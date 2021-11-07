@@ -1,6 +1,6 @@
 #pragma once
 #include "scenerenderclass.h"
-#include "guiclass.h"
+#include "GUI/guiclass.h"
 #include "inputclass.h"
 #include "GameManager.h"
 #include "CameraSceneNavigation.h"
