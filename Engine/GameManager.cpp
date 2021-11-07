@@ -36,7 +36,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 
 	//BARREL
 	ModelClass* barrelModel = new ModelClass();
-	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/barrel.obj"))
+	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/barrel.obj"))
 	{
 		MessageForConsole = "[error] Could not initialize the model object.";
 	};
@@ -46,9 +46,9 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		DirectXManager->GetDevice(),
 		DirectXManager->GetDeviceContext(),
 		"BarrelMaterial",
-		"../Engine/data/drum1_base_color.tga",
-		"../Engine/data/drum1_normal.tga",
-		"../Engine/data/drum1_specular.tga");
+		"../Engine/Assets/drum1_base_color.tga",
+		"../Engine/Assets/drum1_normal.tga",
+		"../Engine/Assets/drum1_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
 		"MyBarrel",
@@ -61,7 +61,7 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 
 	//GASS TANK
 	ModelClass* gassTankModel = new ModelClass();
-	if (!gassTankModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/data/Gass Tank/gass_tank.obj"))
+	if (!gassTankModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/Gass Tank/gass_tank.obj"))
 	{
 		MessageForConsole = "[error] Could not initialize the model object.";
 	};
@@ -71,9 +71,9 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		DirectXManager->GetDevice(),
 		DirectXManager->GetDeviceContext(),
 		"GassTankMaterial",
-		"../Engine/data/Gass Tank/gasTank_color.tga",
-		"../Engine/data/Gass Tank/gasTank_normal.tga",
-		"../Engine/data/Gass Tank/gasTank_specular.tga");
+		"../Engine/Assets/Gass Tank/gasTank_color.tga",
+		"../Engine/Assets/Gass Tank/gasTank_normal.tga",
+		"../Engine/Assets/Gass Tank/gasTank_specular.tga");
 
 	m_GameObjects.push_back(new GameObject(
 		"MyGassTank",

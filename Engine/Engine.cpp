@@ -12,6 +12,7 @@ bool Engine::Initialize(HINSTANCE hInstance, WNDCLASSEX wc, HWND hwnd, int Scree
 	if (!m_DirectXManager->Initialize(ScreenWidth, ScreenHeight, VSYNC_ENABLED, hwnd, FULL_SCREEN, SCREEN_DEPTH, SCREEN_NEAR)) {
 		m_DirectXManager->Shutdown();
 		::UnregisterClass(wc.lpszClassName, wc.hInstance);
+		MessageBox(hwnd, L"Failed to initialize DirectX 11.", L"Error", MB_ICONERROR);
 		return false;
 	}
 
