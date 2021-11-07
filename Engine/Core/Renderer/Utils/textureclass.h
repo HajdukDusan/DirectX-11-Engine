@@ -5,10 +5,8 @@
 #include <d3d11.h>
 #include <stdio.h>
 
-#include "WICTextureLoader.h";
 #include <wrl.h>
 
-using namespace DirectX;
 using namespace Microsoft::WRL;
 
 class TextureClass
@@ -45,10 +43,10 @@ private:
 
 };
 
-HRESULT CreateWICTextureFromFile(ID3D11Device* d3dDevice,
-	ID3D11DeviceContext* d3dContext,
-	const wchar_t* szFileName,
-	ID3D11Resource** texture, ID3D11ShaderResourceView** textureView,
-	size_t maxsize = 0);
+//HRESULT CreateWICTextureFromFile(ID3D11Device* d3dDevice,
+//	ID3D11DeviceContext* d3dContext,
+//	const wchar_t* szFileName,
+//	ID3D11Resource** texture, ID3D11ShaderResourceView** textureView,
+//	size_t maxsize = 0);
 
 #endif
