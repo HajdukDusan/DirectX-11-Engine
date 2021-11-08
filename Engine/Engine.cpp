@@ -41,7 +41,7 @@ bool Engine::Render()
 	
 
 	// Scripts That Affect Game Objects Go Here
-	MoveCamera((Transform*)m_GameManager->m_Camera, m_GUI->GetInputHandler());
+	MoveCamera(m_GameManager->GetEntities()[0]->m_Transform, m_GUI->GetInputHandler());
 
 	// Render Game Scene To GUI Texture
 	if (!m_GameScene->RenderScene(m_GameManager)) {

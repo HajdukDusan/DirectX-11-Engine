@@ -1,5 +1,5 @@
-#ifndef _MODELCLASS_H_
-#define _MODELCLASS_H_
+#ifndef _MESH_H_
+#define _MESH_H_
 
 
 #include <d3d11.h>
@@ -13,10 +13,10 @@ using namespace DirectX;
 
 #include "../../Core/Renderer/Utils/textureclass.h"
 #include "../../Core/Renderer/Utils/texturearrayclass.h"
-#include "../../Transform.h"
+#include "../../Scene/Entity/Transform.h"
 
 
-class ModelClass
+class Mesh
 {
 public:
 	struct ModelType
@@ -62,19 +62,6 @@ private:
 		//XMFLOAT3 rotation;
 	};
 
-
-	//struct ColorShader
-	//{
-	//	XMFLOAT4 color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-	//};
-	//struct PbrShader
-	//{
-	//	float normalStrength = 1;
-	//	float specularFocus = 10;
-	//	float specularStrenght = 1;
-	//};
-
-
 	// types for loading from obj file
 	typedef struct
 	{
@@ -84,9 +71,8 @@ private:
 	} FaceType;
 
 public:
-	ModelClass();
-	ModelClass(const ModelClass&);
-	~ModelClass();
+	Mesh();
+	~Mesh();
 
 	bool Initialize(ID3D11Device*, ID3D11DeviceContext*, bool, const char*);
 	void Shutdown();
@@ -127,7 +113,7 @@ private:
 	void CalculateTangentBinormal(TempVertexType, TempVertexType, TempVertexType, VectorType&, VectorType&);
 
 	// load the model data from file
-	friend ifstream& operator>> (ifstream fin, ModelClass* m)
+	friend ifstream& operator>> (ifstream fin, Mesh* m)
 	{
 		//to do
 	}
@@ -151,11 +137,6 @@ private:
 	TextureClass* m_Texture;
 
 	ModelType* m_model;
-
-	//TextureArrayClass* m_TextureArray;
-
-
-
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "scenerenderclass.h"
+#include "../../Scene/Entity/Components/MeshComponent.h"
 
 SceneRenderClass::SceneRenderClass(D3DClass* Direct3D, HWND hwnd) {
 
@@ -102,7 +103,9 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	m_DirectXManager->TurnZBufferOn();
 
 	// Generate the view matrix based on the camera's position.
-	GameManager->m_Camera->Render();
+
+	// FIXXXXXXXXXXXXXXXXXXXXXXXXXX
+	GameManager->m_Camera->Render(GameManager->GetEntities()[0]->m_Transform);
 
 	// Get the world, view, and projection matrices from the camera and d3d objects.
 	m_DirectXManager->GetWorldMatrix(worldMatrix);
@@ -115,22 +118,25 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	staticWorldMatrix = worldMatrix;
 
 
-	vector<Transform*>& gameObjects = GameManager->GetGameObjects();
+	vector<Entity*>& entities = GameManager->GetEntities();
 
 	// RENDER MODELS
-	for (int i = 0; i < gameObjects.size(); i++)
+	for (int i = 0; i < entities.size(); i++)
 	{
-		if (GameObject* gameObj = dynamic_cast<GameObject*>(gameObjects[i]); gameObj)
-		{
-			if (!gameObj->Render(
-				m_DirectXManager->GetDeviceContext(),
-				worldMatrix,
-				viewMatrix,
-				projectionMatrix,
-				GameManager->m_Camera,
-				GameManager->m_Light))
+		for (Component* comp : entities[i]->m_Components) {
+			if (MeshComponent* meshComp = dynamic_cast<MeshComponent*>(comp); meshComp)
 			{
-				GameManager->MessageForConsole = "[error] Error while rendering " + *gameObj->m_Name;
+				if (!meshComp->Render(
+					m_DirectXManager->GetDeviceContext(),
+					worldMatrix,
+					viewMatrix,
+					projectionMatrix,
+					entities[i]->m_Transform,
+					GameManager->GetEntities()[0]->m_Transform,
+					GameManager->m_Light))
+				{
+					GameManager->MessageForConsole = "[error] Error while rendering " + *entities[i]->m_Name;
+				}
 			}
 		}
 	}

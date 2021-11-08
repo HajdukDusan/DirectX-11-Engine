@@ -55,8 +55,8 @@ public:
 		XMMATRIX worldMatrix,
 		XMMATRIX viewMatrix,
 		XMMATRIX projectionMatrix,
-		CameraClass* camera,
-		ModelClass* model,
+		Transform* transform,
+		Mesh* model,
 		Material* material,
 		LightClass* light)
 		override;

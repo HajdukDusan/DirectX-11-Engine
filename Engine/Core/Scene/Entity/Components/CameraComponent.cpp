@@ -1,55 +1,15 @@
-#include "cameraclass.h"
+#include "CameraComponent.h"
 
-CameraClass::CameraClass()
+CameraComponent::CameraComponent()
 {
 
 }
 
-CameraClass::CameraClass(const CameraClass& other)
+CameraComponent::~CameraComponent()
 {
 }
 
-CameraClass::~CameraClass()
-{
-}
-
-void CameraClass::RotateY(float y)
-{
-	rotation.y += y;
-}
-
-
-void CameraClass::SetPosition(float x, float y, float z)
-{
-	translation.x = x;
-	translation.y = y;
-	translation.z = z;
-	return;
-}
-
-
-void CameraClass::SetRotation(float x, float y, float z)
-{
-	rotation.x = x;
-	rotation.y = y;
-	rotation.z = z;
-	return;
-}
-
-
-XMFLOAT3 CameraClass::GetPosition()
-{
-	return translation;
-}
-
-
-XMFLOAT3 CameraClass::GetRotation()
-{
-	return rotation;
-}
-
-
-void CameraClass::Render()
+void CameraComponent::Render(Transform* transform)
 {
 	XMFLOAT3 up, lookAt;
 	XMVECTOR upVector, positionVector, lookAtVector;
@@ -66,7 +26,7 @@ void CameraClass::Render()
 	upVector = XMLoadFloat3(&up);
 
 	// Load it into a XMVECTOR structure.
-	positionVector = XMLoadFloat3(&translation);
+	positionVector = XMLoadFloat3(&transform->translation);
 
 	// Setup where the camera is looking by default.
 	lookAt.x = 0.0f;
@@ -77,9 +37,9 @@ void CameraClass::Render()
 	lookAtVector = XMLoadFloat3(&lookAt);
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = rotation.x * 0.0174532925f;
-	yaw = rotation.y * 0.0174532925f;
-	roll = rotation.z * 0.0174532925f;
+	pitch = transform->rotation.x * 0.0174532925f;
+	yaw = transform->rotation.y * 0.0174532925f;
+	roll = transform->rotation.z * 0.0174532925f;
 
 	// Create the rotation matrix from the yaw, pitch, and roll values.
 	rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
@@ -97,13 +57,13 @@ void CameraClass::Render()
 	return;
 }
 
-void CameraClass::GetViewMatrix(XMMATRIX& viewMatrix)
+void CameraComponent::GetViewMatrix(XMMATRIX& viewMatrix)
 {
 	viewMatrix = m_viewMatrix;
 	return;
 }
 
-void CameraClass::RenderBaseViewMatrix()
+void CameraComponent::RenderBaseViewMatrix(Transform* transform)
 {
 	XMFLOAT3 up, lookAt;
 	XMVECTOR upVector, positionVector, lookAtVector;
@@ -120,7 +80,7 @@ void CameraClass::RenderBaseViewMatrix()
 	upVector = XMLoadFloat3(&up);
 
 	// Load it into a XMVECTOR structure.
-	positionVector = XMLoadFloat3(&translation);
+	positionVector = XMLoadFloat3(&transform->translation);
 
 	// Setup where the camera is looking by default.
 	lookAt.x = 0.0f;
@@ -131,9 +91,9 @@ void CameraClass::RenderBaseViewMatrix()
 	lookAtVector = XMLoadFloat3(&lookAt);
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = rotation.x * 0.0174532925f;
-	yaw = rotation.y * 0.0174532925f;
-	roll = rotation.z * 0.0174532925f;
+	pitch = transform->rotation.x * 0.0174532925f;
+	yaw = transform->rotation.y * 0.0174532925f;
+	roll = transform->rotation.z * 0.0174532925f;
 
 	// Create the rotation matrix from the yaw, pitch, and roll values.
 	rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
@@ -152,7 +112,7 @@ void CameraClass::RenderBaseViewMatrix()
 }
 
 
-void CameraClass::GetBaseViewMatrix(XMMATRIX& viewMatrix)
+void CameraComponent::GetBaseViewMatrix(XMMATRIX& viewMatrix)
 {
 	viewMatrix = m_baseViewMatrix;
 	return;

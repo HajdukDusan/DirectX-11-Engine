@@ -11,8 +11,8 @@
 
 using namespace DirectX;
 
-class CameraClass;
-class ModelClass;
+class Transform;
+class Mesh;
 class LightClass;
 
 class Material
@@ -34,8 +34,8 @@ public:
 		XMMATRIX worldMatrix,
 		XMMATRIX viewMatrix,
 		XMMATRIX projectionMatrix,
-		CameraClass* camera,
-		ModelClass* model,
+		Transform* cameraTransform,
+		Mesh* model,
 		LightClass* light)
 	{
 		return m_Shader->Render(
@@ -43,7 +43,7 @@ public:
 			worldMatrix,
 			viewMatrix,
 			projectionMatrix,
-			camera,
+			cameraTransform,
 			model,
 			this,
 			light);

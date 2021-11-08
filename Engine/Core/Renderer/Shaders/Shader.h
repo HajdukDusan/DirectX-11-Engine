@@ -5,8 +5,8 @@
 #include <directxmath.h>
 using namespace DirectX;
 
-class CameraClass;
-class ModelClass;
+class Transform;
+class Mesh;
 class Material;
 class LightClass;
 
@@ -18,8 +18,8 @@ public:
 		XMMATRIX worldMatrix,
 		XMMATRIX viewMatrix,
 		XMMATRIX projectionMatrix,
-		CameraClass* camera,
-		ModelClass* model,
+		Transform* transform,
+		Mesh* model,
 		Material* material,
 		LightClass* light)
 	{

@@ -2,7 +2,7 @@
 #define _TEXTCLASS_H_
 
 
-#include "../../Core/Scene/GameObjects/Components/Sprite/fontclass.h"
+#include "../../Core/Scene/Entity/Components/Sprite/fontclass.h"
 
 
 class TextClass

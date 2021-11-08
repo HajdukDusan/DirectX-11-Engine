@@ -87,27 +87,6 @@
     <ClCompile Include="Core\Scene\Controllers\userinterfaceclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Camera\cameraclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modelclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modellistclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\fontclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Utils\Gizmos\arrowsclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,7 +129,25 @@
     <ClCompile Include="Core\Renderer\Controllers\scenerenderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Scene\GameObjects\Components\Light\lightclass.cpp">
+    <ClCompile Include="Core\Scene\Entity\Components\Light\lightclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\bitmapclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\fontclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\spriteclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene\Entity\Components\CameraComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Renderer\Utils\modellistclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Renderer\Utils\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -224,30 +221,6 @@
     <ClInclude Include="Core\Scene\Controllers\userinterfaceclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Camera\cameraclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modelclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modellistclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\fontclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Scene\Materials\ColorShaderMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -299,10 +272,40 @@
     <ClInclude Include="Core\Renderer\Controllers\scenerenderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Scene\GameObjects\Components\Light\lightclass.h">
+    <ClInclude Include="Core\Scene\Materials\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Scene\Materials\Material.h">
+    <ClInclude Include="Core\Scene\Entity\Components\Light\lightclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\bitmapclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\fontclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\spriteclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Components\CameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene\Entity\Components\MeshComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Renderer\Utils\modellistclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Renderer\Utils\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

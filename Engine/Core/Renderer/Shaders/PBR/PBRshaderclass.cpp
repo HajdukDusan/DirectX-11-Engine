@@ -1,9 +1,9 @@
 #include "PBRshaderclass.h"
 #include "../../Core/Scene/Materials/PBRShaderMaterial.h"
 
-#include "../../Core/Scene/GameObjects/Components/Model/modelclass.h"
-#include "../../Core/Scene/GameObjects/Components/Light/lightclass.h"
-#include "../../Core/Scene/GameObjects/Components/Camera/cameraclass.h"
+#include "../../Utils/Mesh.h"
+#include "../../Core/Scene/Entity/Components/Light/lightclass.h"
+#include "../../Core/Scene/Entity/Components/CameraComponent.h"
 
 PBRShaderClass::PBRShaderClass()
 {
@@ -49,7 +49,7 @@ void PBRShaderClass::Shutdown()
 }
 
 bool PBRShaderClass::Render(ID3D11DeviceContext* deviceContext, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix,
-	CameraClass* camera, ModelClass* model, Material* material, LightClass* light)
+	Transform* transform, Mesh* model, Material* material, LightClass* light)
 {
 	bool result;
 
@@ -67,7 +67,7 @@ bool PBRShaderClass::Render(ID3D11DeviceContext* deviceContext, XMMATRIX worldMa
 		model->m_translation,
 		model->m_rotation,
 		model->m_scale,
-		camera->GetPosition(),
+		transform->translation,
 		XMFLOAT4(
 			PBRmaterial->specularStrenght,
 			PBRmaterial->specularStrenght,

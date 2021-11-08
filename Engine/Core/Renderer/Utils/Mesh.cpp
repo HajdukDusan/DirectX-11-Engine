@@ -1,17 +1,13 @@
-#include "modelclass.h"
+#include "Mesh.h"
 
-ModelClass::ModelClass()
+Mesh::Mesh()
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
 	m_model = 0;
 }
 
-ModelClass::ModelClass(const ModelClass& other)
-{
-}
-
-ModelClass::~ModelClass()
+Mesh::~Mesh()
 {
 	// Release the model textures.
 	ReleaseTextures();
@@ -23,7 +19,7 @@ ModelClass::~ModelClass()
 	ReleaseModel();
 }
 
-bool ModelClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, bool stat, const char* modelFilename)
+bool Mesh::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, bool stat, const char* modelFilename)
 {
 	Static = stat;
 
@@ -50,7 +46,7 @@ bool ModelClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCon
 }
 
 
-void ModelClass::Shutdown()
+void Mesh::Shutdown()
 {
 	// Release the model textures.
 	ReleaseTextures();
@@ -64,7 +60,7 @@ void ModelClass::Shutdown()
 	return;
 }
 
-void ModelClass::PrepareForRendering(ID3D11DeviceContext* deviceContext)
+void Mesh::PrepareForRendering(ID3D11DeviceContext* deviceContext)
 {
 	// Put the vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	RenderBuffers(deviceContext);
@@ -73,29 +69,29 @@ void ModelClass::PrepareForRendering(ID3D11DeviceContext* deviceContext)
 }
 
 
-int ModelClass::GetIndexCount()
+int Mesh::GetIndexCount()
 {
 	return m_indexCount;
 }
 
-int ModelClass::GetVertexCount()
+int Mesh::GetVertexCount()
 {
 	return m_vertexCount;
 }
 
 
-int ModelClass::GetInstanceCount()
+int Mesh::GetInstanceCount()
 {
 	return m_instanceCount;
 }
 
-ID3D11ShaderResourceView* ModelClass::GetTexture()
+ID3D11ShaderResourceView* Mesh::GetTexture()
 {
 	return m_Texture->GetTexture();
 }
 
 
-bool ModelClass::InitializeBuffers(ID3D11Device* device)
+bool Mesh::InitializeBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
 	InstanceType* instances;
@@ -245,7 +241,7 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	return true;
 }
 
-bool ModelClass::UpdateTransform(ID3D11DeviceContext* context, Transform* transform)
+bool Mesh::UpdateTransform(ID3D11DeviceContext* context, Transform* transform)
 {
 	int numLetters;
 	InstanceType* instances;
@@ -361,7 +357,7 @@ bool ModelClass::UpdateTransform(ID3D11DeviceContext* context, Transform* transf
 }
 
 
-void ModelClass::ShutdownBuffers()
+void Mesh::ShutdownBuffers()
 {
 	// Release the instance buffer.
 	if (m_instanceBuffer)
@@ -388,7 +384,7 @@ void ModelClass::ShutdownBuffers()
 }
 
 
-void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
+void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 {
 	unsigned int strides[2];
 	unsigned int offsets[2];
@@ -420,7 +416,7 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 }
 
 
-void ModelClass::ReleaseTextures()
+void Mesh::ReleaseTextures()
 {
 
 	//if (m_TextureArray)
@@ -433,7 +429,7 @@ void ModelClass::ReleaseTextures()
 	return;
 }
 
-void ModelClass::CalculateModelVectors()
+void Mesh::CalculateModelVectors()
 {
 	int faceCount, i, index;
 	TempVertexType vertex1, vertex2, vertex3;
@@ -511,7 +507,7 @@ void ModelClass::CalculateModelVectors()
 	return;
 }
 
-void ModelClass::CalculateTangentBinormal(TempVertexType vertex1, TempVertexType vertex2, TempVertexType vertex3,
+void Mesh::CalculateTangentBinormal(TempVertexType vertex1, TempVertexType vertex2, TempVertexType vertex3,
 	VectorType& tangent, VectorType& binormal)
 {
 	float vector1[3], vector2[3];
@@ -568,7 +564,7 @@ void ModelClass::CalculateTangentBinormal(TempVertexType vertex1, TempVertexType
 }
 
 #include "../../Core/Utils/FileLoader.h"
-bool ModelClass::LoadModel(const char* filename)
+bool Mesh::LoadModel(const char* filename)
 {
 	m_model = FileLoader::LoadObjFile(
 		filename,
@@ -586,7 +582,7 @@ bool ModelClass::LoadModel(const char* filename)
 	return false;
 }
 
-void ModelClass::ReleaseModel()
+void Mesh::ReleaseModel()
 {
 	if (m_model)
 	{

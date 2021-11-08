@@ -5,7 +5,7 @@
 #include "Material.h"
 #include "../../Renderer/Shaders/PBR/PBRshaderclass.h"
 
-class ModelClass;
+class Mesh;
 class LightClass;
 
 class PBRShaderMaterial : public Material
@@ -73,13 +73,13 @@ public:
 		XMMATRIX worldMatrix,
 		XMMATRIX viewMatrix,
 		XMMATRIX projectionMatrix,
-		CameraClass* camera,
-		ModelClass* model,
+		Transform* transform,
+		Mesh* model,
 		LightClass* light)
 		override
 	{
 		return m_Shader->Render(deviceContext, worldMatrix, viewMatrix, projectionMatrix,
-			camera, model, this, light);
+			transform, model, this, light);
 	}
 };
 

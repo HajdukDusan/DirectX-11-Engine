@@ -1,9 +1,9 @@
 #pragma once
-#include "scenerenderclass.h"
+#include "Core/Renderer/Controllers/scenerenderclass.h"
 #include "GUI/guiclass.h"
-#include "inputclass.h"
-#include "GameManager.h"
-#include "CameraSceneNavigation.h"
+#include "Core/Utils/system/inputclass.h"
+#include "Core/Scene/Controllers/GameManager.h"
+#include "Core/Utils/CameraSceneNavigation.h"
 
 
 const bool FULL_SCREEN = false;

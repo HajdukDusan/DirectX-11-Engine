@@ -2,8 +2,8 @@
 #ifndef _CAMERASCENENAVIGATION_H
 #define _CAMERASCENENAVIGATION_H
 
-#include "Transform.h"
-#include "GUI/ImGui/imgui.h"
+#include "../Scene/Entity/Transform.h"
+#include "../../GUI/ImGui/imgui.h"
 // mouse inputs
 #define MOUSE_LEFT_CLICK    0
 #define MOUSE_RIGHT_CLICK   1

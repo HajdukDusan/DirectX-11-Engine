@@ -4,8 +4,8 @@
 #include <limits>
 
 #include "../../Core/Renderer/DirectX/d3dclass.h"
-#include "../../Core/Scene/GameObjects/Components/Model/modelclass.h"
-#include "../../Core/Scene/GameObjects/Components/Light/lightclass.h"
+#include "../Core/Renderer/Utils/Mesh.h"
+#include "../../Core/Scene/Entity/Components/Light/lightclass.h"
 #include "../../Core/Renderer/Controllers/scenerenderclass.h"
 
 #include "ImGui/imgui.h"
@@ -513,14 +513,14 @@ private:
 
     GameManager* m_GameManager;
 
-    void ShowInspectorWindow(Transform*);
-    void ShowCameraWindow(CameraClass* camera);
+    void ShowInspectorWindow(Entity*);
+    void ShowCameraWindow(CameraComponent* camera);
     void ShowStatOverlay(bool*);
     void ShowLightWindow(LightClass*);
     void ShowSceneWindow(ID3D11ShaderResourceView*);
     void ShowLog(bool*);
     void ShowMenuBar();
-    void ShowSceneObjects(vector<Transform*>& gameObjects);
+    void ShowSceneObjects(vector<Entity*>& gameObjects);
     void ShowAssetsWindow();
     void ShowConsole(bool*);
     void DockingAndMenuBar(bool*);

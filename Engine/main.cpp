@@ -1,6 +1,4 @@
-#include "systemclass.h"
-#include "d3dclass.h"
-#include "scenerenderclass.h"
+#include "Core/Renderer/DirectX/d3dclass.h"
 
 #include "GUI/guiclass.h"
 #include "GUI/ImGui/imgui.h"
@@ -13,6 +11,8 @@
 #define SCREEN_HEIGHT 1080
 
 Engine* engine = new Engine;
+
+LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {

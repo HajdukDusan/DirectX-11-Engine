@@ -1,25 +1,22 @@
 #include "GameManager.h"
+#include "../Entity/Components/MeshComponent.h"
 
 
 GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 {
-	//CAMERA
-	m_Camera = new CameraClass;
-	// Set the initial position of the camera and build the matrices needed for rendering.
-	m_Camera->SetPosition(-8.0f, 7.0f, -8.0f);
-	m_Camera->SetRotation(20.0f, 45.0f, 0.0f);
-	//m_Camera->SetPosition(0.0f, 0.0f, -10.0f);
-	//m_Camera->SetRotation(0.0f, 0.0f, 0.0f);
-	m_Camera->Render();
-	m_Camera->RenderBaseViewMatrix();
 
-	//LIGHT
-	m_Light = new LightClass;
-	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f); //15% of diffuse light
-	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);	//white
-	m_Light->SetDirection(0.430f, -0.8f, 0.710f);
-	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_Light->SetSpecularPower(32.0f);
+
+	// CAMERA
+	// Set the initial position of the camera and build the matrices needed for rendering.
+	m_Camera = new CameraComponent;
+	Entity* CameraEntity = new Entity("Camera", new Transform(
+		XMFLOAT3(-8.0f, 7.0f, -8.0f),
+		XMFLOAT3(20.0f, 45.0f, 0.0f),
+		XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	m_Camera->Render(CameraEntity->m_Transform);
+	m_Camera->RenderBaseViewMatrix(CameraEntity->m_Transform);
+	CameraEntity->m_Components.insert(m_Camera);
+	m_Entities.push_back(CameraEntity);
 
 
 	// PBR SHADER INIT
@@ -29,16 +26,8 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		MessageForConsole = "[error] Could not initialize the PBR shader.";
 	}
 
-	// PUSH CAMERA TO BE THE FIRST GAMEOBJECT
-	m_GameObjects.push_back(m_Camera);
 
-	//BARREL
-	ModelClass* barrelModel = new ModelClass();
-	if (!barrelModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/barrel.obj"))
-	{
-		MessageForConsole = "[error] Could not initialize the model object.";
-	};
-
+	// MATERIALS
 	Material* barrelMaterial = (Material*) new PBRShaderMaterial(
 		m_PBRShader,
 		DirectXManager->GetDevice(),
@@ -48,22 +37,6 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		"../Engine/Assets/drum1_normal.tga",
 		"../Engine/Assets/drum1_specular.tga");
 
-	m_GameObjects.push_back(new GameObject(
-		"MyBarrel",
-		barrelModel,
-		barrelMaterial
-	));
-	m_Models.push_back(barrelModel);
-	m_Materals.push_back(barrelMaterial);
-
-
-	//GASS TANK
-	ModelClass* gassTankModel = new ModelClass();
-	if (!gassTankModel->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/Gass Tank/gass_tank.obj"))
-	{
-		MessageForConsole = "[error] Could not initialize the model object.";
-	};
-
 	Material* gassTankMaterial = (Material*) new PBRShaderMaterial(
 		m_PBRShader,
 		DirectXManager->GetDevice(),
@@ -72,14 +45,35 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 		"../Engine/Assets/Gass Tank/gasTank_color.tga",
 		"../Engine/Assets/Gass Tank/gasTank_normal.tga",
 		"../Engine/Assets/Gass Tank/gasTank_specular.tga");
-
-	m_GameObjects.push_back(new GameObject(
-		"MyGassTank",
-		gassTankModel,
-		gassTankMaterial
-	));
-	m_Models.push_back(gassTankModel);
+	m_Materals.push_back(barrelMaterial);
 	m_Materals.push_back(gassTankMaterial);
+
+	// MESHES
+	Mesh* barrelMesh = new Mesh();
+	if (!barrelMesh->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/barrel.obj"))
+	{
+		MessageForConsole = "[error] Could not initialize the mesh component.";
+	};
+
+	Mesh* gassTankMesh = new Mesh();
+	if (!gassTankMesh->Initialize(DirectXManager->GetDevice(), DirectXManager->GetDeviceContext(), false, "../Engine/Assets/Gass Tank/gass_tank.obj"))
+	{
+		MessageForConsole = "[error] Could not initialize the mesh component.";
+	};
+	m_Meshes.push_back(barrelMesh);
+	m_Meshes.push_back(gassTankMesh);
+
+	// BARREL
+	Entity* BarrelEntity = new Entity("Barrel", new Transform());
+	MeshComponent* barrelMeshComponent = new MeshComponent(barrelMesh, barrelMaterial);
+	BarrelEntity->m_Components.insert(barrelMeshComponent);
+	m_Entities.push_back(BarrelEntity);
+
+	// GASS TANK
+	Entity* GassTankEntity = new Entity("Gass Tank", new Transform());
+	MeshComponent* gassTankMeshComponent = new MeshComponent(gassTankMesh, gassTankMaterial);
+	GassTankEntity->m_Components.insert(gassTankMeshComponent);
+	m_Entities.push_back(GassTankEntity);
 
 
 	// Setup The Timer Class
@@ -88,13 +82,21 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	{
 		MessageForConsole = "[error] Could not initialize the timer.";
 	}
+
+	//LIGHT
+	m_Light = new LightClass;
+	m_Light->SetAmbientColor(0.15f, 0.15f, 0.15f, 1.0f); //15% of diffuse light
+	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);	//white
+	m_Light->SetDirection(0.430f, -0.8f, 0.710f);
+	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Light->SetSpecularPower(32.0f);
 }
 
-vector<Transform*>& GameManager::GetGameObjects() {
-	return m_GameObjects;
+vector<Entity*>& GameManager::GetEntities() {
+	return m_Entities;
 }
-vector<ModelClass*>& GameManager::GetModels() {
-	return m_Models;
+vector<Mesh*>& GameManager::GetMeshes() {
+	return m_Meshes;
 }
 vector<Material*>& GameManager::GetMaterials() {
 	return m_Materals;
@@ -110,19 +112,18 @@ GameManager::~GameManager()
 	delete m_Light;
 
 	// delete the game objects
-	for (Transform* object : m_GameObjects) {
-		if (object)
-			delete object;
+	for (Entity* object : m_Entities) {
+		delete object;
 	}
-	m_GameObjects.clear();
+	m_Entities.clear();
 
 
 	// delete the models
-	for (ModelClass* object : m_Models) {
+	for (Mesh* object : m_Meshes) {
 		if (object)
 			delete object;
 	}
-	m_Models.clear();
+	m_Meshes.clear();
 
 	// delete the materials
 	for (Material* object : m_Materals) {

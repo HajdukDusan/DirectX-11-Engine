@@ -74,7 +74,7 @@ namespace FileLoader
 		}
 	}
 
-	ModelClass::ModelType* LoadObjFile(const char* filename, int& newVertexCount, int& originalVertexCount, int& textureCount, int& normalCount, int& faceCount)
+	Mesh::ModelType* LoadObjFile(const char* filename, int& newVertexCount, int& originalVertexCount, int& textureCount, int& normalCount, int& faceCount)
 	{
 		// Read in the number of vertices, tex coords, normals, and faces so that the data structures can be initialized with the exact sizes needed.
 		if (!ReadFileCounts(filename, originalVertexCount, textureCount, normalCount, faceCount)) {
@@ -199,7 +199,7 @@ namespace FileLoader
 
 
 		newVertexCount = faceCount * 3;
-		ModelClass::ModelType* model = new ModelClass::ModelType[newVertexCount];
+		Mesh::ModelType* model = new Mesh::ModelType[newVertexCount];
 
 
 		// Now loop through all the faces and output the three vertices for each face.

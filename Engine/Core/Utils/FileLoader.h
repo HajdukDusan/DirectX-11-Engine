@@ -4,14 +4,14 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include "../Scene/GameObjects/Components/Model/modelclass.h"
+#include "../Renderer/Utils/Mesh.h"
 
 using namespace std;
 
 namespace FileLoader
 {
 	// load the obj model, no index buffer
-	ModelClass::ModelType* LoadObjFile(
+	Mesh::ModelType* LoadObjFile(
 		const char* filename,
 		int& newVertexCount,
 		int& originalVertexCount,

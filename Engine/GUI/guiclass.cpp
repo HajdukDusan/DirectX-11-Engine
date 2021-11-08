@@ -1,5 +1,6 @@
 #include "guiclass.h"
 #include "ImGui/imgui_internal.h"
+#include "../Core/Scene/Entity/Components/MeshComponent.h"
 
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
 
@@ -248,8 +249,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
     bool t = true;
 
-    vector<Transform*>& gameObjects = m_GameManager->GetGameObjects();
-    vector<ModelClass*>& models = m_GameManager->GetModels();
+    vector<Entity*>& entities = m_GameManager->GetEntities();
+    vector<Mesh*>& models = m_GameManager->GetMeshes();
     vector<Material*> & materials = m_GameManager->GetMaterials();
 
     // Start the Dear ImGui frame
@@ -262,7 +263,7 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
 
     ShowSceneWindow(gameSceneTexture);
 
-    ShowSceneObjects(gameObjects);
+    ShowSceneObjects(entities);
 
     ShowLightWindow(m_GameManager->m_Light);
 
@@ -351,7 +352,7 @@ void GuiClass::ShowSceneWindow(ID3D11ShaderResourceView* sceneView)
     ImGui::End();
 }
 
-void GuiClass::ShowSceneObjects(vector<Transform*>& gameObjects)
+void GuiClass::ShowSceneObjects(vector<Entity*>& entities)
 {
     if (ImGui::Begin("Scene Objects"))
     {
@@ -360,20 +361,12 @@ void GuiClass::ShowSceneObjects(vector<Transform*>& gameObjects)
         {
             ImGui::BeginChild("objectsInScene", ImVec2(150, 0), true);
 
-            for (int i = 0; i < gameObjects.size(); i++)
+            for (int i = 0; i < entities.size(); i++)
             {
                 ImGui::PushID("SceneGameObjectId-" + i);
-                if (GameObject* go_ptr = dynamic_cast<GameObject*>(gameObjects[i]); go_ptr)
-                {
-                    if (ImGui::Selectable(go_ptr->m_Name, selected == i)) {
-                        selected = i;
-                    }
-                }
-                else if (CameraClass* cam_ptr = dynamic_cast<CameraClass*>(gameObjects[i]); cam_ptr)
-                {
-                    if (ImGui::Selectable("Camera", selected == i)) {
-                        selected = i;
-                    }
+
+                if (ImGui::Selectable(entities[i]->m_Name, selected == i)) {
+                    selected = i;
                 }
                 
                 //if (ImGui::Button("File Menu.."))
@@ -463,10 +456,10 @@ void GuiClass::ShowSceneObjects(vector<Transform*>& gameObjects)
                         
                         if (selected == i) selected = -1;
 
-                        Transform* go_ptr = gameObjects[i];
-                        gameObjects.erase(gameObjects.begin() + i);
-                        PrintConsole("[info] Object deleted.");
-                        delete go_ptr;
+                        Entity* entity_ptr = entities[i];
+                        entities.erase(entities.begin() + i);
+                        PrintConsole("[info] Entity deleted.");
+                        delete entity_ptr;
                     }
 
                     // CHANGE NAME
@@ -487,8 +480,8 @@ void GuiClass::ShowSceneObjects(vector<Transform*>& gameObjects)
 
             }
             
-            if (selected != -1 && gameObjects[selected] != nullptr) {
-                ShowInspectorWindow(gameObjects[selected]);
+            if (selected != -1 && entities[selected] != nullptr) {
+                ShowInspectorWindow(entities[selected]);
             }
             else
                 ShowInspectorWindow(nullptr);
@@ -604,29 +597,25 @@ static void ShowTransformInspectorSlot(Transform* transform)
 
         ImGui::Separator();
 
-        // Dont show size if it upcasts to camera
-        if (CameraClass* cam_ptr = dynamic_cast<CameraClass*>(transform); !cam_ptr)
-        {
-            ImGui::Text("Scale");
-            ImGui::PushID("sx");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("X"); ImGui::SameLine();
-            ImGui::DragFloat("", &transform->scale.x, 0.01f, 0.0f, 100000.0f);
+        ImGui::Text("Scale");
+        ImGui::PushID("sx");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("X"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.x, 0.01f, 0.0f, 100000.0f);
 
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("sy");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Y"); ImGui::SameLine();
-            ImGui::DragFloat("", &transform->scale.y, 0.01f, 0.0f, 100000.0f);
-            ImGui::PopID();
-            ImGui::SameLine();
-            ImGui::PushID("sz");
-            ImGui::PushItemWidth(oneThirdWidth);
-            ImGui::Text("Z"); ImGui::SameLine();
-            ImGui::DragFloat("", &transform->scale.z, 0.01f, 0.0f, 100000.0f);
-            ImGui::PopID();
-        }
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("sy");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Y"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.y, 0.01f, 0.0f, 100000.0f);
+        ImGui::PopID();
+        ImGui::SameLine();
+        ImGui::PushID("sz");
+        ImGui::PushItemWidth(oneThirdWidth);
+        ImGui::Text("Z"); ImGui::SameLine();
+        ImGui::DragFloat("", &transform->scale.z, 0.01f, 0.0f, 100000.0f);
+        ImGui::PopID();
     }
 }
 
@@ -662,48 +651,51 @@ static void ShowMaterialInspectorSlot(Material* material)
     }
 }
 
-static void ShowModelInspectorSlot(ModelClass* model)
+static void ShowMeshInspectorSlot(MeshComponent* meshComp)
 {
     if (ImGui::CollapsingHeader("Model", ImGuiTreeNodeFlags_DefaultOpen))
     {
-        ImGui::Text("Vertices: %d", model->m_OriginalVertexCount);
-        ImGui::Text("Normals:  %d", model->m_NormalCount);
-        ImGui::Text("Faces:  %d", model->m_FaceCount);
-        ImGui::Text("Texture Cords:  %d", model->m_UVCount);
+        ImGui::Text("Vertices: %d", meshComp->m_Mesh->m_OriginalVertexCount);
+        ImGui::Text("Normals:  %d", meshComp->m_Mesh->m_NormalCount);
+        ImGui::Text("Faces:  %d", meshComp->m_Mesh->m_FaceCount);
+        ImGui::Text("Texture Cords:  %d", meshComp->m_Mesh->m_UVCount);
+
+        ImGui::Separator();
+
+        ShowMaterialInspectorSlot(meshComp->m_Material);
     }
 }
 
-void GuiClass::ShowInspectorWindow(Transform* transform) {
+void GuiClass::ShowInspectorWindow(Entity* entity) {
 
     ImGui::Begin("Inspector");
 
-    if (transform != nullptr) {
+    if (entity != nullptr) {
 
-        ShowTransformInspectorSlot(transform);
+        ShowTransformInspectorSlot(entity->m_Transform);
 
-        if (GameObject* gameObject = dynamic_cast<GameObject*>(transform); gameObject)
+        for (Component* comp : entity->m_Components)
         {
-            ShowMaterialInspectorSlot(gameObject->m_Material);
-            ShowModelInspectorSlot(gameObject->m_Model);
+            if (MeshComponent* meshComp = dynamic_cast<MeshComponent*>(comp); meshComp)
+            {
+                ShowMeshInspectorSlot(meshComp);
+            }
+
+            //if (Model->m_colorShader) {
+            //    if (ImGui::CollapsingHeader("Color Shader", ImGuiTreeNodeFlags_DefaultOpen))
+            //    {
+            //        ImGui::Text("Color:");
+            //        ImGui::PushID("object_color");
+            //        ImGui::PushItemWidth(oneThirdWidth * 3);
+            //        ImGui::ColorEdit3("", (float*)&Model->m_colorShader->color);
+            //        ImGui::PopID();
+            //    }
+            //}
         }
-
-
-
-        //if (Model->m_colorShader) {
-        //    if (ImGui::CollapsingHeader("Color Shader", ImGuiTreeNodeFlags_DefaultOpen))
-        //    {
-        //        ImGui::Text("Color:");
-        //        ImGui::PushID("object_color");
-        //        ImGui::PushItemWidth(oneThirdWidth * 3);
-        //        ImGui::ColorEdit3("", (float*)&Model->m_colorShader->color);
-        //        ImGui::PopID();
-        //    }
-        //}
-
     }
     ImGui::End();
 }
-void GuiClass::ShowCameraWindow(CameraClass* camera) {
+void GuiClass::ShowCameraWindow(CameraComponent* camera) {
 
     
     if (ImGui::Begin("Camera Window"))

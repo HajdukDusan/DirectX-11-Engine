@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClCompile Include="Core\Utils\Gizmos\arrowsclass.cpp" />
     <ClCompile Include="GUI\Components\AssetPanel.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Camera\cameraclass.cpp" />
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\bitmapclass.cpp" />
+    <ClCompile Include="Core\Scene\Entity\Components\CameraComponent.cpp" />
     <ClCompile Include="Core\Utils\CameraSceneNavigation.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\Color\colorshaderclass.cpp" />
@@ -30,12 +30,11 @@
     <ClCompile Include="Core\Renderer\DirectX\d3dclass.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Core\Utils\FileLoader.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\fontclass.cpp" />
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\fontclass.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\Font\fontshaderclass.cpp" />
     <ClCompile Include="Core\Utils\system\fpsclass.cpp" />
     <ClCompile Include="Core\Renderer\Optimization\frustumclass.cpp" />
     <ClCompile Include="Core\Scene\Controllers\GameManager.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\GameObject.cpp" />
     <ClCompile Include="GUI\guiclass.cpp" />
     <ClCompile Include="GUI\ImGui\imgui.cpp" />
     <ClCompile Include="GUI\ImGui\demo.cpp" />
@@ -45,15 +44,15 @@
     <ClCompile Include="GUI\ImGui\imgui_tables.cpp" />
     <ClCompile Include="GUI\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Core\Utils\system\inputclass.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Light\lightclass.cpp" />
+    <ClCompile Include="Core\Scene\Entity\Components\Light\lightclass.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modelclass.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Model\modellistclass.cpp" />
+    <ClCompile Include="Core\Renderer\Utils\Mesh.cpp" />
+    <ClCompile Include="Core\Renderer\Utils\modellistclass.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\PBR\PBRshaderclass.cpp" />
     <ClCompile Include="Core\Utils\positionclass.cpp" />
     <ClCompile Include="Core\Renderer\Utils\rendertextureclass.cpp" />
     <ClCompile Include="Core\Renderer\Controllers\scenerenderclass.cpp" />
-    <ClCompile Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.cpp" />
+    <ClCompile Include="Core\Scene\Entity\Components\Sprite\spriteclass.cpp" />
     <ClCompile Include="Core\Utils\Gizmos\Terrainclass.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\Font\textclass.cpp" />
     <ClCompile Include="Core\Renderer\Utils\texturearrayclass.cpp" />
@@ -64,10 +63,13 @@
     <ClCompile Include="Core\Scene\Controllers\userinterfaceclass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Scene\Entity\Component.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\MeshComponent.h" />
+    <ClInclude Include="Core\Scene\Entity\Entity.h" />
     <ClInclude Include="Core\Utils\Gizmos\arrowsclass.h" />
     <ClInclude Include="GUI\Components\AssetPanel.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\bitmapclass.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Camera\cameraclass.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\bitmapclass.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\CameraComponent.h" />
     <ClInclude Include="Core\Utils\CameraSceneNavigation.h" />
     <ClInclude Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\Color\colorshaderclass.h" />
@@ -76,12 +78,11 @@
     <ClInclude Include="Core\Renderer\DirectX\d3dclass.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Core\Utils\FileLoader.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\fontclass.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\fontclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\Font\fontshaderclass.h" />
     <ClInclude Include="Core\Utils\system\fpsclass.h" />
     <ClInclude Include="Core\Renderer\Optimization\frustumclass.h" />
     <ClInclude Include="Core\Scene\Controllers\GameManager.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\GameObject.h" />
     <ClInclude Include="GUI\guiclass.h" />
     <ClInclude Include="GUI\ImGui\imconfig.h" />
     <ClInclude Include="GUI\ImGui\imgui.h" />
@@ -92,17 +93,17 @@
     <ClInclude Include="GUI\ImGui\imstb_textedit.h" />
     <ClInclude Include="GUI\ImGui\imstb_truetype.h" />
     <ClInclude Include="Core\Utils\system\inputclass.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Light\lightclass.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\Light\lightclass.h" />
     <ClInclude Include="Core\Scene\Materials\Material.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modelclass.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Model\modellistclass.h" />
+    <ClInclude Include="Core\Renderer\Utils\Mesh.h" />
+    <ClInclude Include="Core\Renderer\Utils\modellistclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\PBR\PBRshaderclass.h" />
     <ClInclude Include="Core\Scene\Materials\PBRShaderMaterial.h" />
     <ClInclude Include="Core\Utils\positionclass.h" />
     <ClInclude Include="Core\Renderer\Utils\rendertextureclass.h" />
     <ClInclude Include="Core\Renderer\Controllers\scenerenderclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\Shader.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Components\Sprite\spriteclass.h" />
+    <ClInclude Include="Core\Scene\Entity\Components\Sprite\spriteclass.h" />
     <ClInclude Include="Core\Renderer\DirectX\stb_image.h" />
     <ClInclude Include="Core\Utils\Gizmos\Terrainclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\Font\textclass.h" />
@@ -112,7 +113,7 @@
     <ClInclude Include="Core\Renderer\DirectX\TextureLoader.h" />
     <ClInclude Include="Core\Renderer\Shaders\Texture\textureshaderclass.h" />
     <ClInclude Include="Core\Utils\system\timerclass.h" />
-    <ClInclude Include="Core\Scene\GameObjects\Transform.h" />
+    <ClInclude Include="Core\Scene\Entity\Transform.h" />
     <ClInclude Include="Core\Scene\Controllers\userinterfaceclass.h" />
   </ItemGroup>
   <ItemGroup>

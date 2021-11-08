@@ -2,9 +2,11 @@
 #define _SPRITECLASS_H_
 
 #include <d3d11.h>
+
+#include "../../Core/Renderer/Utils/textureclass.h"
 #include <DirectXMath.h>
 
-#include "textureclass.h"
+using namespace DirectX;
 
 class SpriteClass
 {
@@ -37,7 +39,7 @@ private:
 	void ReleaseTexture();
 
 private:
-	ID3D11Buffer* m_vertexBuffer, * m_indexBuffer;
+	ID3D11Buffer* m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
 	TextureClass* m_Texture;
 
