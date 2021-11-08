@@ -311,6 +311,12 @@
     <ClInclude Include="GUI\Styles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GUI\Components\Console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\Components\ScenePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Renderer\Shaders\ClipPlane\clipplane.ps">

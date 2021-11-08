@@ -83,6 +83,8 @@
     <ClInclude Include="Core\Utils\system\fpsclass.h" />
     <ClInclude Include="Core\Renderer\Optimization\frustumclass.h" />
     <ClInclude Include="Core\Scene\Controllers\GameManager.h" />
+    <ClInclude Include="GUI\Components\Console.h" />
+    <ClInclude Include="GUI\Components\ScenePanel.h" />
     <ClInclude Include="GUI\guiclass.h" />
     <ClInclude Include="GUI\ImGui\imconfig.h" />
     <ClInclude Include="GUI\ImGui\imgui.h" />
