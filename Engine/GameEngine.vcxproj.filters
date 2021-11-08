@@ -308,6 +308,9 @@
     <ClInclude Include="Core\Renderer\Utils\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GUI\Styles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Renderer\Shaders\ClipPlane\clipplane.ps">

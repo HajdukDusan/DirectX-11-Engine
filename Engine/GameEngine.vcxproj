@@ -115,6 +115,7 @@
     <ClInclude Include="Core\Utils\system\timerclass.h" />
     <ClInclude Include="Core\Scene\Entity\Transform.h" />
     <ClInclude Include="Core\Scene\Controllers\userinterfaceclass.h" />
+    <ClInclude Include="GUI\Styles.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\Renderer\Shaders\ClipPlane\clipplane.ps" />

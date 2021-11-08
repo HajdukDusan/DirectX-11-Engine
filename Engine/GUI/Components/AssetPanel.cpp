@@ -81,7 +81,7 @@ void AssetItemMenu()
 
 void AssetPanel::Render()
 {
-    if (ImGui::Begin("Assets"))
+    ImGui::Begin("Assets");
     {
         static char buf[32] = "Search";
 
@@ -100,7 +100,17 @@ void AssetPanel::Render()
 
         ImGui::Separator();
 
-        static ImVec4 bg_col = ImGui::GetStyle().Colors[ImGuiCol_WindowBg];
+
+        ImGui::BeginChild("AssetPanelPopupMenu");
+        if (ImGui::BeginPopupContextItem())
+        {
+            ImGui::MenuItem("TEST", NULL, false, false);
+
+            ImGui::EndPopup();
+        }
+
+
+        ImVec4& bg_col = ImGui::GetStyle().Colors[ImGuiCol_WindowBg];
         static float thumbnailSize = 88;
 
         if (m_CurrentDirectory != filesystem::path(s_AssetsPath))
@@ -200,6 +210,9 @@ void AssetPanel::Render()
 
             i++;
         }
+
+        ImGui::EndChild();
     }
+
     ImGui::End();
 }

@@ -525,8 +525,6 @@ private:
     void ShowConsole(bool*);
     void DockingAndMenuBar(bool*);
 
-    void SetStyle();
-
     Console console;
 
     D3DClass* m_DirectX;
