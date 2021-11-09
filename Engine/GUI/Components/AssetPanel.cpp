@@ -1,12 +1,10 @@
-#include "AssetPanel.h"
+﻿#include "AssetPanel.h"
 
 #include "../../GUI/ImGui/imgui.h"
 #include <atomic>
 #include <d3d11.h>
 
 const filesystem::path s_AssetsPath = "Assets";
-
-std::atomic<bool> stop_flag;
 
 ID3D11ShaderResourceView* folder_texture;
 ID3D11ShaderResourceView* document_texture;
@@ -18,9 +16,6 @@ AssetPanel::AssetPanel(D3DClass* DirectX)
 {
     m_CurrentDirectory = s_AssetsPath;
 
-    // Load the icons
-
-
     // load in the textures
     int img_width, img_height;
     DirectX->LoadTexture("../Engine/Resources/AssetPanel/folder.png", &folder_texture, &img_width, &img_height);
@@ -29,10 +24,7 @@ AssetPanel::AssetPanel(D3DClass* DirectX)
     DirectX->LoadTexture("../Engine/Resources/AssetPanel/text.png", &text_texture, &img_width, &img_height);
     DirectX->LoadTexture("../Engine/Resources/AssetPanel/file.png", &file_texture, &img_width, &img_height);
 
-    // Start The Thread
-    stop_flag = false;
-    updateThread = thread(&AssetPanel::UpdateDirectoryFilesLoop, this);
-
+    UpdateDirectoryFiles();
 }
 
 AssetPanel::~AssetPanel()
@@ -42,28 +34,15 @@ AssetPanel::~AssetPanel()
     object_texture->Release();
     text_texture->Release();
     file_texture->Release();
-
-    // End the update thread
-    stop_flag = true;
-    updateThread.join();
 }
 
-void AssetPanel::UpdateDirectoryFilesLoop()
-{
-    while (!stop_flag)
-    {
-        UpdateDirectoryFiles();
-
-        this_thread::sleep_for(chrono::seconds(2));
-    }
-}
 
 void AssetPanel::UpdateDirectoryFiles()
 {
     directoryFiles.clear();
-    for (auto& ptr : filesystem::directory_iterator(m_CurrentDirectory))
+    for (auto &p : filesystem::directory_iterator(m_CurrentDirectory))
     {
-        directoryFiles.push_back(pair(ptr.path(), ptr.is_directory()));
+        directoryFiles.push_back(p);
     }
 }
 
@@ -83,11 +62,15 @@ void AssetPanel::Render()
 {
     ImGui::Begin("Assets");
     {
+        if (ImGui::Button(u8"®"))
+        {
+            UpdateDirectoryFiles();
+        }
+        ImGui::SameLine();
+
         static char buf[32] = "Search";
-
         ImGui::PushItemWidth(200);
-        ImGui::InputText(m_CurrentDirectory.string().c_str(), buf, IM_ARRAYSIZE(buf));
-
+        ImGui::InputText("", buf, IM_ARRAYSIZE(buf));
 
         if (ImGui::IsItemClicked())
         {
@@ -97,6 +80,9 @@ void AssetPanel::Render()
                 memset(&buf, 0, sizeof(buf));
             }
         }
+
+        ImGui::SameLine();
+        ImGui::Text(m_CurrentDirectory.string().c_str());
 
         ImGui::Separator();
 
@@ -112,25 +98,20 @@ void AssetPanel::Render()
 
         ImVec4& bg_col = ImGui::GetStyle().Colors[ImGuiCol_WindowBg];
         static float thumbnailSize = 88;
+        static int frame_padding = 1;
 
         if (m_CurrentDirectory != filesystem::path(s_AssetsPath))
         {
-            if (ImGui::Button("<-"))
+            if (ImGui::ArrowButton("##left", ImGuiDir_Left))
             {
                 m_CurrentDirectory = m_CurrentDirectory.parent_path();
                 UpdateDirectoryFiles();
             }
         }
 
-        ImGui::SliderFloat("Thumbnail Size", &thumbnailSize, 32, 128);
-        static int frame_padding = 1;
-        ImGui::SliderInt("style", &frame_padding, -2, 10);
-
-        int i = 0;
-
-        for (auto& directoryFileIter : filesystem::directory_iterator(m_CurrentDirectory))
+        for (int i = 0; i < directoryFiles.size(); i++)
         {
-            const auto& path = directoryFileIter.path();
+            const auto& path = directoryFiles[i].path();
             auto relativePath = filesystem::relative(path, s_AssetsPath);
             string filename = relativePath.filename().string();
 
@@ -139,7 +120,7 @@ void AssetPanel::Render()
             
             ImGui::PushStyleColor(ImGuiCol_BorderShadow, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-            if (directoryFileIter.is_directory())
+            if (directoryFiles[i].is_directory())
             {
                 ImGui::ImageButton((void*)folder_texture, { thumbnailSize, thumbnailSize }, { 0,0 }, { 1,1 }, frame_padding, bg_col);
             }
@@ -163,7 +144,7 @@ void AssetPanel::Render()
 
             if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
             {
-                if (directoryFileIter.is_directory())
+                if (directoryFiles[i].is_directory())
                 {
                     m_CurrentDirectory /= path.filename();
                     UpdateDirectoryFiles();
@@ -196,19 +177,12 @@ void AssetPanel::Render()
             ImGui::EndGroup();
             ImGui::PopID();
 
-            // item menu on right click
-
-
-
-
             // organize layout of items
             float last_button_x2 = ImGui::GetItemRectMax().x;
             float next_button_x2 = last_button_x2 + ImGui::GetStyle().ItemSpacing.x + thumbnailSize;
             //if (i + 1 < gameObjects.size() && next_button_x2 < window_visible_x2)
             if (next_button_x2 < ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x)
                 ImGui::SameLine();
-
-            i++;
         }
 
         ImGui::EndChild();

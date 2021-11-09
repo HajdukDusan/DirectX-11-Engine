@@ -20,7 +20,7 @@ public:
 	void Render();
 
 	//filesystem::directory_iterator directoryFiles;
-	vector<pair<filesystem::path, bool>> directoryFiles;
+	vector<filesystem::directory_entry> directoryFiles;
 
 private:
 
