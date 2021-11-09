@@ -66,7 +66,7 @@ ImGuiIO& GuiClass::getIO() {
 }
 
 
-void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
+void GuiClass::Render(ID3D11ShaderResourceView* sceneTexture, ID3D11ShaderResourceView* gameTexture) {
 
     bool t = true;
 
@@ -82,9 +82,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* gameSceneTexture) {
     // uses a lot of fps
     DockingAndMenuBar(&t);
 
-    m_ScenePanel->Render(gameSceneTexture);
-    //ShowSceneWindow(gameSceneTexture);
-
+    m_ScenePanel->RenderScene(sceneTexture);
+    m_ScenePanel->RenderGame(gameTexture);
 
     ShowSceneObjects(entities);
 
@@ -424,7 +423,7 @@ static void ShowMaterialInspectorSlot(Material* material)
 
 static void ShowMeshInspectorSlot(MeshComponent* meshComp)
 {
-    if (ImGui::CollapsingHeader("Model", ImGuiTreeNodeFlags_DefaultOpen))
+    if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGui::Text("Vertices: %d", meshComp->m_Mesh->m_OriginalVertexCount);
         ImGui::Text("Normals:  %d", meshComp->m_Mesh->m_NormalCount);
@@ -433,7 +432,17 @@ static void ShowMeshInspectorSlot(MeshComponent* meshComp)
 
         ImGui::Separator();
 
-        ShowMaterialInspectorSlot(meshComp->m_Material);
+        ImGui::Text("Material: %s", meshComp->m_Material->m_Name);
+    }
+}
+
+static void ShowCameraInspectorSlot(CameraComponent* camComp)
+{
+    if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        ImGui::Text("Screen Depth");
+        ImGui::Text("Screen Near");
+        ImGui::Text("VSYNC?");
     }
 }
 
@@ -450,6 +459,10 @@ void GuiClass::ShowInspectorWindow(Entity* entity) {
             if (MeshComponent* meshComp = dynamic_cast<MeshComponent*>(comp); meshComp)
             {
                 ShowMeshInspectorSlot(meshComp);
+            }
+            if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp); camComp)
+            {
+                ShowCameraInspectorSlot(camComp);
             }
 
             //if (Model->m_colorShader) {

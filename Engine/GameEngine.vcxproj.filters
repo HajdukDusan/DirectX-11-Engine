@@ -105,9 +105,6 @@
     <ClCompile Include="Core\Utils\system\timerclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Utils\CameraSceneNavigation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Utils\FileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -141,13 +138,13 @@
     <ClCompile Include="Core\Scene\Entity\Components\Sprite\spriteclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Scene\Entity\Components\CameraComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Renderer\Utils\modellistclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Renderer\Utils\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Renderer\Utils\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,9 +242,6 @@
     <ClInclude Include="Core\Utils\system\timerclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Utils\CameraSceneNavigation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Utils\FileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -315,6 +309,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI\Components\ScenePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Renderer\Utils\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\SceneCameraNavigation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

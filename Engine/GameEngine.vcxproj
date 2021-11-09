@@ -19,11 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Renderer\Utils\Camera.cpp" />
     <ClCompile Include="Core\Utils\Gizmos\arrowsclass.cpp" />
     <ClCompile Include="GUI\Components\AssetPanel.cpp" />
     <ClCompile Include="Core\Scene\Entity\Components\Sprite\bitmapclass.cpp" />
-    <ClCompile Include="Core\Scene\Entity\Components\CameraComponent.cpp" />
-    <ClCompile Include="Core\Utils\CameraSceneNavigation.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.cpp" />
     <ClCompile Include="Core\Renderer\Shaders\Color\colorshaderclass.cpp" />
     <ClCompile Include="Core\Utils\system\cpuclass.cpp" />
@@ -63,6 +62,7 @@
     <ClCompile Include="Core\Scene\Controllers\userinterfaceclass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Renderer\Utils\Camera.h" />
     <ClInclude Include="Core\Scene\Entity\Component.h" />
     <ClInclude Include="Core\Scene\Entity\Components\MeshComponent.h" />
     <ClInclude Include="Core\Scene\Entity\Entity.h" />
@@ -70,7 +70,7 @@
     <ClInclude Include="GUI\Components\AssetPanel.h" />
     <ClInclude Include="Core\Scene\Entity\Components\Sprite\bitmapclass.h" />
     <ClInclude Include="Core\Scene\Entity\Components\CameraComponent.h" />
-    <ClInclude Include="Core\Utils\CameraSceneNavigation.h" />
+    <ClInclude Include="Core\Utils\SceneCameraNavigation.h" />
     <ClInclude Include="Core\Renderer\Shaders\ClipPlane\clipplaneshaderclass.h" />
     <ClInclude Include="Core\Renderer\Shaders\Color\colorshaderclass.h" />
     <ClInclude Include="Core\Scene\Materials\ColorShaderMaterial.h" />

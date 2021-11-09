@@ -3,7 +3,7 @@
 #include "GUI/guiclass.h"
 #include "Core/Utils/system/inputclass.h"
 #include "Core/Scene/Controllers/GameManager.h"
-#include "Core/Utils/CameraSceneNavigation.h"
+#include <vector>
 
 
 const bool FULL_SCREEN = false;
@@ -27,5 +27,12 @@ private:
 	GuiClass*			m_GUI;
 	InputClass*			m_GameInputHandler;
 	GameManager*		m_GameManager;
+
+	Camera*					m_SceneCamera;
+	Transform*				m_CameraTransform;
+	std::vector<Camera*>	m_GameCameras;
+
+	RenderTextureClass* m_SceneViewTexture;
+	RenderTextureClass* m_GameViewTexture;
 };
 

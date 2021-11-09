@@ -2,29 +2,26 @@
 #define _CAMERACOMPONENT_H_
 
 #pragma once
-#include <directxmath.h>
 
 #include "../Component.h"
-#include "../Transform.h"
+#include "../../../Renderer/Utils/Camera.h"
 
 using namespace DirectX;
 
 class CameraComponent : public Component
 {
 public:
-	CameraComponent();
-	virtual ~CameraComponent();
 
-	void RotateY(float);
+	Camera* m_Camera;
 
-	void Render(Transform*);
-	void RenderBaseViewMatrix(Transform*);
-
-	void GetViewMatrix(XMMATRIX&);
-	void GetBaseViewMatrix(XMMATRIX&);
-
-private:
-	XMMATRIX m_viewMatrix, m_baseViewMatrix;
+	CameraComponent(Transform* transform)
+	{
+		m_Camera = new Camera(transform);
+	}
+	virtual ~CameraComponent()
+	{
+		delete m_Camera;
+	}
 };
 
 #endif

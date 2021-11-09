@@ -24,9 +24,13 @@ public:
         m_GameManager = gameManager;
     }
 
-    void Render(ID3D11ShaderResourceView* sceneView)
+    void RenderScene(ID3D11ShaderResourceView* sceneView)
     {
         ShowSceneWindow(sceneView);
+    }
+    void RenderGame(ID3D11ShaderResourceView* gameView)
+    {
+        ShowGameWindow(gameView);
     }
 
 private:
@@ -131,6 +135,52 @@ private:
 
             // show the image
             ImGui::GetWindowDrawList()->AddImage((void*)sceneView, pos, ImVec2(maxPos));
+
+            //fps and rest
+            ShowStatOverlay(&t);
+
+        }
+        ImGui::End();
+    }
+
+    void ShowGameWindow(ID3D11ShaderResourceView* gameView)
+    {
+        static bool t = true;
+
+        if (ImGui::Begin("Game"))
+        {
+            static bool wireframe = false;
+            static bool past_state = false;
+            ImGui::Checkbox("Wireframe", &wireframe);
+
+            // if state changed
+            if (wireframe != past_state) {
+                if (wireframe) {
+                    m_console->AddLog("[info] Wireframe enabled.");
+                    //m_DirectX->EnableWireframe();
+                }
+                else {
+                    m_console->AddLog("[info] Wireframe disabled.");
+                    //m_DirectX->DisableWireframe();
+                }
+                past_state = wireframe;
+            }
+
+            ImVec2 size = ImGui::GetWindowSize();
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            pos.x -= 5;
+            // subtract the panel height
+            size.y -= ImGui::GetItemRectSize().y * 2 + 8;
+            static ImVec2 maxPos;
+            if (size.y * 1.7777 >= size.x) {
+                maxPos = ImVec2(pos.x + size.x, pos.y + size.x * 0.5625);
+            }
+            else {
+                maxPos = ImVec2(pos.x + size.y * 1.7777, pos.y + size.y);
+            }
+
+            // show the image
+            ImGui::GetWindowDrawList()->AddImage((void*)gameView, pos, ImVec2(maxPos));
 
             //fps and rest
             ShowStatOverlay(&t);

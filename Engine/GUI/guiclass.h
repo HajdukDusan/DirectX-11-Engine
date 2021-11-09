@@ -158,7 +158,7 @@ public:
     GuiClass(HWND, D3DClass*, GameManager*);
     ~GuiClass();
 
-    void Render(ID3D11ShaderResourceView* gameSceneTexture);
+    void Render(ID3D11ShaderResourceView* SceneTexture, ID3D11ShaderResourceView* GameTexture);
 
     ImGuiIO& getIO();
 

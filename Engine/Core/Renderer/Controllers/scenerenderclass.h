@@ -1,9 +1,6 @@
 #ifndef _SCENERENDERERCLASS_H_
 #define _SCENERENDERERCLASS_H_
 
-//#include "cameraclass.h"
-//#include "lightclass.h"
-//#include "modelclass.h"
 #include "../Utils/rendertextureclass.h"
 
 #include <vector>
@@ -18,10 +15,7 @@ public:
 	~SceneRenderClass();
 
 
-	bool RenderScene(GameManager* GameManager);
-
-
-	ID3D11ShaderResourceView* GetTexture();
+	bool RenderScene(GameManager* GameManager, Camera* Camera, RenderTextureClass* RenderTexture);
 
 
 	bool LoadObject(const char*);

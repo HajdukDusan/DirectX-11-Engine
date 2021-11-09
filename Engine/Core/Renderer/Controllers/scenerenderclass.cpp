@@ -84,7 +84,7 @@ SceneRenderClass::~SceneRenderClass() {
 }
 
 
-bool SceneRenderClass::RenderScene(GameManager* GameManager) {
+bool SceneRenderClass::RenderScene(GameManager* GameManager, Camera* Camera, RenderTextureClass* RenderTexture) {
 
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, baseViewMatrix, orthoMatrix, staticWorldMatrix;
 	bool result;
@@ -96,22 +96,21 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	//if (GameManager->MessageForConsole)
 	//	delete[] GameManager->MessageForConsole;
 
-	m_RenderTexture->SetRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView);
-	m_RenderTexture->ClearRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView, 0.0f, 0.0f, 0.0f, 1.0f);
+	RenderTexture->SetRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView);
+	RenderTexture->ClearRenderTarget(m_DirectXManager->GetDeviceContext(), m_DirectXManager->m_depthStencilView, 0.0f, 0.0f, 0.0f, 1.0f);
 
 
 	m_DirectXManager->TurnZBufferOn();
 
 	// Generate the view matrix based on the camera's position.
-
-	// FIXXXXXXXXXXXXXXXXXXXXXXXXXX
-	GameManager->m_Camera->Render(GameManager->GetEntities()[0]->m_Transform);
+	Camera->Render();
+	Camera->RenderBaseViewMatrix();
 
 	// Get the world, view, and projection matrices from the camera and d3d objects.
 	m_DirectXManager->GetWorldMatrix(worldMatrix);
-	GameManager->m_Camera->GetViewMatrix(viewMatrix);
+	Camera->GetViewMatrix(viewMatrix);
 	m_DirectXManager->GetProjectionMatrix(projectionMatrix);
-	GameManager->m_Camera->GetBaseViewMatrix(baseViewMatrix);
+	Camera->GetBaseViewMatrix(baseViewMatrix);
 	m_DirectXManager->GetOrthoMatrix(orthoMatrix);
 
 	// static for sprites
@@ -166,9 +165,4 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager) {
 	GameManager->m_PresentSceneTime = GameManager->m_Timer->End();
 
 	return true;
-}
-
-ID3D11ShaderResourceView* SceneRenderClass::GetTexture()
-{
-	return m_RenderTexture->GetShaderResourceView();
 }
