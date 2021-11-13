@@ -137,7 +137,7 @@ private:
             ImGui::GetWindowDrawList()->AddImage((void*)sceneView, pos, ImVec2(maxPos));
 
             //fps and rest
-            ShowStatOverlay(&t);
+            //ShowStatOverlay(&t);
 
         }
         ImGui::End();

@@ -131,7 +131,7 @@ bool SceneRenderClass::RenderScene(GameManager* GameManager, Camera* Camera, Ren
 					viewMatrix,
 					projectionMatrix,
 					entities[i]->m_Transform,
-					GameManager->GetEntities()[0]->m_Transform,
+					Camera->m_Transform,
 					GameManager->m_Light))
 				{
 					GameManager->MessageForConsole = "[error] Error while rendering " + *entities[i]->m_Name;

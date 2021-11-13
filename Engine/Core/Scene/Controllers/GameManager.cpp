@@ -15,7 +15,6 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 
 	Entity* CameraEntity = new Entity("Camera", cameraTransform);
 	m_Camera = new CameraComponent(cameraTransform);
-	//m_Camera->Render(CameraEntity->m_Transform);
 
 	CameraEntity->m_Components.insert(m_Camera);
 	m_Entities.push_back(CameraEntity);

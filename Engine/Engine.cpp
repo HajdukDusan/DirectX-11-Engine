@@ -36,8 +36,8 @@ bool Engine::Initialize(HINSTANCE hInstance, WNDCLASSEX wc, HWND hwnd, int Scree
 
 	// Setup Scene Camera
 	m_CameraTransform = new Transform(
-		XMFLOAT3(-8.0f, 7.0f, -8.0f),
-		XMFLOAT3(20.0f, 45.0f, 0.0f),
+		XMFLOAT3(-8.0f, 8.0f, 0.0f),
+		XMFLOAT3(45.0f, 90.0f, 0.0f),
 		XMFLOAT3(1.0f, 1.0f, 1.0f)
 	);
 	m_SceneCamera = new Camera(m_CameraTransform);
@@ -81,8 +81,8 @@ bool Engine::Render()
 	
 
 	// Scripts That Affect Game Objects Go Here
-	//MoveCamera(m_SceneCamera->m_Transform, m_GUI->GetInputHandler());
-	MoveCamera(m_GameCameras[0]->m_Transform, m_GUI->GetInputHandler());
+	MoveCamera(m_SceneCamera->m_Transform, m_GUI->GetInputHandler());
+	//MoveCamera(m_GameCameras[0]->m_Transform, m_GUI->GetInputHandler());
 
 	// Render Scene View To Texture
 	if (!m_GameScene->RenderScene(m_GameManager, m_SceneCamera, m_SceneViewTexture)) {
