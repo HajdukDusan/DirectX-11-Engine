@@ -79,11 +79,10 @@ void GuiClass::Render(ID3D11ShaderResourceView* sceneTexture, ID3D11ShaderResour
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    // uses a lot of fps
     DockingAndMenuBar(&t);
 
     m_ScenePanel->RenderGame(gameTexture);
-    m_ScenePanel->RenderScene(sceneTexture);
+    SceneWindowActive = m_ScenePanel->RenderScene(sceneTexture);
 
     ShowSceneObjects(entities);
 
@@ -126,6 +125,9 @@ void GuiClass::ShowSceneObjects(vector<Entity*>& entities)
 {
     if (ImGui::Begin("Scene Objects"))
     {
+        if (ImGui::IsWindowHovered())
+            ImGui::SetWindowFocus();
+
         // Left
         static int selected = -1;
         {
@@ -448,33 +450,37 @@ static void ShowCameraInspectorSlot(CameraComponent* camComp)
 
 void GuiClass::ShowInspectorWindow(Entity* entity) {
 
-    ImGui::Begin("Inspector");
+    if (ImGui::Begin("Inspector"))
+    {
+        if (ImGui::IsWindowHovered())
+            ImGui::SetWindowFocus();
 
-    if (entity != nullptr) {
+        if (entity != nullptr) {
 
-        ShowTransformInspectorSlot(entity->m_Transform);
+            ShowTransformInspectorSlot(entity->m_Transform);
 
-        for (Component* comp : entity->m_Components)
-        {
-            if (MeshComponent* meshComp = dynamic_cast<MeshComponent*>(comp); meshComp)
+            for (Component* comp : entity->m_Components)
             {
-                ShowMeshInspectorSlot(meshComp);
-            }
-            if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp); camComp)
-            {
-                ShowCameraInspectorSlot(camComp);
-            }
+                if (MeshComponent* meshComp = dynamic_cast<MeshComponent*>(comp); meshComp)
+                {
+                    ShowMeshInspectorSlot(meshComp);
+                }
+                if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp); camComp)
+                {
+                    ShowCameraInspectorSlot(camComp);
+                }
 
-            //if (Model->m_colorShader) {
-            //    if (ImGui::CollapsingHeader("Color Shader", ImGuiTreeNodeFlags_DefaultOpen))
-            //    {
-            //        ImGui::Text("Color:");
-            //        ImGui::PushID("object_color");
-            //        ImGui::PushItemWidth(oneThirdWidth * 3);
-            //        ImGui::ColorEdit3("", (float*)&Model->m_colorShader->color);
-            //        ImGui::PopID();
-            //    }
-            //}
+                //if (Model->m_colorShader) {
+                //    if (ImGui::CollapsingHeader("Color Shader", ImGuiTreeNodeFlags_DefaultOpen))
+                //    {
+                //        ImGui::Text("Color:");
+                //        ImGui::PushID("object_color");
+                //        ImGui::PushItemWidth(oneThirdWidth * 3);
+                //        ImGui::ColorEdit3("", (float*)&Model->m_colorShader->color);
+                //        ImGui::PopID();
+                //    }
+                //}
+            }
         }
     }
     ImGui::End();
@@ -484,7 +490,8 @@ void GuiClass::ShowCameraWindow(CameraComponent* camera) {
     
     if (ImGui::Begin("Camera Window"))
     {
-
+        if (ImGui::IsWindowHovered())
+            ImGui::SetWindowFocus();
     }
     ImGui::End();
 }

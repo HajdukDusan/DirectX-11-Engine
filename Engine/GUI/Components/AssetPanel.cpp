@@ -62,6 +62,9 @@ void AssetPanel::Render()
 {
     ImGui::Begin("Assets");
     {
+        if (ImGui::IsWindowHovered())
+            ImGui::SetWindowFocus();
+
         if (ImGui::Button(u8"®"))
         {
             UpdateDirectoryFiles();

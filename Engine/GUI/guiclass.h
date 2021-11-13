@@ -167,6 +167,8 @@ public:
 
     ImGuiIO* GetInputHandler();
 
+    bool SceneWindowActive;
+
 private:
 
     GameManager* m_GameManager;
@@ -193,7 +195,5 @@ private:
     AssetPanel* m_AssetPanel;
     ScenePanel* m_ScenePanel;
     Console* m_console;
-
-
 };
 #endif // !_GUICLASS_H_

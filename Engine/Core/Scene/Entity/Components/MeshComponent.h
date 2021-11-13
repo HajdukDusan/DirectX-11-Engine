@@ -17,6 +17,11 @@ public:
 		m_Material = material;
 	}
 
+	void SerializeObject()
+	{
+
+	}
+
 	bool Render(
 		ID3D11DeviceContext* deviceContext,
 		XMMATRIX worldMatrix,
