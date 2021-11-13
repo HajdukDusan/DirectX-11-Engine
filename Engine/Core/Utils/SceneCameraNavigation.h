@@ -26,6 +26,15 @@ void MoveCamera(Transform* transform, ImGuiIO* guiInputHandler)
 	static float phi = atan2(transform->translation.z / transform->translation.x, transform->translation.x);
 	static float theta = acos(transform->translation.y / r);
 
+	if (guiInputHandler->MouseWheel != 0)
+	{
+		r -= guiInputHandler->MouseWheel;
+
+		transform->translation.x = r * cos(theta) * cos(phi);
+		transform->translation.y = r * sin(theta);
+		transform->translation.z = r * cos(theta) * sin(phi);
+	}
+
 	if (guiInputHandler->MouseDown[MOUSE_SCROLL_CLICK]) {
 		if (guiInputHandler->MousePos.x != pastMouseX || guiInputHandler->MousePos.y != pastMouseY)
 		{
@@ -35,19 +44,12 @@ void MoveCamera(Transform* transform, ImGuiIO* guiInputHandler)
 			float Xangle = (guiInputHandler->MousePos.y - pastMouseY) * 0.5f;
 			transform->rotation.x += Xangle;
 
-			//if (transform->rotation.x > 60)
-			//	transform->rotation.x = 60;
-			//if (transform->rotation.x < -60)
-			//	transform->rotation.x = -60;
-
-			phi -= Yangle * XM_PI / 180;
 			theta += Xangle * XM_PI / 180;
+			phi -= Yangle * XM_PI / 180;
 
 			transform->translation.x = r * cos(theta) * cos(phi);
 			transform->translation.y = r * sin(theta);
 			transform->translation.z = r * cos(theta) * sin(phi);
-
-
 		}
 	}
 
