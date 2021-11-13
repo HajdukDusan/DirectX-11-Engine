@@ -9,8 +9,8 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	// CAMERA
 	// Set the initial position of the camera and build the matrices needed for rendering.
 	Transform* cameraTransform = new Transform(
-		XMFLOAT3(-8.0f, 7.0f, -8.0f),
-		XMFLOAT3(20.0f, 45.0f, 0.0f),
+		XMFLOAT3(-8.0f, 8.0f, 0.0f),
+		XMFLOAT3(45.0f, 90.0f, 0.0f),
 		XMFLOAT3(1.0f, 1.0f, 1.0f));
 
 	Entity* CameraEntity = new Entity("Camera", cameraTransform);

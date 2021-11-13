@@ -15,25 +15,44 @@
 void MoveCamera(Transform* transform, ImGuiIO* guiInputHandler)
 {
 	static float pastMouseX = guiInputHandler->MousePos.x;
+	static float pastMouseY = guiInputHandler->MousePos.y;
 
-	//Horizontal Camera Rotation Around World Origin
+	static float r = sqrt(
+		pow(transform->translation.x, 2) +
+		pow(transform->translation.y, 2) +
+		pow(transform->translation.z, 2)
+	);
+
+	static float phi = atan2(transform->translation.z / transform->translation.x, transform->translation.x);
+	static float theta = acos(transform->translation.y / r);
+
 	if (guiInputHandler->MouseDown[MOUSE_SCROLL_CLICK]) {
-		if (guiInputHandler->MousePos.x != pastMouseX)
+		if (guiInputHandler->MousePos.x != pastMouseX || guiInputHandler->MousePos.y != pastMouseY)
 		{
-			float angle = -(guiInputHandler->MousePos.x - pastMouseX) * 0.01f;
-			float x = transform->translation.x;
-			float z = transform->translation.z;
+			float Yangle = (guiInputHandler->MousePos.x - pastMouseX) * 0.5f;
+			transform->rotation.y += Yangle;
 
-			//move cam
-			transform->translation.x = x * cos(angle) - z * sin(angle);
-			transform->translation.z = z * cos(angle) + x * sin(angle);
+			float Xangle = (guiInputHandler->MousePos.y - pastMouseY) * 0.5f;
+			transform->rotation.x += Xangle;
 
-			//rotate cam
-			transform->rotation.y -= angle * 180 / XM_PI;
+			//if (transform->rotation.x > 60)
+			//	transform->rotation.x = 60;
+			//if (transform->rotation.x < -60)
+			//	transform->rotation.x = -60;
+
+			phi -= Yangle * XM_PI / 180;
+			theta += Xangle * XM_PI / 180;
+
+			transform->translation.x = r * cos(theta) * cos(phi);
+			transform->translation.y = r * sin(theta);
+			transform->translation.z = r * cos(theta) * sin(phi);
+
+
 		}
 	}
 
 	pastMouseX = guiInputHandler->MousePos.x;
+	pastMouseY = guiInputHandler->MousePos.y;
 }
 
 #endif 

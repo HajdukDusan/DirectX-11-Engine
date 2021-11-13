@@ -81,7 +81,8 @@ bool Engine::Render()
 	
 
 	// Scripts That Affect Game Objects Go Here
-	MoveCamera(m_SceneCamera->m_Transform, m_GUI->GetInputHandler());
+	//MoveCamera(m_SceneCamera->m_Transform, m_GUI->GetInputHandler());
+	MoveCamera(m_GameCameras[0]->m_Transform, m_GUI->GetInputHandler());
 
 	// Render Scene View To Texture
 	if (!m_GameScene->RenderScene(m_GameManager, m_SceneCamera, m_SceneViewTexture)) {

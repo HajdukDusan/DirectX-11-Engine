@@ -82,8 +82,8 @@ void GuiClass::Render(ID3D11ShaderResourceView* sceneTexture, ID3D11ShaderResour
     // uses a lot of fps
     DockingAndMenuBar(&t);
 
-    m_ScenePanel->RenderScene(sceneTexture);
     m_ScenePanel->RenderGame(gameTexture);
+    m_ScenePanel->RenderScene(sceneTexture);
 
     ShowSceneObjects(entities);
 
@@ -607,7 +607,7 @@ void GuiClass::ShowMenuBar()
                 {
                     if (ImGui::Selectable("Dark"))
                         Style::SetStyle(DARK);
-                    if (ImGui::Selectable("CORPORATE"))
+                    if (ImGui::Selectable("Corporate"))
                         Style::SetStyle(CORPORATE);
                     ImGui::EndMenu();
                 }

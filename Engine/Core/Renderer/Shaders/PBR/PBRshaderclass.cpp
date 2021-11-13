@@ -465,7 +465,7 @@ bool PBRShaderClass::SetShaderParameters(ID3D11DeviceContext* deviceContext, XMM
 
 
 
-	// Prepare the Transform matrix
+	// Multiply the Transform matrices
 	XMMATRIX transformTmp = XMMatrixMultiply(rotation, translation);
 	transformTmp = XMMatrixMultiply(scale, transformTmp);
 	transformTmp = XMMatrixTranspose(transformTmp);
