@@ -24,13 +24,13 @@ public:
         m_GameManager = gameManager;
     }
 
-    bool RenderScene(ID3D11ShaderResourceView* sceneView)
+    bool RenderScene(ID3D11ShaderResourceView* sceneView, bool* Selected)
     {
-        return ShowSceneWindow(sceneView);
+        return ShowSceneWindow(sceneView, Selected);
     }
-    void RenderGame(ID3D11ShaderResourceView* gameView)
+    bool RenderGame(ID3D11ShaderResourceView* gameView)
     {
-        ShowGameWindow(gameView);
+        return ShowGameWindow(gameView);
     }
 
 private:
@@ -98,15 +98,13 @@ private:
         ImGui::End();
     }
 
-    bool ShowSceneWindow(ID3D11ShaderResourceView* sceneView)
+    bool ShowSceneWindow(ID3D11ShaderResourceView* sceneView, bool* Selected)
     {
         static bool t = true;
 
-        static bool is_selected = false;
-
         if (ImGui::Begin("Scene"))
         {
-            is_selected = ImGui::IsWindowFocused();
+            *Selected = ImGui::IsWindowFocused();
 
             if(ImGui::IsWindowHovered())
             {
@@ -150,17 +148,26 @@ private:
             //ShowStatOverlay(&t);
 
         }
+        else
+        {
+            return false;
+        }
         ImGui::End();
-
-        return is_selected;
+        return true;
     }
 
-    void ShowGameWindow(ID3D11ShaderResourceView* gameView)
+    bool ShowGameWindow(ID3D11ShaderResourceView* gameView)
     {
         static bool t = true;
 
         if (ImGui::Begin("Game"))
         {
+
+            if (ImGui::IsWindowHovered())
+            {
+                ImGui::SetWindowFocus();
+            }
+
             static bool wireframe = false;
             static bool past_state = false;
             ImGui::Checkbox("Wireframe", &wireframe);
@@ -198,7 +205,13 @@ private:
             ShowStatOverlay(&t);
 
         }
+        else
+        {
+            return false;
+        }
         ImGui::End();
+
+        return true;
     }
 };
 

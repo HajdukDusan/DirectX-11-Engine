@@ -169,6 +169,9 @@ public:
 
     bool SceneWindowActive;
 
+    bool GameWindowVisible;
+    bool SceneWindowVisible;
+
 private:
 
     GameManager* m_GameManager;

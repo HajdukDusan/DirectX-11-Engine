@@ -81,8 +81,9 @@ void GuiClass::Render(ID3D11ShaderResourceView* sceneTexture, ID3D11ShaderResour
 
     DockingAndMenuBar(&t);
 
-    m_ScenePanel->RenderGame(gameTexture);
-    SceneWindowActive = m_ScenePanel->RenderScene(sceneTexture);
+    GameWindowVisible = m_ScenePanel->RenderGame(gameTexture);
+
+    SceneWindowVisible = m_ScenePanel->RenderScene(sceneTexture, &SceneWindowActive);
 
     ShowSceneObjects(entities);
 

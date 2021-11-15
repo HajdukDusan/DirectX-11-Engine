@@ -84,14 +84,21 @@ bool Engine::Render()
 	if (m_GUI->SceneWindowActive)
 		MoveCamera(m_SceneCamera->m_Transform, m_GUI->GetInputHandler());
 
+
 	// Render Scene View To Texture
-	if (!m_GameScene->RenderScene(m_GameManager, m_SceneCamera, m_SceneViewTexture)) {
-		return false;
+	if (m_GUI->SceneWindowVisible)
+	{
+		if (!m_GameScene->RenderScene(m_GameManager, m_SceneCamera, m_SceneViewTexture)) {
+			return false;
+		}
 	}
 
 	// Render Game View To Texture
-	if (!m_GameScene->RenderScene(m_GameManager, m_GameCameras[0], m_GameViewTexture)) {
-		return false;
+	if (m_GUI->GameWindowVisible)
+	{
+		if (!m_GameScene->RenderScene(m_GameManager, m_GameCameras[0], m_GameViewTexture)) {
+			return false;
+		}
 	}
 
 	// Setup rendering for gui
