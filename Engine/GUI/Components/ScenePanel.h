@@ -150,6 +150,7 @@ private:
         }
         else
         {
+            ImGui::End();
             return false;
         }
         ImGui::End();
@@ -207,6 +208,7 @@ private:
         }
         else
         {
+            ImGui::End();
             return false;
         }
         ImGui::End();

@@ -30,7 +30,6 @@ private:
 
 	Camera*					m_SceneCamera;
 	Transform*				m_CameraTransform;
-	std::vector<Camera*>	m_GameCameras;
 
 	RenderTextureClass* m_SceneViewTexture;
 	RenderTextureClass* m_GameViewTexture;

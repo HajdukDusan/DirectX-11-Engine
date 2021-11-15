@@ -56,20 +56,6 @@ bool Engine::Initialize(HINSTANCE hInstance, WNDCLASSEX wc, HWND hwnd, int Scree
 		return false;
 	}
 
-
-	// On Start Get All Cameras From The Camera Components
-	for (Entity* entity : m_GameManager->GetEntities())
-	{
-		for (Component* comp : entity->m_Components)
-		{
-			if (CameraComponent* camComp = dynamic_cast<CameraComponent*>(comp); camComp)
-			{
-				m_GameCameras.push_back(camComp->m_Camera);
-			}
-		}
-
-	}
-
 	return true;
 }
 
@@ -96,7 +82,7 @@ bool Engine::Render()
 	// Render Game View To Texture
 	if (m_GUI->GameWindowVisible)
 	{
-		if (!m_GameScene->RenderScene(m_GameManager, m_GameCameras[0], m_GameViewTexture)) {
+		if (!m_GameScene->RenderScene(m_GameManager, m_GameManager->m_selectedCamera, m_GameViewTexture)) {
 			return false;
 		}
 	}

@@ -141,98 +141,42 @@ void GuiClass::ShowSceneObjects(vector<Entity*>& entities)
                 if (ImGui::Selectable(entities[i]->m_Name, selected == i)) {
                     selected = i;
                 }
-                
-                //if (ImGui::Button("File Menu.."))
-                //    ImGui::OpenPopup("my_file_popup");
-                //if (ImGui::BeginPopup("my_file_popup"))
-                //{
-                //    ShowExampleMenuFile();
-                //    ImGui::EndPopup();
-                //}
-
 
                 if (ImGui::BeginPopupContextItem())
                 {
                     // get item with i
-                    
-                    ImGui::MenuItem("(demo menu)", NULL, false, false);
-                    if (ImGui::MenuItem("New")) {}
-                    if (ImGui::MenuItem("Open", "Ctrl+O")) {}
-                    if (ImGui::BeginMenu("Open Recent"))
+
+                    if (ImGui::BeginMenu("Add Component.."))
                     {
-                        ImGui::MenuItem("fish_hat.c");
-                        ImGui::MenuItem("fish_hat.inl");
-                        ImGui::MenuItem("fish_hat.h");
-                        if (ImGui::BeginMenu("More.."))
+                        if (ImGui::MenuItem("Mesh Renderer"))
                         {
-                            ImGui::MenuItem("Hello");
-                            ImGui::MenuItem("Sailor");
-                            if (ImGui::BeginMenu("Recurse.."))
-                            {
-                                ImGui::EndMenu();
-                            }
-                            ImGui::EndMenu();
+                            //entities[i]->m_Components.insert(new meshComp());
                         }
+
+                        ImGui::MenuItem("Light");
+
+                        if (ImGui::MenuItem("Camera"))
+                        {
+                            // Create the camera
+                            CameraComponent* camComp = new CameraComponent(entities[i]->m_Transform);
+                            // Add the camera to the List
+                            m_GameManager->m_selectedCamera = camComp->m_Camera;
+                            entities[i]->m_Components.push_back(camComp);
+                        }
+
                         ImGui::EndMenu();
                     }
-                    if (ImGui::MenuItem("Save", "Ctrl+S")) {}
-                    if (ImGui::MenuItem("Save As..")) {}
 
                     ImGui::Separator();
-                    if (ImGui::BeginMenu("Options"))
-                    {
-                        static bool enabled = true;
-                        ImGui::MenuItem("Enabled", "", &enabled);
-                        ImGui::BeginChild("child", ImVec2(0, 60), true);
-                        for (int i = 0; i < 10; i++)
-                            ImGui::Text("Scrolling Text %d", i);
-                        ImGui::EndChild();
-                        static float f = 0.5f;
-                        static int n = 0;
-                        ImGui::SliderFloat("Value", &f, 0.0f, 1.0f);
-                        ImGui::InputFloat("Input", &f, 0.1f);
-                        ImGui::Combo("Combo", &n, "Yes\0No\0Maybe\0\0");
-                        ImGui::EndMenu();
-                    }
 
-                    if (ImGui::BeginMenu("Colors"))
-                    {
-                        float sz = ImGui::GetTextLineHeight();
-                        for (int i = 0; i < ImGuiCol_COUNT; i++)
-                        {
-                            const char* name = ImGui::GetStyleColorName((ImGuiCol)i);
-                            ImVec2 p = ImGui::GetCursorScreenPos();
-                            ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), ImGui::GetColorU32((ImGuiCol)i));
-                            ImGui::Dummy(ImVec2(sz, sz));
-                            ImGui::SameLine();
-                            ImGui::MenuItem(name);
-                        }
-                        ImGui::EndMenu();
-                    }
-
-                    // Here we demonstrate appending again to the "Options" menu (which we already created above)
-                    // Of course in this demo it is a little bit silly that this function calls BeginMenu("Options") twice.
-                    // In a real code-base using it would make senses to use this feature from very different code locations.
-                    if (ImGui::BeginMenu("Options")) // <-- Append!
-                    {
-                        static bool b = true;
-                        ImGui::Checkbox("SomeOption", &b);
-                        ImGui::EndMenu();
-                    }
-
-                    if (ImGui::BeginMenu("Disabled", false)) // Disabled
-                    {
-                        IM_ASSERT(0);
-                    }
-                    if (ImGui::MenuItem("Checked", NULL, true)) {}
-                    if (ImGui::MenuItem("Remove", "Del")) {
+                    if (ImGui::MenuItem("Remove", "Delete")) {
                         
                         if (selected == i) selected = -1;
 
                         Entity* entity_ptr = entities[i];
                         entities.erase(entities.begin() + i);
-                        PrintConsole("[info] Entity deleted.");
                         delete entity_ptr;
+                        PrintConsole("[info] Entity deleted.");
                     }
 
                     // CHANGE NAME
@@ -426,7 +370,7 @@ static void ShowMaterialInspectorSlot(Material* material)
 
 static void ShowMeshInspectorSlot(MeshComponent* meshComp)
 {
-    if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+    if (ImGui::CollapsingHeader("Mesh Renderer", ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGui::Text("Vertices: %d", meshComp->m_Mesh->m_OriginalVertexCount);
         ImGui::Text("Normals:  %d", meshComp->m_Mesh->m_NormalCount);
@@ -470,17 +414,6 @@ void GuiClass::ShowInspectorWindow(Entity* entity) {
                 {
                     ShowCameraInspectorSlot(camComp);
                 }
-
-                //if (Model->m_colorShader) {
-                //    if (ImGui::CollapsingHeader("Color Shader", ImGuiTreeNodeFlags_DefaultOpen))
-                //    {
-                //        ImGui::Text("Color:");
-                //        ImGui::PushID("object_color");
-                //        ImGui::PushItemWidth(oneThirdWidth * 3);
-                //        ImGui::ColorEdit3("", (float*)&Model->m_colorShader->color);
-                //        ImGui::PopID();
-                //    }
-                //}
             }
         }
     }
@@ -638,7 +571,11 @@ void GuiClass::ShowMenuBar()
         if (ImGui::BeginMenu("Object")) {
             if (ImGui::BeginMenu("Add..")) {
 
-                if (ImGui::MenuItem("Empty")) { PrintConsole("[info] Added empty object to the scene."); }
+                if (ImGui::MenuItem("Empty")) {
+
+                    m_GameManager->GetEntities().push_back(new Entity("GameObject"));
+                    PrintConsole("[info] Added empty object to the scene.");
+                }
 
                 //if (ImGui::MenuItem("Cube")) {
                 //    if (!m_GameManager->LoadObject("cube.txt")) { PrintConsole("[error] Could not load the cube object."); }

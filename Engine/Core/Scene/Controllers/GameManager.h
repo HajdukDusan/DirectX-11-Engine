@@ -27,7 +27,6 @@ public:
 	vector<Mesh*>& GetMeshes();
 	vector<Material*>& GetMaterials();
 
-
 	const char* MessageForConsole;
 
 private:
@@ -35,6 +34,7 @@ private:
 	vector<Mesh*> m_Meshes;
 	vector<Material*> m_Materals;
 public:
+	Camera* m_selectedCamera;
 
 	PBRShaderClass* m_PBRShader;
 

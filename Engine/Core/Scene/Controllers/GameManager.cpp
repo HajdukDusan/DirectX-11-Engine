@@ -4,8 +4,6 @@
 
 GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 {
-
-
 	// CAMERA
 	// Set the initial position of the camera and build the matrices needed for rendering.
 	Transform* cameraTransform = new Transform(
@@ -16,7 +14,9 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	Entity* CameraEntity = new Entity("Camera", cameraTransform);
 	m_Camera = new CameraComponent(cameraTransform);
 
-	CameraEntity->m_Components.insert(m_Camera);
+	m_selectedCamera = m_Camera->m_Camera;
+
+	CameraEntity->m_Components.push_back(m_Camera);
 	m_Entities.push_back(CameraEntity);
 
 
@@ -67,13 +67,13 @@ GameManager::GameManager(D3DClass* DirectXManager, HWND hwnd)
 	// BARREL
 	Entity* BarrelEntity = new Entity("Barrel", new Transform());
 	MeshComponent* barrelMeshComponent = new MeshComponent(barrelMesh, barrelMaterial);
-	BarrelEntity->m_Components.insert(barrelMeshComponent);
+	BarrelEntity->m_Components.push_back(barrelMeshComponent);
 	m_Entities.push_back(BarrelEntity);
 
 	// GASS TANK
 	Entity* GassTankEntity = new Entity("Gass Tank", new Transform());
 	MeshComponent* gassTankMeshComponent = new MeshComponent(gassTankMesh, gassTankMaterial);
-	GassTankEntity->m_Components.insert(gassTankMeshComponent);
+	GassTankEntity->m_Components.push_back(gassTankMeshComponent);
 	m_Entities.push_back(GassTankEntity);
 
 
@@ -102,6 +102,7 @@ vector<Mesh*>& GameManager::GetMeshes() {
 vector<Material*>& GameManager::GetMaterials() {
 	return m_Materals;
 }
+
 
 GameManager::~GameManager()
 {

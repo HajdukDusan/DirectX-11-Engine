@@ -18,7 +18,7 @@ public:
 	{
 		m_Camera = new Camera(transform);
 	}
-	virtual ~CameraComponent()
+	~CameraComponent()
 	{
 		delete m_Camera;
 	}
